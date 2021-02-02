@@ -1,4 +1,4 @@
-package com.example.backend.resources;
+package com.example.minuti.store.backend.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.minuti.store.backend;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
