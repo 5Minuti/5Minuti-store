@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>5-Minuti</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -16,16 +16,41 @@ and open the template in the editor.
     </head>
     
     <body>
-        <div>TODO write content</div>
+       
         
         <div class="NavBar">
          <ul>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="#menu">Menu</a></li>
-  <li><a href="#home">Home</a></li>
-  <li class="logIn"><a class="active" href="#LogIn">Log In</a></li>
-</ul>
+            <li><a href="#contact" onclick="showContact()">Contact</a></li>
+            <li><a href="#menu" onclick="showMenu()">Menu</a></li>
+            <li><a href="#home" onclick="showHome()">Home</a></li>
+            <li class="logIn1"><a  href="#LogIn" onclick="showLogIn()">Log In</a></li>
+          </ul>
             
         </div>
+        
+        
+        <div id="mainPage">
+            
+            <div id="home" class="home">
+                 <h1>Home</h1>
+            </div>
+            
+            
+            <div id="menu" class="menu">
+                 <h1>Menu</h1>
+            </div>
+            
+            
+            <div id="contact" class="contact">
+                 <h1>Contact</h1>
+            </div>
+            
+            
+            <div id="logIn" class="logIn">     
+                <h1>Log In</h1>
+            </div>
+        </div>
+        
+        
     </body>
 </html>
