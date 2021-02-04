@@ -30,6 +30,7 @@ and open the template in the editor.
         
         
         <div id="mainPage">
+   
             
             <div id="home" class="home">
                  <h1>Home</h1>
@@ -46,10 +47,35 @@ and open the template in the editor.
             </div>
             
             
-            <div id="logIn" class="logIn">     
-                <h1>Log In</h1>
-            </div>
+                <div id="logIn" class="logIn">     
+                    <h1>Log In</h1>
+
+                        <div class="usernameAndPassword" id="usernameAndPassword">
+                            <form>
+                              Username:<br>
+                              <input type="text" name="username" id="username"><br>
+                              Password:<br>
+                              <input type="password" name="psw" id="password">
+
+                            </form>
+
+                            <p id="logInInfo" onclick="getInfo()"></p>
+
+                        </div>
+
+                        <div class="LogInButton">
+                          <button type="button" onclick="getInfo()" id="logIn">Log In</button>
+
+
+
+                        </div>
+                 </div>
+            
+            <div id="loggedIn" class="loggedIn">
+                <h1>Logged In</h1>
+            </div>  
         </div>
+      
         
         
     </body>
