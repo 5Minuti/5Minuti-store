@@ -29,16 +29,19 @@ and open the template in the editor.
         </div>
         
         
-        <div id="mainPage">
+        <section id="mainPage">
    
             
-            <div id="home" class="home">
+            <div id="home" class="container home">
                  <h1>Home</h1>
                  <p>Get basic information for home screen. picture included</p>
-            </div>
+            </section>
             
             
-            <div id="menu" class="menu">
+            <section id="menu" class="container menu">
+               
+                    <button type="button" onclick="showCart()">Shopping Cart</button>
+             
                  <h1>Menu</h1>
                  <div id="newProduct" class="newProduct">
                      <div id="newButton" class="newButton">
@@ -49,16 +52,16 @@ and open the template in the editor.
                  
                
              
-            </div>
+            </section>
             
             
-            <div id="contact" class="contact">
+            <section id="contact" class="container contact">
                  <h1>Contact</h1>
                  <p>Get contact information from client</p>
-            </div>
+            </section>
             
             
-                <div id="logIn" class="logIn">     
+                <section id="logIn" class="container logIn">     
                     <h1>Administrator</h1>
 
                         <div class="usernameAndPassword" id="usernameAndPassword">
@@ -86,14 +89,14 @@ and open the template in the editor.
                               Password: Minuti<br>
                         
                     </h2>
-                 </div>
+                 </section>
             
             
             
             
             
             
-            <div id="loggedIn" class="loggedIn">
+            <section id="loggedIn" class="container loggedIn">
                 <h1>Logged In</h1>
 
                 
@@ -120,9 +123,27 @@ and open the template in the editor.
                             
 
                 </div>
-            </div>  
-        </div>
-      
+            </section> 
+            
+              <section id="shoppingCart" class="container shoppingCart" >
+            <h2 class="section-header">CART</h2>
+            <div class="cartRow">
+                <span class="cart-item cart-header cart-column">Item</span>
+                <span class="cart-price cart-header cart-column">Price</span>
+                <span class="cart-quantity cart-header cart-column">Quantity</span>
+            </div>
+            <div class="cart-items">
+            </div>
+            <div class="cart-total">
+                <strong class="cart-total-title">Total</strong>
+                <span class="cart-total-price">$0</span>
+            </div>
+            <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+        </section>
+            
+            
+            
+
         
         
     </body>

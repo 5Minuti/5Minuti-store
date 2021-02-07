@@ -35,7 +35,9 @@ li a:hover:not(.active) {
 h1 {
     text-align: center;
 }
-
+.shoppingCart{
+    display: none;
+}
 
 .home {
     display: block;
@@ -55,4 +57,115 @@ h1 {
 
 .loggedIn {
     display: none;
+}
+
+.newButton{
+    align-content: right;
+}
+
+button:hover {
+  background: lightsalmon;
+}
+
+.newProduct{
+    
+    border: solid;
+    border-width: 1px;
+    margin-right: 90%;
+    margin-left: 10px;
+    padding: 2px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5em;
+}
+.section-header {
+   
+    font-weight: normal;
+    color: #333;
+    text-align: center;
+    font-size: 2.5em;
+}
+.cartRow {
+    display: none;
+    display: flex;
+}
+.cart-header {
+    font-weight: bold;
+    font-size: 1.25em;
+    color: #333;
+}
+
+.cart-column {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    margin-right: 1.5em;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+
+.cart-item {
+    width: 45%;
+}
+
+.cart-price {
+    width: 20%;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.cart-quantity {
+    width: 35%;
+}
+
+.cart-item-title {
+    color: #333;
+    margin-left: .5em;
+    font-size: 1.2em;
+}
+.cart-total {
+    text-align: end;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.cart-total-title {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black;
+    margin-right: 20px;
+}
+
+.cart-total-price {
+    color: #333;
+    font-size: 1.1em;
+}
+
+
+.btn-purchase {
+    display: block;
+    margin: 40px auto 80px auto;
+    font-size: 1.75em;
+}
+
+.btn-primary {
+    color: black;
+    background-color: #FFDEAD;
+    border: none;
+    border-radius: .3em;
+    
+}
+
+.btn-primary:hover {
+    background-color: #2D9CDB;
+}
+.btn {
+    text-align: center;
+    vertical-align: middle;
+    padding: .67em .67em;
+    cursor: pointer;
 }
