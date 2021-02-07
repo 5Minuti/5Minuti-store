@@ -3,7 +3,8 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #D2B48C;
+  
+  background-color: #FFDEAD;
 }
 
 li {
@@ -19,13 +20,16 @@ li a {
 }
 
 li a:hover:not(.active) {
-  background-color: #FFDEAD;
+ background-color: #D2B48C;
 }
 
 .logIn1 {
   float: left;  
   background-color: #FFDEAD;
-  
+  border-right: solid;
+  border-width: 1px;
+  border-color: black;
+
 }
 
 h1 {
@@ -34,7 +38,7 @@ h1 {
 
 
 .home {
-    display: none;
+    display: block;
 }
 
 .logIn {

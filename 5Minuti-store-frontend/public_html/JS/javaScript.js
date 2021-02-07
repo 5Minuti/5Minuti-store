@@ -43,7 +43,11 @@ var accounts = [
     {
         username: "5",
         password: "Minuti"
-    }
+    },
+    {
+        username: "",
+        password: ""
+    },
 
 ];
 
@@ -66,5 +70,43 @@ function getInfo() {
 
         }
     }
+
+}
+
+
+function addProduct (){
+    var productName = document.getElementById('productName').value;
+    var description = document.getElementById('description').value;
+    var allergens = document.getElementById('allergens').value;
+    var price = document.getElementById('price').value;
+
+    var newItem1 = this.newProduct;
+    newItem1 = document.createElement('form');
+    newItem1.style.width = '30%';
+    newItem1.style.textAlign = 'left';
+    newItem1.style.marginLeft = '35%';
+    newItem1.style.marginBottom = '1%';
+    newItem1.style.lineHeight = '2';
+    newItem1.style.border = 'box';
+    newItem1.style.boxSizing = 'border-box';
+    newItem1.style.padding = '5px';
+    newItem1.innerHTML  = productName + "\n" + description + "\n" + allergens + "\n" + price;
+
+
+    var newButton = document.createElement("button");
+    newButton.innerHTML = "Add to Cart";
+    newButton.addEventListener ("click", function() {
+            showHome();
+        });
+    
+    var item2 = document.getElementById("newProduct");
+    item2.appendChild(newItem1);
+    console.log(newItem1);
+    console.log(item2);
+    
+    var item3 = document.getElementById("newButton")
+    item3.appendChild(newButton);
+
+    console.log(item3);
 
 }

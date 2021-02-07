@@ -23,7 +23,7 @@ and open the template in the editor.
             <li><a href="#contact" onclick="showContact()">Contact</a></li>
             <li><a href="#menu" onclick="showMenu()">Menu</a></li>
             <li><a href="#home" onclick="showHome()">Home</a></li>
-            <li class="logIn1"><a  href="#LogIn" onclick="showLogIn()">Log In</a></li>
+            <li class="logIn1"><a  href="#LogIn" onclick="showLogIn()">Administrator</a></li>
           </ul>
             
         </div>
@@ -34,21 +34,32 @@ and open the template in the editor.
             
             <div id="home" class="home">
                  <h1>Home</h1>
+                 <p>Get basic information for home screen. picture included</p>
             </div>
             
             
             <div id="menu" class="menu">
                  <h1>Menu</h1>
+                 <div id="newProduct" class="newProduct">
+                     <div id="newButton" class="newButton">
+                         
+                     </div>
+                     
+                 </div>
+                 
+               
+             
             </div>
             
             
             <div id="contact" class="contact">
                  <h1>Contact</h1>
+                 <p>Get contact information from client</p>
             </div>
             
             
                 <div id="logIn" class="logIn">     
-                    <h1>Log In</h1>
+                    <h1>Administrator</h1>
 
                         <div class="usernameAndPassword" id="usernameAndPassword">
                             <form>
@@ -69,10 +80,46 @@ and open the template in the editor.
 
 
                         </div>
+                    <h2>For test porpose:<br><br>
+                              Username: 5<br>
+                              
+                              Password: Minuti<br>
+                        
+                    </h2>
                  </div>
+            
+            
+            
+            
+            
             
             <div id="loggedIn" class="loggedIn">
                 <h1>Logged In</h1>
+
+                
+                <div class="addProduct">
+                    <div class="Description" >Product Name:</div> <input type="text" id="productName"><br>
+
+                    <div class="Description" >Description :</div><input type="text" id="description" ><br>
+
+                    <div class="Description" >Allergens      :</div><input type="text"  id="allergens"><br>
+                    <div class="Description" >Price      :</div><input type="number"  id="price"><br><br>
+
+
+                    <button type="button" onclick="addProduct()" id="addProduct">Add Product</button>
+                  
+
+
+                </div>
+            
+                      <div class="addPicture">
+                        <form action="">
+                          <input type="file" name="pic" accept="image/*" >
+
+                        </form>
+                            
+
+                </div>
             </div>  
         </div>
       
