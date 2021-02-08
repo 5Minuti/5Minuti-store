@@ -1,10 +1,56 @@
 <!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
     <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>5-Minuti</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="CSS/style.css">
+
+    <script type="text/javascript" src="JS/javaScript.js"> </script>
     </head>
+    
     <body>
-        <h1>Hello World!</h1>
+       
+        
+        <div class="NavBar">
+         <ul>
+            <li><a href="#contact" onclick="showContact()">Contact</a></li>
+            <li><a href="#menu" onclick="showMenu()">Menu</a></li>
+            <li><a href="#home" onclick="showHome()">Home</a></li>
+            <li class="logIn1"><a  href="#LogIn" onclick="showLogIn()">Log In</a></li>
+          </ul>
+            
+        </div>
+        
+        
+        <div id="mainPage">
+            
+            <div id="home" class="home">
+                 <h1>Home</h1>
+            </div>
+            
+            
+            <div id="menu" class="menu">
+                 <h1>Menu</h1>
+            </div>
+            
+            
+            <div id="contact" class="contact">
+                 <h1>Contact</h1>
+            </div>
+            
+            
+            <div id="logIn" class="logIn">     
+                <h1>Log In</h1>
+            </div>
+        </div>
+        
+        
     </body>
 </html>

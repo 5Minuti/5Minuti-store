@@ -30,6 +30,16 @@ public class Product implements Serializable {
     
     @NotNull (message = "Price cannot be null") 
     @Positive (message = "price must be a positive number")
-    BigDecimal price;
+    BigDecimal smallprice;
+    
+    @NotNull (message = "Price cannot be null") 
+    @Positive (message = "price must be a positive number")
+    BigDecimal mediumprice;
+    
+    @NotNull (message = "Price cannot be null") 
+    @Positive (message = "price must be a positive number")
+    BigDecimal largeprice;
+    
+    
     
 }

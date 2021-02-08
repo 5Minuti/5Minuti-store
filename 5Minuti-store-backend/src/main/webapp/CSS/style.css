@@ -1,0 +1,50 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #D2B48C;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #FFDEAD;
+}
+
+.logIn1 {
+  float: left;  
+  background-color: #FFDEAD;
+  
+}
+
+h1 {
+    text-align: center;
+}
+
+
+.home {
+    display: none;
+}
+
+.logIn {
+    display: none;
+}
+
+.menu {
+    display: none;
+}
+
+.contact{
+    display: none;
+}

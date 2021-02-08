@@ -5,6 +5,7 @@
  */
 package com.example.minuti.store.backend;
 
+import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ import javax.validation.constraints.Positive;
  *
  * @author Stigus
  */
-public class Customer {
+public class Customer implements Serializable {
     
     @Id
     @GeneratedValue
