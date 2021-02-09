@@ -18,7 +18,7 @@ and open the template in the editor.
     <body>
        
         
-        <div class="NavBar">
+        <nav class="NavBar">
          <ul>
             <li><a href="#contact" onclick="showContact()">Contact</a></li>
             <li><a href="#menu" onclick="showMenu()">Menu</a></li>
@@ -26,13 +26,10 @@ and open the template in the editor.
             <li class="logIn1"><a  href="#LogIn" onclick="showLogIn()">Administrator</a></li>
           </ul>
             
-        </div>
+        </nav>
         
         
-        <section id="mainPage">
-   
-            
-            <div id="home" class="container home">
+        <section id="home" class="container home">               
                  <h1>Home</h1>
                  <p>Get basic information for home screen. picture included</p>
             </section>
@@ -77,12 +74,9 @@ and open the template in the editor.
 
                         </div>
 
-                        <div class="LogInButton">
-                          <button type="button" onclick="getInfo()" id="logIn">Log In</button>
 
+                          <button class="LogInButton" type="button" onclick="getInfo()" id="logIn">Log In</button>
 
-
-                        </div>
                     <h2>For test porpose:<br><br>
                               Username: 5<br>
                               
@@ -101,12 +95,12 @@ and open the template in the editor.
 
                 
                 <div class="addProduct">
-                    <div class="Description" >Product Name:</div> <input type="text" id="productName"><br>
+                    <form class="Description" >Product Name:</form> <input type="text" id="productName"><br>
 
-                    <div class="Description" >Description :</div><input type="text" id="description" ><br>
+                    <form class="Description" >Description :</form><input type="text" id="description" ><br>
 
-                    <div class="Description" >Allergens      :</div><input type="text"  id="allergens"><br>
-                    <div class="Description" >Price      :</div><input type="number"  id="price"><br><br>
+                    <form class="Description" >Allergens      :</form><input type="text"  id="allergens"><br>
+                    <form class="Description" >Price      :</form><input type="number"  id="price"><br><br>
 
 
                     <button type="button" onclick="addProduct()" id="addProduct">Add Product</button>
@@ -115,16 +109,9 @@ and open the template in the editor.
 
                 </div>
             
-                      <div class="addPicture">
-                        <form action="">
-                          <input type="file" name="pic" accept="image/*" >
-
-                        </form>
-                            
-
-                </div>
             </section> 
             
+        
               <section id="shoppingCart" class="container shoppingCart" >
             <h2 class="section-header">CART</h2>
             <div class="cartRow">
