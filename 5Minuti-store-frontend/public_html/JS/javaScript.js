@@ -1,48 +1,7 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+$(function(){
+  $("#nav-placeholder").load("../HTML/navBar.html");
+});
 
-
-function hideAllMenu(){
-    document.getElementById('home').style.display ='none';
-    document.getElementById('contact').style.display ='none';
-    document.getElementById('logIn').style.display ='none';
-    document.getElementById('menu').style.display ='none';
-    document.getElementById('loggedIn').style.display ='none';
-    document.getElementById('shoppingCart').style.display = 'none';
-    
-}
-
-function showMenu(){
-    hideAllMenu();
-    document.getElementById('menu').style.display ='block';
-}
-
-function showContact(){
-    hideAllMenu();
-    document.getElementById('contact').style.display ='block';
-}
-
-function showHome(){
-    hideAllMenu();
-    document.getElementById('home').style.display ='block';
-}
-
-function showLogIn(){
-    hideAllMenu();
-    document.getElementById('logIn').style.display ='block';
-}
-
-function showLoggedIn(){
-    hideAllMenu();
-    document.getElementById('loggedIn').style.display = 'block';
-}
-function showCart(){
-    hideAllMenu();
-    document.getElementById('shoppingCart').style.display = 'block';
-}
 
 var accounts = [
     {
@@ -86,7 +45,7 @@ function addProduct (){
     var price = document.getElementById('price').value;
 
     var newItem1 = this.newProduct;
-    newItem1 = document.createElement('form');
+    newItem1 = document.createElement('div');
     newItem1.style.width = '30%';
     newItem1.style.textAlign = 'left';
     newItem1.style.marginLeft = '35%';
@@ -105,7 +64,7 @@ function addProduct (){
            
         });
     
-    var item2 = document.getElementById("newProduct");
+    var item2 = document.getElementByClassName("grid-container");
     item2.appendChild(newItem1);
     console.log(newItem1);
     console.log(item2);
