@@ -35,6 +35,7 @@ public class RESTController {
     @RequestMapping(value = "/product/add", method = RequestMethod.POST)
     public ResponseEntity<String> addProduct(@RequestBody Product product) {
         String error = restRepository.add(product);
+        System.out.println("post request recived");
         if (error == null) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

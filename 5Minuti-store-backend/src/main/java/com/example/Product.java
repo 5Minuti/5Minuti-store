@@ -19,16 +19,36 @@ public class Product {
     private int productid;
     @NotBlank
     private String productname;
+    private String description;
     private BigDecimal smallprice;
     private BigDecimal mediumprice;
     private BigDecimal largeprice;
+    private boolean deleted;
 
-    public Product(int productid, String productname, BigDecimal smallprice, BigDecimal mediumprice, BigDecimal largeprice) {
+    public Product(int productid, String productname, String description, BigDecimal smallprice, BigDecimal mediumprice, BigDecimal largeprice, boolean deleted) {
         this.productid = productid;
         this.productname = productname;
+        this.description = description;
         this.smallprice = smallprice;
         this.mediumprice = mediumprice;
         this.largeprice = largeprice;
+        this.deleted = deleted;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public int getProductid() {

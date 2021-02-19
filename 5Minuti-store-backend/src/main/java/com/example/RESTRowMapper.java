@@ -22,10 +22,12 @@ public class RESTRowMapper implements RowMapper<Product> {
     public Product mapRow(ResultSet rs, int rowIndex) throws SQLException {
         return new Product(
         rs.getInt("productid"),
-        rs.getString("productName"),
+        rs.getString("productName"),        
+        rs.getString("description"),
         rs.getBigDecimal("smallprice"),
         rs.getBigDecimal("mediumprice"),
-        rs.getBigDecimal("largeprice")
+        rs.getBigDecimal("largeprice"),
+        rs.getBoolean("deleted")
         );
     }
     

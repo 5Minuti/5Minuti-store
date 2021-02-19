@@ -34,16 +34,16 @@ public class RESTRepository {
     
     
       public String add(Product product) {
-        String query = "INSERT INTO product (productid, productname, smallprice, mediumprice, largeprice) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO product (productid, productname, description, smallprice, mediumprice, largeprice, deleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            int numRows = jdbcTemplate.update(query, product.getProductid(), product.getProductname(), product.getSmallprice(), product.getMediumprice(), product.getLargeprice());
+            int numRows = jdbcTemplate.update(query, product.getProductid(), product.getProductname(), product.getDescription(), product.getSmallprice(), product.getMediumprice(), product.getLargeprice(), product.isDeleted());
             if (numRows == 1) {
                 return null;
             } else {
                 return "Could not add new product";
             }
         } catch (Exception e) {
-            return "Could not add new book: " + e.getMessage();
+            return "Could not add new product: " + e.getMessage();
         }
     }  
 }
