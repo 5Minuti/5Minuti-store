@@ -41,17 +41,22 @@ function getInfo() {
 function addProduct (){
 
     
-    //var obj = ('addProductForm').serializeJSON();
-    //console.log(obj)
+    let form = document.forms["addProductForm"];
+
+    let fd = new FormData(form);
+
+    let data = {};
+
+    for (let [key, prop] of fd) {
+      data[key] = prop;
+    }
+
+    console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/product/add", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    
-    var j = {"productname": "test","description": "fantasmak", "smallprice": "110", "mediumprice": "235", "largeprice": "345"};
-    console.log(j)
-    
-    xhr.send(JSON.stringify(j));
-    console.log("sending")
+     
+   xhr.send(JSON.stringify(data)); 
 }
 
 
