@@ -153,3 +153,39 @@ button:hover {
   font-size: 30px;
   text-align: center;
 }
+
+/* front page styling starts here */
+
+#imgsection{
+  position: relative;
+  width: 100%;
+}
+
+#fpimg{
+  width: 100%;
+  height: auto;
+  filter: brightness(50%);
+}
+
+#fpbtn{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: transparent;
+  color: #fff;
+  text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+  border: 3px solid #fff;
+  font-family: Arial, Helvetica, sans-serif;
+ 
+
+}
