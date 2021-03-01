@@ -33,14 +33,57 @@ and open the template in the editor.
         
                <section id="menu" class="container menu">
                
-                   <a href="shoppingCart.html"> <button type="button" onclick="">Shopping Cart</button></a>
+                   <a href=" #shoppingCart"> <button class="shoppingCartButton" type="button"><img src="../Images/cart.jpg" width="50" ></button></a>
              
                  <h1>Menu</h1>
                  <div id="newProduct" class="newProduct">
              
                         <div class="grid-container">
-                            <div class="grid-item">1</div>
+                            <div class="grid-item">
+                                <p class="productName">Pavlova<p>
+                                <p class="imgPlaceHolder"><img src="../Images/cakeExample1.jpg" width="200" ></p>
+                                <div class="productButtons">
+                                    <details>
+                                        <summary class="productSummary">Expand</summary>
+                                        <p class="productInfo">Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlova. It has a crisp crust and soft, light inside, usually topped with fruit and whipped cream.</p>
+                                        <ul class="priceList">
+                                            <li class="smallPrice">Small: 50kr</li>
+                                            <li class="mediumPrice">Medium: 100kr</li>
+                                            <li class="largePrice">Large: 150kr</li>
+                                        </ul>
+                                            
+                                        
+                                        
+                                        
+                                     </details>
+                                    <button class="addToShoppingCartButton">Add Product</button>
+                                </div>
+                            </div>
                             <div class="grid-item">2</div>
+                            <div class="grid-item">3</div>  
+                            <div class="grid-item">4</div>
+                            <div class="grid-item">5</div>
+                            <div class="grid-item">6</div>  
+                            <div class="grid-item">7</div>
+                            <div class="grid-item">8</div>
+                            <div class="grid-item">9</div>
+                              <div class="grid-item">2</div>
+                            <div class="grid-item">3</div>  
+                            <div class="grid-item">4</div>
+                            <div class="grid-item">5</div>
+                            <div class="grid-item">6</div>  
+                            <div class="grid-item">7</div>
+                            <div class="grid-item">8</div>
+                            <div class="grid-item">9</div>  
+                              <div class="grid-item">2</div>
+                            <div class="grid-item">3</div>  
+                            <div class="grid-item">4</div>
+                            <div class="grid-item">5</div>
+                            <div class="grid-item">6</div>  
+                            <div class="grid-item">7</div>
+                            <div class="grid-item">8</div>
+                            <div class="grid-item">9</div>  
+                              <div class="grid-item">2</div>
                             <div class="grid-item">3</div>  
                             <div class="grid-item">4</div>
                             <div class="grid-item">5</div>
@@ -54,5 +97,21 @@ and open the template in the editor.
                
              
             </section>
+          
+              <section id="shoppingCart" class="container shoppingCart" >
+            <h2 class="section-header">CART</h2>
+            <div class="cartRow">
+                <span class="cart-item cart-header cart-column">Item</span>
+                <span class="cart-price cart-header cart-column">Price</span>
+                <span class="cart-quantity cart-header cart-column">Quantity</span>
+            </div>
+            <div class="cart-items">
+            </div>
+            <div class="cart-total">
+                <strong class="cart-total-title">Total</strong>
+                <span class="cart-total-price">0 kr</span>
+            </div>
+            <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+        </section>
     </body>
 </html>
