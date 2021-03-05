@@ -20,7 +20,7 @@ li a {
 }
 
 li a:hover:not(.active) {
- background-color: #D2B48C;
+ background-color: #a57a35;
 }
 
 .logIn1 {
@@ -38,7 +38,7 @@ h1 {
 
 
 button:hover {
-  background: lightsalmon;
+  background: #a57a35;
 }
 
 
@@ -128,7 +128,7 @@ button:hover {
 }
 
 .btn-primary:hover {
-    background-color: #2D9CDB;
+    background-color: #a57a35;
 }
 .btn {
     text-align: center;
@@ -142,18 +142,18 @@ button:hover {
   grid-template-columns: auto auto auto;
   grid-column-gap: 50px;
   grid-row-gap: 40px;
-  background-color: #FFDEAD;
   padding: 10px;
   margin-top: 50px;
 }
 .grid-item {
+  border-radius: 10px;
   background-color: #f5e7bf;
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
-  padding-bottom: 1px;
+  padding-bottom: 10px;
   font-size: 30px;
   text-align: center;
-  width: 200px;
+  width: 250px;
 }
 
 .shoppingCart{
@@ -163,7 +163,6 @@ button:hover {
 
 .productSummary{
     font-size: 0.6em;
-  
     float: left;
 }
 
@@ -195,9 +194,10 @@ button:hover {
 }
 
 .priceList{
-    font-size: 0.7em;
+    font-size: 0.59em;
     background-color: #f5e7bf;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+    
     
 }
 .smallPrice{
@@ -211,7 +211,22 @@ button:hover {
 }
 
 .imgPlaceHolder{
+    margin-left: 25px;
+    margin-right: 25px;
     width: 200px;
     margin-bottom: 10px;
     margin-top: 10px;
+    
+   
+}
+.priceButtons{
+    margin-bottom: 5px;
+    border-color: #a57a35;
+    border-radius: 20px;
+    
+}
+
+.allergens{
+    font-size: 0.59em;
+    float: left;
 }
