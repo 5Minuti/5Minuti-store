@@ -1,6 +1,3 @@
-$(function(){
-  $("#nav-placeholder").load("../HTML/navBar.html");
-});
 
 
 var accounts = [
@@ -12,24 +9,20 @@ var accounts = [
         username: "",
         password: ""
     },
-
 ];
-
-
 function getInfo() {
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
 
 
-    for (i=0; i< accounts.length; i++) {
-        if(username=== accounts[i].username && password === accounts[i].password){
+    for (i = 0; i < accounts.length; i++) {
+        if (username === accounts[i].username && password === accounts[i].password) {
 
-           showLoggedIn();
+            showLoggedIn();
 
             return
-        }
-        else{
-            document.getElementById("logInInfo").innerHTML = username + "'s username or password is incorrect. " ;
+        } else {
+            document.getElementById("logInInfo").innerHTML = username + "'s username or password is incorrect. ";
 
 
         }
@@ -38,9 +31,9 @@ function getInfo() {
 }
 
 
-function addProduct (){
+function addProduct() {
 
-    
+
     let form = document.forms["addProductForm"];
 
     let fd = new FormData(form);
@@ -48,21 +41,80 @@ function addProduct (){
     let data = {};
 
     for (let [key, prop] of fd) {
-      data[key] = prop;
+        data[key] = prop;
     }
 
     console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/product/add", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-     
-   xhr.send(JSON.stringify(data)); 
+
+    xhr.send(JSON.stringify(data));
+}
+
+
+
+function loadProducts() {
+    console.log("loading products..");
+    fetch("http://localhost:8080/product/list").then(function (response) {
+        console.log(response);
+        return response.json();
+
+    })
+            .then(function (product) {
+                console.log("Products:", product);
+                if (Array.isArray(product)) {
+                    for (var i = 0; i < product.length; i++) {
+                        var product = product[i];
+                        showProduct(product);
+                    }
+                }
+
+            });
 }
 
 
 
 
+function showProduct(product) {
+    console.log("Products:", product)
+   
+    
+    var newProduct = document.createElement("div");
+    newProduct.className = "grid-item";
+        
+    var productName = document.createElement("p");
+    productName.innerText = product.productname;
+    newProduct.appendChild(productName);
+    
+    var productDescription = document.createElement("p");
+    productDescription.innerText = product.description;
+    newProduct.appendChild(productDescription);
+    
+    var priceSmall = document.createElement("li");
+    priceSmall.innerText = "Small: " + product.smallprice;
+    
+    newProduct.appendChild(priceSmall);
+           
+    var priceMedium = document.createElement("li");
+    priceMedium.innerText = "Medium: " + product.mediumprice;
+    priceMedium.className = "priceButtons largePriceButton";
+    newProduct.appendChild(priceMedium);
+        
+    var priceLarge = document.createElement("li");
+    priceLarge.innerText = "Large: " + product.largeprice;
+    priceLarge.className = "priceButtons largePriceButton";
+    newProduct.appendChild(priceLarge);
 
+    
+    console.log("newProduct: ", newProduct)
+    
+
+    var table = document.getElementById("grid-container");
+    table.appendChild(newProduct);
+
+
+}
 
 
 
