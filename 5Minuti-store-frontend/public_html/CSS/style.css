@@ -156,9 +156,9 @@ button:hover {
   width: 250px;
 }
 
-<<<<<<< HEAD
+
 /* front page styling starts here */
-=======
+
 .shoppingCart{
     border-top: solid;
     margin-top: 30px;
@@ -188,14 +188,14 @@ button:hover {
     padding-top: 25px;
     
 }
->>>>>>> Menu
+
 
 #imgsection{
   position: relative;
   width: 100%;
 }
 
-<<<<<<< HEAD
+
 #fpimg{
   width: 100%;
   height: auto;
@@ -222,7 +222,7 @@ button:hover {
   font-family: Arial, Helvetica, sans-serif;
  
 
-=======
+
 .priceList{
     font-size: 0.59em;
     background-color: #f5e7bf;
@@ -259,5 +259,5 @@ button:hover {
 .allergens{
     font-size: 0.59em;
     float: left;
->>>>>>> Menu
+
 }

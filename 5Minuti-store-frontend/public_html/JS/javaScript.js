@@ -55,18 +55,21 @@ function addProduct() {
 
 
 function loadProducts() {
-    console.log("loading products..");
+   
     fetch("http://localhost:8080/product/list").then(function (response) {
-        console.log(response);
+        
         return response.json();
 
     })
             .then(function (product) {
-                console.log("Products:", product);
+                console.log(product.length);
+                
                 if (Array.isArray(product)) {
                     for (var i = 0; i < product.length; i++) {
-                        var product = product[i];
-                        showProduct(product);
+                        var newProduct = product[i];
+                        
+                        showProduct(newProduct);
+                        
                     }
                 }
 
@@ -77,7 +80,7 @@ function loadProducts() {
 
 
 function showProduct(product) {
-    console.log("Products:", product)
+
    
     
     var newProduct = document.createElement("div");
@@ -85,26 +88,60 @@ function showProduct(product) {
         
     var productName = document.createElement("p");
     productName.innerText = product.productname;
+    productName.className = "productName";
     newProduct.appendChild(productName);
     
+    var imagePlaceHolder = document.createElement("p");
+    imagePlaceHolder.innerText = "image goes here";
+    imagePlaceHolder.className = "imgPlaceHolder";
+    newProduct.appendChild(imagePlaceHolder);
+    
+    var detailsPanel = document.createElement("details");
+    detailsPanel.className = "Details";
+    newProduct.appendChild(detailsPanel);
+   
+    var productSummary = document.createElement("summary");
+    productSummary.className = "productSummary";
+    productSummary.innerText = "Info";
+    detailsPanel.appendChild(productSummary);
+  
+    
     var productDescription = document.createElement("p");
+    productDescription.className = "productInfo";
     productDescription.innerText = product.description;
-    newProduct.appendChild(productDescription);
+    detailsPanel.appendChild(productDescription);
+    
+     var priceList = document.createElement("ul");
+    priceList.className = "priceList";
+    detailsPanel.appendChild(priceList);
     
     var priceSmall = document.createElement("li");
     priceSmall.innerText = "Small: " + product.smallprice;
+    priceSmall.className = "smallPrice";
+    addSmallPriceButton();
+    priceList.appendChild(priceSmall);
     
-    newProduct.appendChild(priceSmall);
+    var smallPriceButton = document.createElement("button");
+    smallPriceButton.innerText = "Add to cart";
+    priceList.appendChild(smallPriceButton);
            
     var priceMedium = document.createElement("li");
     priceMedium.innerText = "Medium: " + product.mediumprice;
-    priceMedium.className = "priceButtons largePriceButton";
-    newProduct.appendChild(priceMedium);
+    priceMedium.className = "mediumPrice";
+    priceList.appendChild(priceMedium);
+    
+    var mediumPriceButton = document.createElement("button");
+    mediumPriceButton.innerText = "Add to Cart";
+    priceList.appendChild(mediumPriceButton);
         
     var priceLarge = document.createElement("li");
     priceLarge.innerText = "Large: " + product.largeprice;
-    priceLarge.className = "priceButtons largePriceButton";
-    newProduct.appendChild(priceLarge);
+    priceLarge.className = "largePrice";
+    priceList.appendChild(priceLarge);
+    
+    var largePriceButton = document.createElement("button");
+    largePriceButton.innerText = "Add to Cart";
+    priceList.appendChild(largePriceButton);
 
     
     console.log("newProduct: ", newProduct)
@@ -114,6 +151,14 @@ function showProduct(product) {
     table.appendChild(newProduct);
 
 
+}
+
+
+function addSmallPriceButton(){
+    var smallPriceButton = document.createElement("button");
+    smallPriceButton.innerText = "Add to cart";
+    
+    
 }
 
 
