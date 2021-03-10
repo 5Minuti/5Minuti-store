@@ -1,3 +1,69 @@
+.priceList{
+   
+    background-color: #f5e7bf;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    
+    
+    
+}
+
+
+.smallPrice{
+    margin-left: 100px;
+    margin-bottom: -33px;
+    font-size: 22px;
+    text-align: left;
+}
+.mediumPrice{
+    margin-left: 100px;
+    margin-bottom: -33px;
+    font-size: 22px;
+    text-align: left;
+}
+.largePrice{
+    margin-left: 100px;
+    margin-bottom: -33px;
+    font-size: 22px;
+    text-align: left;
+}
+
+.imgPlaceHolder{
+    margin-left: 25px;
+    margin-right: 25px;
+    width: 200px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    
+   
+}
+.priceButtons{
+    width: 90px;
+    margin-left: -150px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+   
+    
+}
+
+.allergens{
+    font-size: 1em;
+    float: left;
+
+}
+
+.videoSection{
+    margin-left: auto;
+    margin-right: auto;
+    display: block
+        
+}
+
+.NavBar {
+    margin-bottom: 50px;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -7,9 +73,7 @@ ul {
   background-color: #FFDEAD;
 }
 
-li {
-  float: right;
-}
+
 
 li a {
   display: block;
@@ -17,6 +81,7 @@ li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  float: right;
 }
 
 li a:hover:not(.active) {
@@ -151,7 +216,7 @@ button:hover {
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
   padding-bottom: 10px;
-  font-size: 30px;
+ 
   text-align: center;
   width: 250px;
 }
@@ -184,7 +249,7 @@ button:hover {
   
 }
 .productInfo{
-    font-size: 0.6em;
+    font-size: 1em;
     padding-top: 25px;
     
 }
@@ -221,43 +286,4 @@ button:hover {
   border: 3px solid #fff;
   font-family: Arial, Helvetica, sans-serif;
  
-
-
-.priceList{
-    font-size: 0.59em;
-    background-color: #f5e7bf;
-    padding-bottom: 10px;
-    
-    
-}
-.smallPrice{
-    float: left;
-}
-.mediumPrice{
-    float: left;
-}
-.largePrice{
-    float: left;
-}
-
-.imgPlaceHolder{
-    margin-left: 25px;
-    margin-right: 25px;
-    width: 200px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    
-   
-}
-.priceButtons{
-    margin-bottom: 5px;
-    border-color: #a57a35;
-    border-radius: 20px;
-    
-}
-
-.allergens{
-    font-size: 0.59em;
-    float: left;
-
 }

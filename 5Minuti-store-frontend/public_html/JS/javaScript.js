@@ -116,31 +116,33 @@ function showProduct(product) {
     detailsPanel.appendChild(priceList);
     
     var priceSmall = document.createElement("li");
-    priceSmall.innerText = "Small: " + product.smallprice;
+    priceSmall.innerText = "Small: " + product.smallprice + " kr";
     priceSmall.className = "smallPrice";
-    addSmallPriceButton();
     priceList.appendChild(priceSmall);
     
     var smallPriceButton = document.createElement("button");
     smallPriceButton.innerText = "Add to cart";
+    smallPriceButton.className = "priceButtons";
     priceList.appendChild(smallPriceButton);
            
     var priceMedium = document.createElement("li");
-    priceMedium.innerText = "Medium: " + product.mediumprice;
+    priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
     priceMedium.className = "mediumPrice";
     priceList.appendChild(priceMedium);
     
     var mediumPriceButton = document.createElement("button");
     mediumPriceButton.innerText = "Add to Cart";
+    mediumPriceButton.className = "priceButtons";
     priceList.appendChild(mediumPriceButton);
         
     var priceLarge = document.createElement("li");
-    priceLarge.innerText = "Large: " + product.largeprice;
+    priceLarge.innerText = "Large: " + product.largeprice + " kr";
     priceLarge.className = "largePrice";
     priceList.appendChild(priceLarge);
     
     var largePriceButton = document.createElement("button");
     largePriceButton.innerText = "Add to Cart";
+    largePriceButton.className = "priceButtons";
     priceList.appendChild(largePriceButton);
 
     
