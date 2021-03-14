@@ -1,18 +1,7 @@
 
 
-var accounts = [
-    {
-        username: "5",
-        password: "Minuti"
-    },
-    {
-        username: "",
-        password: ""
-    },
-];
-function getInfo() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+
+
 
 
 function getToken() {
@@ -21,15 +10,6 @@ function getToken() {
     var userElement = document.getElementById("username").value;
     var passwordElement = document.getElementById("password").value;
 
-
-    for (i = 0; i < accounts.length; i++) {
-        if (username === accounts[i].username && password === accounts[i].password) {
-
-            showLoggedIn();
-
-            return
-        } else {
-            document.getElementById("logInInfo").innerHTML = username + "'s username or password is incorrect. ";
     xhr.open("POST", loginurl, true);
     xhr.onerror = () => {
         alert("A network error occured")
@@ -67,9 +47,9 @@ function XHRErrorHandler(event) {
 }
 
 
-function addProduct() {
+function addProduct (){
 
-
+    
     let form = document.forms["addProductForm"];
 
     let fd = new FormData(form);
@@ -77,15 +57,11 @@ function addProduct() {
     let data = {};
 
     for (let [key, prop] of fd) {
-        data[key] = prop;
+      data[key] = prop;
     }
 
     console.log(data);
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/product/add", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.send(JSON.stringify(data));
     xhr.open("POST", "http://localhost:8080/product/add");
     xhr.setRequestHeader('Content-Type', 'application/json',);
 //    jwtoken = localStorage.getItem('token');
