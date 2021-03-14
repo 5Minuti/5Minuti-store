@@ -40,7 +40,7 @@ function getToken() {
         var responseObject = JSON.parse(this.response);
 //        console.log(responseObject);
         if (responseObject.token) {
-            token = responseObject;
+            token = responseObject.token;
 //            console.log("token recived");
             localStorage.setItem('token', token);
             window.location.href = "LoggedIn.html";
@@ -74,10 +74,25 @@ function addProduct (){
 
     console.log(data);
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/product/add", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.open("POST", "http://localhost:8080/product/add");
+    xhr.setRequestHeader('Content-Type', 'application/json',);
+//    jwtoken = localStorage.getItem('token');
+//    console.log(localStorage.getItem('token'));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
      
    xhr.send(JSON.stringify(data)); 
+       xhr.addEventListener('load', function () {
+        var responseObject = this.response;
+        console.log(responseObject);
+        if (XMLHttpRequest.status = 401) {
+            alert("You are Unauthorized to make this action " + XMLHttpRequest.status)
+        
+        } else if (XMLHttpRequest.status = 200){
+            alert("Product was sucessfully added")
+         } else  {
+            alert("something wrong happened" + XMLHttpRequest.status);
+        }
+    })
 }
 
 
