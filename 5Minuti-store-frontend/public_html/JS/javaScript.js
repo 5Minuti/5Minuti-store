@@ -1,6 +1,3 @@
-$(function(){
-  $("#nav-placeholder").load("../HTML/navBar.html");
-});
 
 
 var accounts = [
@@ -12,8 +9,10 @@ var accounts = [
         username: "",
         password: ""
     },
-
 ];
+function getInfo() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
 
 
 function getToken() {
@@ -22,6 +21,15 @@ function getToken() {
     var userElement = document.getElementById("username").value;
     var passwordElement = document.getElementById("password").value;
 
+
+    for (i = 0; i < accounts.length; i++) {
+        if (username === accounts[i].username && password === accounts[i].password) {
+
+            showLoggedIn();
+
+            return
+        } else {
+            document.getElementById("logInInfo").innerHTML = username + "'s username or password is incorrect. ";
     xhr.open("POST", loginurl, true);
     xhr.onerror = () => {
         alert("A network error occured")
@@ -59,9 +67,9 @@ function XHRErrorHandler(event) {
 }
 
 
-function addProduct (){
+function addProduct() {
 
-    
+
     let form = document.forms["addProductForm"];
 
     let fd = new FormData(form);
@@ -69,11 +77,15 @@ function addProduct (){
     let data = {};
 
     for (let [key, prop] of fd) {
-      data[key] = prop;
+        data[key] = prop;
     }
 
     console.log(data);
     var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/product/add", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.send(JSON.stringify(data));
     xhr.open("POST", "http://localhost:8080/product/add");
     xhr.setRequestHeader('Content-Type', 'application/json',);
 //    jwtoken = localStorage.getItem('token');
@@ -97,8 +109,208 @@ function addProduct (){
 
 
 
+function loadProductsMenu() {
+   
+    fetch("http://localhost:8080/product/list").then(function (response) {
+        
+        return response.json();
+
+    })
+            .then(function (product) {
+               
+                
+                if (Array.isArray(product)) {
+                    for (var i = 0; i < product.length; i++) {
+                        var newProduct = product[i];
+                        
+                        showProductMenu(newProduct);
+                        
+                    }
+                }
+
+            });
+}
+
+function loadProductsEditMenu() {
+   
+    fetch("http://localhost:8080/product/list").then(function (response) {
+        
+        return response.json();
+
+    })
+            .then(function (product) {
+               
+                
+                if (Array.isArray(product)) {
+                    for (var i = 0; i < product.length; i++) {
+                        var newProduct = product[i];
+                        
+                        showProductEditMenu(newProduct);
+                        
+                    }
+                }
+
+            });
+}
+
+function showProductMenu(product) {
+
+   
+    
+    var newProduct = document.createElement("div");
+    newProduct.className = "grid-item";
+        
+    var productName = document.createElement("p");
+    productName.innerText = product.productname;
+    productName.className = "productName";
+    newProduct.appendChild(productName);
+    
+    var imagePlaceHolder = document.createElement("p");
+    imagePlaceHolder.innerText = "image goes here";
+    imagePlaceHolder.className = "imgPlaceHolder";
+    newProduct.appendChild(imagePlaceHolder);
+    
+    var detailsPanel = document.createElement("details");
+    detailsPanel.className = "Details";
+    newProduct.appendChild(detailsPanel);
+   
+    var productSummary = document.createElement("summary");
+    productSummary.className = "productSummary";
+    productSummary.innerText = "Info";
+    detailsPanel.appendChild(productSummary);
+  
+    
+    var productDescription = document.createElement("p");
+    productDescription.className = "productInfo";
+    productDescription.innerText = product.description;
+    detailsPanel.appendChild(productDescription);
+    
+     var priceList = document.createElement("ul");
+    priceList.className = "priceList";
+    detailsPanel.appendChild(priceList);
+    
+    var priceSmall = document.createElement("li");
+    priceSmall.innerText = "Small: " + product.smallprice + " kr";
+    priceSmall.className = "smallPrice";
+    priceList.appendChild(priceSmall);
+    
+    var smallPriceButton = document.createElement("button");
+    smallPriceButton.innerText = "Add to cart";
+    smallPriceButton.className = "priceButtons";
+    priceList.appendChild(smallPriceButton);
+           
+    var priceMedium = document.createElement("li");
+    priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
+    priceMedium.className = "mediumPrice";
+    priceList.appendChild(priceMedium);
+    
+    var mediumPriceButton = document.createElement("button");
+    mediumPriceButton.innerText = "Add to Cart";
+    mediumPriceButton.className = "priceButtons";
+    priceList.appendChild(mediumPriceButton);
+        
+    var priceLarge = document.createElement("li");
+    priceLarge.innerText = "Large: " + product.largeprice + " kr";
+    priceLarge.className = "largePrice";
+    priceList.appendChild(priceLarge);
+    
+    var largePriceButton = document.createElement("button");
+    largePriceButton.innerText = "Add to Cart";
+    largePriceButton.className = "priceButtons";
+    priceList.appendChild(largePriceButton);      
+    
+    var table = document.getElementById("grid-container");
+    table.appendChild(newProduct);
+    
+    
+
+}
+
+function showProductEditMenu(product) {
+
+   
+    
+    var newProduct = document.createElement("div");
+    newProduct.className = "grid-item";
+        
+    var productName = document.createElement("p");
+    productName.innerText = product.productname;
+    productName.className = "productName";
+    newProduct.appendChild(productName);
+    
+    var imagePlaceHolder = document.createElement("p");
+    imagePlaceHolder.innerText = "image goes here";
+    imagePlaceHolder.className = "imgPlaceHolder";
+    newProduct.appendChild(imagePlaceHolder);
+    
+    var detailsPanel = document.createElement("details");
+    detailsPanel.className = "Details";
+    newProduct.appendChild(detailsPanel);
+   
+    var productSummary = document.createElement("summary");
+    productSummary.className = "productSummary";
+    productSummary.innerText = "Info";
+    detailsPanel.appendChild(productSummary);
+  
+    
+    var productDescription = document.createElement("p");
+    productDescription.className = "productInfo";
+    productDescription.innerText = product.description;
+    detailsPanel.appendChild(productDescription);
+    
+     var priceList = document.createElement("ul");
+    priceList.className = "priceList";
+    detailsPanel.appendChild(priceList);
+    
+    var priceSmall = document.createElement("li");
+    priceSmall.innerText = "Small: " + product.smallprice + " kr";
+    priceSmall.className = "smallPrice";
+    priceList.appendChild(priceSmall);
+    
+    var smallPriceButton = document.createElement("button");
+    smallPriceButton.innerText = "Add to cart";
+    smallPriceButton.className = "priceButtons";
+    priceList.appendChild(smallPriceButton);
+           
+    var priceMedium = document.createElement("li");
+    priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
+    priceMedium.className = "mediumPrice";
+    priceList.appendChild(priceMedium);
+    
+    var mediumPriceButton = document.createElement("button");
+    mediumPriceButton.innerText = "Add to Cart";
+    mediumPriceButton.className = "priceButtons";
+    priceList.appendChild(mediumPriceButton);
+        
+    var priceLarge = document.createElement("li");
+    priceLarge.innerText = "Large: " + product.largeprice + " kr";
+    priceLarge.className = "largePrice";
+    priceList.appendChild(priceLarge);
+    
+    var largePriceButton = document.createElement("button");
+    largePriceButton.innerText = "Add to Cart";
+    largePriceButton.className = "priceButtons";
+    priceList.appendChild(largePriceButton);      
+    
+    var table = document.getElementById("grid-container");
+    table.appendChild(newProduct);
+    
+    var deleteButton = document.createElement("button");
+    deleteButton.className = "deleteButton";
+    deleteButton.id = "deleteButton";
+    deleteButton.innerText = "Delete";
+    newProduct.appendChild(deleteButton);  
+     
+     
+   console.log("product: " + product);
+    
+
+}
 
 
+function deleteProduct(){
+    console.log("productId: " + productid);
+}
 
 
 
