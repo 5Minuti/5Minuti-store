@@ -54,7 +54,7 @@ function addProduct() {
 
 
 
-function loadProducts() {
+function loadProductsMenu() {
    
     fetch("http://localhost:8080/product/list").then(function (response) {
         
@@ -62,13 +62,13 @@ function loadProducts() {
 
     })
             .then(function (product) {
-                console.log(product.length);
+               
                 
                 if (Array.isArray(product)) {
                     for (var i = 0; i < product.length; i++) {
                         var newProduct = product[i];
                         
-                        showProduct(newProduct);
+                        showProductMenu(newProduct);
                         
                     }
                 }
@@ -76,10 +76,29 @@ function loadProducts() {
             });
 }
 
+function loadProductsEditMenu() {
+   
+    fetch("http://localhost:8080/product/list").then(function (response) {
+        
+        return response.json();
 
+    })
+            .then(function (product) {
+               
+                
+                if (Array.isArray(product)) {
+                    for (var i = 0; i < product.length; i++) {
+                        var newProduct = product[i];
+                        
+                        showProductEditMenu(newProduct);
+                        
+                    }
+                }
 
+            });
+}
 
-function showProduct(product) {
+function showProductMenu(product) {
 
    
     
@@ -143,24 +162,99 @@ function showProduct(product) {
     var largePriceButton = document.createElement("button");
     largePriceButton.innerText = "Add to Cart";
     largePriceButton.className = "priceButtons";
-    priceList.appendChild(largePriceButton);
-
+    priceList.appendChild(largePriceButton);      
     
-    console.log("newProduct: ", newProduct)
-    
-
     var table = document.getElementById("grid-container");
     table.appendChild(newProduct);
+    
+    
 
+}
+
+function showProductEditMenu(product) {
+
+   
+    
+    var newProduct = document.createElement("div");
+    newProduct.className = "grid-item";
+        
+    var productName = document.createElement("p");
+    productName.innerText = product.productname;
+    productName.className = "productName";
+    newProduct.appendChild(productName);
+    
+    var imagePlaceHolder = document.createElement("p");
+    imagePlaceHolder.innerText = "image goes here";
+    imagePlaceHolder.className = "imgPlaceHolder";
+    newProduct.appendChild(imagePlaceHolder);
+    
+    var detailsPanel = document.createElement("details");
+    detailsPanel.className = "Details";
+    newProduct.appendChild(detailsPanel);
+   
+    var productSummary = document.createElement("summary");
+    productSummary.className = "productSummary";
+    productSummary.innerText = "Info";
+    detailsPanel.appendChild(productSummary);
+  
+    
+    var productDescription = document.createElement("p");
+    productDescription.className = "productInfo";
+    productDescription.innerText = product.description;
+    detailsPanel.appendChild(productDescription);
+    
+     var priceList = document.createElement("ul");
+    priceList.className = "priceList";
+    detailsPanel.appendChild(priceList);
+    
+    var priceSmall = document.createElement("li");
+    priceSmall.innerText = "Small: " + product.smallprice + " kr";
+    priceSmall.className = "smallPrice";
+    priceList.appendChild(priceSmall);
+    
+    var smallPriceButton = document.createElement("button");
+    smallPriceButton.innerText = "Add to cart";
+    smallPriceButton.className = "priceButtons";
+    priceList.appendChild(smallPriceButton);
+           
+    var priceMedium = document.createElement("li");
+    priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
+    priceMedium.className = "mediumPrice";
+    priceList.appendChild(priceMedium);
+    
+    var mediumPriceButton = document.createElement("button");
+    mediumPriceButton.innerText = "Add to Cart";
+    mediumPriceButton.className = "priceButtons";
+    priceList.appendChild(mediumPriceButton);
+        
+    var priceLarge = document.createElement("li");
+    priceLarge.innerText = "Large: " + product.largeprice + " kr";
+    priceLarge.className = "largePrice";
+    priceList.appendChild(priceLarge);
+    
+    var largePriceButton = document.createElement("button");
+    largePriceButton.innerText = "Add to Cart";
+    largePriceButton.className = "priceButtons";
+    priceList.appendChild(largePriceButton);      
+    
+    var table = document.getElementById("grid-container");
+    table.appendChild(newProduct);
+    
+    var deleteButton = document.createElement("button");
+    deleteButton.className = "deleteButton";
+    deleteButton.id = "deleteButton";
+    deleteButton.innerText = "Delete";
+    newProduct.appendChild(deleteButton);  
+     
+     
+   console.log("product: " + product);
+    
 
 }
 
 
-function addSmallPriceButton(){
-    var smallPriceButton = document.createElement("button");
-    smallPriceButton.innerText = "Add to cart";
-    
-    
+function deleteProduct(){
+    console.log("productId: " + productid);
 }
 
 

@@ -1,3 +1,11 @@
+
+.deleteButton{
+    margin-top: -90px;
+    margin-right: 10px;
+    width: 50px;
+    height: 25px;
+   
+}
 .priceList{
    
     background-color: #f5e7bf;
@@ -52,6 +60,8 @@
     float: left;
 
 }
+
+
 
 .videoSection{
     margin-left: auto;

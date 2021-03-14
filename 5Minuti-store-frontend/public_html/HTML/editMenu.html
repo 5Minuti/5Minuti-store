@@ -15,7 +15,7 @@ and open the template in the editor.
          
     <script type="text/javascript" src="../JS/javaScript.js"> </script>
     </head>
-    <body>
+    <body onload="loadProductsEditMenu()">
         
         <nav class="NavBar">
          <ul>
@@ -32,6 +32,50 @@ and open the template in the editor.
             
         </nav>
         
-        <div>TODO write content</div>
+                       <section id="menu" class="container menu">
+               
+             
+                 <h1>Edit Menu</h1>
+                 <div id="newProduct" class="newProduct">
+             
+                        <div id="grid-container" class="grid-container">
+                            <div class="grid-item">
+                                <p class="deleteButtonPlaceHolder">Delete</p>
+                                <p class="productName">Pavlova<p>
+                                
+                                <p class="imgPlaceHolder"><img class="module" src="../Images/cakeExample1.jpg" width="200" ></p>
+                                
+                                    
+                                    
+                                    <details class="Details">
+                                        <summary class="productSummary">Info</summary>
+                                        <p class="productInfo">Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlova. It has a crisp crust and soft, light inside, usually topped with fruit and whipped cream.</p>
+                                        <ul class="priceList">
+                                            <li class="smallPrice productPrice"><button class="priceButtons">Add to cart</button>   Small: 50kr</li>
+                                            <li class="mediumPrice productPrice"><button class="priceButtons">Add to cart</button>   Medium: 100kr</li>
+                                            <li class="largePrice productPrice"><button class="priceButtons">Add to cart</button>   Large: 150kr</li>
+                                        </ul>
+                                            
+                                        <p class="allergens">Allergens: </p>
+                                        
+                                        
+                                     </details>
+                                   
+                               
+                            </div>
+                           
+                      
+                       
+                          
+                            
+                       
+                            
+                          </div> 
+                 </div>
+                 
+               
+             
+            </section>
+        
     </body>
 </html>
