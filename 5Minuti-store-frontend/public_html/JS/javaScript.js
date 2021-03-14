@@ -16,25 +16,46 @@ var accounts = [
 ];
 
 
-function getInfo() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+function getToken() {
+    var loginurl = "http://localhost:8080/authenticate"
+    var xhr = new XMLHttpRequest();
+    var userElement = document.getElementById("username").value;
+    var passwordElement = document.getElementById("password").value;
 
-
-    for (i=0; i< accounts.length; i++) {
-        if(username=== accounts[i].username && password === accounts[i].password){
-
-           showLoggedIn();
-
-            return
+    xhr.open("POST", loginurl, true);
+    xhr.onerror = () => {
+        alert("A network error occured")
+    };
+    xhr.ontimeout = () => {
+        alert("Connection timed out")
+    };
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    
+    var jsonstring = JSON.stringify({ username: userElement, password: passwordElement });
+//    console.log(jsonstring);
+    
+    xhr.send(jsonstring)
+    
+    xhr.addEventListener('load', function () {
+        var responseObject = JSON.parse(this.response);
+//        console.log(responseObject);
+        if (responseObject.token) {
+            token = responseObject.token;
+//            console.log("token recived");
+            localStorage.setItem('token', token);
+            window.location.href = "LoggedIn.html";
+        
+        } else if(XMLHttpRequest.status = 401) {
+            alert("wrong username or password")
+        } else {
+            alert("Could not login");
         }
-        else{
-            document.getElementById("logInInfo").innerHTML = username + "'s username or password is incorrect. " ;
+    })
+    
+}
 
-
-        }
-    }
-
+function XHRErrorHandler(event) {
+    alert(event)
 }
 
 
@@ -53,10 +74,25 @@ function addProduct (){
 
     console.log(data);
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/product/add", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.open("POST", "http://localhost:8080/product/add");
+    xhr.setRequestHeader('Content-Type', 'application/json',);
+//    jwtoken = localStorage.getItem('token');
+//    console.log(localStorage.getItem('token'));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
      
    xhr.send(JSON.stringify(data)); 
+       xhr.addEventListener('load', function () {
+        var responseObject = this.response;
+        console.log(responseObject);
+        if (XMLHttpRequest.status = 401) {
+            alert("You are Unauthorized to make this action " + XMLHttpRequest.status)
+        
+        } else if (XMLHttpRequest.status = 200){
+            alert("Product was sucessfully added")
+         } else  {
+            alert("something wrong happened" + XMLHttpRequest.status);
+        }
+    })
 }
 
 
