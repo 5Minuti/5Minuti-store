@@ -1,1 +1,14 @@
 /5Minuti-store-frontend/nbproject/private/
+5Minuti-store-backend/src/main/resources/application.properties
+
+5Minuti-store-backend/target/
+
+5Minuti-store-frontend/nbproject/configs/ios_1.properties
+
+5Minuti-store-frontend/nbproject/configs/ios.properties
+
+5Minuti-store-frontend/nbproject/configs/android_1.properties
+
+5Minuti-store-frontend/nbproject/configs/android.properties
+
+5Minuti-store-backend/nbactions.xml

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+         <link rel="stylesheet" href="../CSS/style.css">
+         
+         
+    <script type="text/javascript" src="../JS/javaScript.js"> </script>
+    </head>
+    <body>
+        
+             <nav class="NavBar">
+          <ul>
+            <li><a href="aboutUs.html" onclick="">About Us</a></li> 
+            <li><a href="contact.html" onclick="">Contact</a></li>
+            <li><a href="menu.html" onclick="">Menu</a></li>
+            <li><a href="../index.html" onclick="">Home</a></li>
+            <li class="logIn1"><a  href="logIn.html" onclick="">Administrator</a></li>
+          </ul>
+            
+        </nav>
+        
+             
+               
+             
+                    <section id="logIn" class="container logIn">     
+                    <h1>Administrator</h1>
+
+                        <div class="usernameAndPassword" id="usernameAndPassword">
+                            <form>
+                              Username:<br>
+                              <input type="text" name="username" id="username"><br>
+                              Password:<br>
+                              <input type="password" name="psw" id="password">
+
+                            </form>
+
+                            <p id="logInInfo" onclick="getInfo()"></p>
+                        </div>
+
+
+                    <button class="LogInButton" type="button" onclick="getToken()" id="logIn">Log In</button>
+
+                 </section>        
+    </body>
+</html>

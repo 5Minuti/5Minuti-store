@@ -1,126 +1,292 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 
-function hideAllMenu(){
-    document.getElementById('home').style.display ='none';
-    document.getElementById('contact').style.display ='none';
-    document.getElementById('logIn').style.display ='none';
-    document.getElementById('menu').style.display ='none';
-    document.getElementById('loggedIn').style.display ='none';
-    document.getElementById('shoppingCart').style.display = 'none';
+
+
+
+
+function getToken() {
+    var loginurl = "http://localhost:8080/authenticate"
+    var xhr = new XMLHttpRequest();
+    var userElement = document.getElementById("username").value;
+    var passwordElement = document.getElementById("password").value;
+
+    xhr.open("POST", loginurl, true);
+    xhr.onerror = () => {
+        alert("A network error occured")
+    };
+    xhr.ontimeout = () => {
+        alert("Connection timed out")
+    };
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    
+    var jsonstring = JSON.stringify({ username: userElement, password: passwordElement });
+//    console.log(jsonstring);
+    
+    xhr.send(jsonstring)
+    
+    xhr.addEventListener('load', function () {
+        var responseObject = JSON.parse(this.response);
+//        console.log(responseObject);
+        if (responseObject.token) {
+            token = responseObject.token;
+//            console.log("token recived");
+            localStorage.setItem('token', token);
+            window.location.href = "LoggedIn.html";
+        
+        } else if(XMLHttpRequest.status = 401) {
+            alert("wrong username or password")
+        } else {
+            alert("Could not login");
+        }
+    })
     
 }
 
-function showMenu(){
-    hideAllMenu();
-    document.getElementById('menu').style.display ='block';
-}
-
-function showContact(){
-    hideAllMenu();
-    document.getElementById('contact').style.display ='block';
-}
-
-function showHome(){
-    hideAllMenu();
-    document.getElementById('home').style.display ='block';
-}
-
-function showLogIn(){
-    hideAllMenu();
-    document.getElementById('logIn').style.display ='block';
-}
-
-function showLoggedIn(){
-    hideAllMenu();
-    document.getElementById('loggedIn').style.display = 'block';
-}
-function showCart(){
-    hideAllMenu();
-    document.getElementById('shoppingCart').style.display = 'block';
-}
-
-var accounts = [
-    {
-        username: "5",
-        password: "Minuti"
-    },
-    {
-        username: "",
-        password: ""
-    },
-
-];
-
-
-function getInfo() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-
-
-    for (i=0; i< accounts.length; i++) {
-        if(username=== accounts[i].username && password === accounts[i].password){
-
-           showLoggedIn();
-
-            return
-        }
-        else{
-            document.getElementById("logInInfo").innerHTML = username + "'s username or password is incorrect. " ;
-
-
-        }
-    }
-
+function XHRErrorHandler(event) {
+    alert(event)
 }
 
 
 function addProduct (){
-    var productName = document.getElementById('productName').value;
-    var description = document.getElementById('description').value;
-    var allergens = document.getElementById('allergens').value;
-    var price = document.getElementById('price').value;
 
-    var newItem1 = this.newProduct;
-    newItem1 = document.createElement('form');
-    newItem1.style.width = '30%';
-    newItem1.style.textAlign = 'left';
-    newItem1.style.marginLeft = '35%';
-    newItem1.style.marginBottom = '1%';
-    newItem1.style.lineHeight = '2';
-    newItem1.style.border = 'box';
-    newItem1.style.boxSizing = 'border-box';
-    newItem1.style.padding = '5px';
-    newItem1.innerHTML  = productName + "\n" + description + "\n" + allergens + "\n" + price;
-
-
-    var newButton = document.createElement("button");
-    newButton.className = 'shop-item-button';
-    newButton.innerHTML = "Add to Cart";
-    newButton.addEventListener ("click", function() {
-           
-        });
     
-    var item2 = document.getElementById("newProduct");
-    item2.appendChild(newItem1);
-    console.log(newItem1);
-    console.log(item2);
-    
-    var item3 = document.getElementById("newButton")
-    item3.appendChild(newButton);
+    let form = document.forms["addProductForm"];
 
-    console.log(item3);
+    let fd = new FormData(form);
 
+    let data = {};
+
+    for (let [key, prop] of fd) {
+      data[key] = prop;
+    }
+
+    console.log(data);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/product/add");
+    xhr.setRequestHeader('Content-Type', 'application/json',);
+//    jwtoken = localStorage.getItem('token');
+//    console.log(localStorage.getItem('token'));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+     
+   xhr.send(JSON.stringify(data)); 
+       xhr.addEventListener('load', function () {
+        var responseObject = this.response;
+        console.log(responseObject);
+        if (XMLHttpRequest.status = 401) {
+            alert("You are Unauthorized to make this action " + XMLHttpRequest.status)
+        
+        } else if (XMLHttpRequest.status = 200){
+            alert("Product was sucessfully added")
+         } else  {
+            alert("something wrong happened" + XMLHttpRequest.status);
+        }
+    })
 }
 
 
 
+function loadProductsMenu() {
+   
+    fetch("http://localhost:8080/product/list").then(function (response) {
+        
+        return response.json();
+
+    })
+            .then(function (product) {
+               
+                
+                if (Array.isArray(product)) {
+                    for (var i = 0; i < product.length; i++) {
+                        var newProduct = product[i];
+                        
+                        showProductMenu(newProduct);
+                        
+                    }
+                }
+
+            });
+}
+
+function loadProductsEditMenu() {
+   
+    fetch("http://localhost:8080/product/list").then(function (response) {
+        
+        return response.json();
+
+    })
+            .then(function (product) {
+               
+                
+                if (Array.isArray(product)) {
+                    for (var i = 0; i < product.length; i++) {
+                        var newProduct = product[i];
+                        
+                        showProductEditMenu(newProduct);
+                        
+                    }
+                }
+
+            });
+}
+
+function showProductMenu(product) {
+
+   
+    
+    var newProduct = document.createElement("div");
+    newProduct.className = "grid-item";
+        
+    var productName = document.createElement("p");
+    productName.innerText = product.productname;
+    productName.className = "productName";
+    newProduct.appendChild(productName);
+    
+    var imagePlaceHolder = document.createElement("p");
+    imagePlaceHolder.innerText = "image goes here";
+    imagePlaceHolder.className = "imgPlaceHolder";
+    newProduct.appendChild(imagePlaceHolder);
+    
+    var detailsPanel = document.createElement("details");
+    detailsPanel.className = "Details";
+    newProduct.appendChild(detailsPanel);
+   
+    var productSummary = document.createElement("summary");
+    productSummary.className = "productSummary";
+    productSummary.innerText = "Info";
+    detailsPanel.appendChild(productSummary);
+  
+    
+    var productDescription = document.createElement("p");
+    productDescription.className = "productInfo";
+    productDescription.innerText = product.description;
+    detailsPanel.appendChild(productDescription);
+    
+     var priceList = document.createElement("ul");
+    priceList.className = "priceList";
+    detailsPanel.appendChild(priceList);
+    
+    var priceSmall = document.createElement("li");
+    priceSmall.innerText = "Small: " + product.smallprice + " kr";
+    priceSmall.className = "smallPrice";
+    priceList.appendChild(priceSmall);
+    
+    var smallPriceButton = document.createElement("button");
+    smallPriceButton.innerText = "Add to cart";
+    smallPriceButton.className = "priceButtons";
+    priceList.appendChild(smallPriceButton);
+           
+    var priceMedium = document.createElement("li");
+    priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
+    priceMedium.className = "mediumPrice";
+    priceList.appendChild(priceMedium);
+    
+    var mediumPriceButton = document.createElement("button");
+    mediumPriceButton.innerText = "Add to Cart";
+    mediumPriceButton.className = "priceButtons";
+    priceList.appendChild(mediumPriceButton);
+        
+    var priceLarge = document.createElement("li");
+    priceLarge.innerText = "Large: " + product.largeprice + " kr";
+    priceLarge.className = "largePrice";
+    priceList.appendChild(priceLarge);
+    
+    var largePriceButton = document.createElement("button");
+    largePriceButton.innerText = "Add to Cart";
+    largePriceButton.className = "priceButtons";
+    priceList.appendChild(largePriceButton);      
+    
+    var table = document.getElementById("grid-container");
+    table.appendChild(newProduct);
+    
+    
+
+}
+
+function showProductEditMenu(product) {
+
+   
+    
+    var newProduct = document.createElement("div");
+    newProduct.className = "grid-item";
+        
+    var productName = document.createElement("p");
+    productName.innerText = product.productname;
+    productName.className = "productName";
+    newProduct.appendChild(productName);
+    
+    var imagePlaceHolder = document.createElement("p");
+    imagePlaceHolder.innerText = "image goes here";
+    imagePlaceHolder.className = "imgPlaceHolder";
+    newProduct.appendChild(imagePlaceHolder);
+    
+    var detailsPanel = document.createElement("details");
+    detailsPanel.className = "Details";
+    newProduct.appendChild(detailsPanel);
+   
+    var productSummary = document.createElement("summary");
+    productSummary.className = "productSummary";
+    productSummary.innerText = "Info";
+    detailsPanel.appendChild(productSummary);
+  
+    
+    var productDescription = document.createElement("p");
+    productDescription.className = "productInfo";
+    productDescription.innerText = product.description;
+    detailsPanel.appendChild(productDescription);
+    
+     var priceList = document.createElement("ul");
+    priceList.className = "priceList";
+    detailsPanel.appendChild(priceList);
+    
+    var priceSmall = document.createElement("li");
+    priceSmall.innerText = "Small: " + product.smallprice + " kr";
+    priceSmall.className = "smallPrice";
+    priceList.appendChild(priceSmall);
+    
+    var smallPriceButton = document.createElement("button");
+    smallPriceButton.innerText = "Add to cart";
+    smallPriceButton.className = "priceButtons";
+    priceList.appendChild(smallPriceButton);
+           
+    var priceMedium = document.createElement("li");
+    priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
+    priceMedium.className = "mediumPrice";
+    priceList.appendChild(priceMedium);
+    
+    var mediumPriceButton = document.createElement("button");
+    mediumPriceButton.innerText = "Add to Cart";
+    mediumPriceButton.className = "priceButtons";
+    priceList.appendChild(mediumPriceButton);
+        
+    var priceLarge = document.createElement("li");
+    priceLarge.innerText = "Large: " + product.largeprice + " kr";
+    priceLarge.className = "largePrice";
+    priceList.appendChild(priceLarge);
+    
+    var largePriceButton = document.createElement("button");
+    largePriceButton.innerText = "Add to Cart";
+    largePriceButton.className = "priceButtons";
+    priceList.appendChild(largePriceButton);      
+    
+    var table = document.getElementById("grid-container");
+    table.appendChild(newProduct);
+    
+    var deleteButton = document.createElement("button");
+    deleteButton.className = "deleteButton";
+    deleteButton.id = "deleteButton";
+    deleteButton.innerText = "Delete";
+    newProduct.appendChild(deleteButton);  
+     
+     
+   console.log("product: " + product);
+    
+
+}
 
 
+function deleteProduct(){
+    console.log("productId: " + productid);
+}
 
 
 
