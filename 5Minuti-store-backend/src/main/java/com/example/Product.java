@@ -8,6 +8,7 @@ package com.example;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 /**
  *
@@ -17,11 +18,15 @@ public class Product {
     
     @NotNull
     private int productid;
-    @NotBlank
+    @NotBlank(message = "Product name cannot be blank")
     private String productname;
+    @NotBlank(message = "Description cannot be blank")
     private String description;
+    @Positive(message = "Small price must be a positive value")
     private BigDecimal smallprice;
+    @NotNull(message = "Medium price must have a value") @Positive(message = "mediumprice must be a positive value")
     private BigDecimal mediumprice;
+    @Positive(message = "Large price must be a positive value")
     private BigDecimal largeprice;
     private boolean deleted;
 
