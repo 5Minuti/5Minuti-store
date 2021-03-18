@@ -77,14 +77,17 @@ function addProduct (){
      
    xhr.send(JSON.stringify(data)); 
        xhr.addEventListener('load', function () {
-        var responseObject = this.response;
-        console.log(responseObject);
+        var response = this.response
+        var responseObject = JSON.parse(response);
+        console.log(response);
         if (xhr.status == 401) {
             alert("You are Unauthorized to make this action ")
         
         } else if (xhr.status == 200){
             alert("Product was sucessfully added")
-         } else  {
+         } else if (xhr.status == 400) {
+             alert(JSON.stringify(Object.values(responseObject)[0]))
+         } else{
             alert("something wrong happened");
         }
     })
