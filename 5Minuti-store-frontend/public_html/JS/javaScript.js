@@ -3,7 +3,9 @@
 
 
 
-
+// sends login request to backend with a post request if the info is correct
+// a jwt will be returned and saved into local storage
+// if the info is not correct or something went wrong alerts will inform the user
 function getToken() {
     var loginurl = "http://localhost:8080/authenticate"
     var xhr = new XMLHttpRequest();
@@ -33,7 +35,7 @@ function getToken() {
             localStorage.setItem('token', token);
             window.location.href = "LoggedIn.html";
         
-        } else if(XMLHttpRequest.status = 401) {
+        } else if(xhr.status == 401) {
             alert("wrong username or password")
         } else {
             alert("Could not login");
@@ -42,11 +44,10 @@ function getToken() {
     
 }
 
-function XHRErrorHandler(event) {
-    alert(event)
-}
-
-
+//takes data from the addProductsForm and makes a json from it
+// when the button is pressed the data will be sent to the backend with
+// the dat that has been input and finally it shows the frontend a alert 
+// based on the response from the server
 function addProduct (){
 
     
@@ -60,9 +61,15 @@ function addProduct (){
       data[key] = prop;
     }
 
-    console.log(data);
+ //   console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/product/add");
+    xhr.onerror = () => {
+        alert("A network error occured")
+    };
+    xhr.ontimeout = () => {
+        alert("Connection timed out")
+    };
     xhr.setRequestHeader('Content-Type', 'application/json',);
 //    jwtoken = localStorage.getItem('token');
 //    console.log(localStorage.getItem('token'));
@@ -72,13 +79,13 @@ function addProduct (){
        xhr.addEventListener('load', function () {
         var responseObject = this.response;
         console.log(responseObject);
-        if (XMLHttpRequest.status = 401) {
-            alert("You are Unauthorized to make this action " + XMLHttpRequest.status)
+        if (xhr.status == 401) {
+            alert("You are Unauthorized to make this action ")
         
-        } else if (XMLHttpRequest.status = 200){
+        } else if (xhr.status == 200){
             alert("Product was sucessfully added")
          } else  {
-            alert("something wrong happened" + XMLHttpRequest.status);
+            alert("something wrong happened");
         }
     })
 }
