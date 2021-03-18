@@ -299,8 +299,11 @@ button:hover {
 
 /* front page styling starts here */
 #imgsection{
-  position: relative;
-  width: 100%;
+    background-image: url('../IMG/front_page.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 .imgtext{
     background-color: transparent;
@@ -315,10 +318,8 @@ button:hover {
 }
 
 #fpimg{
-    position: absolute;
+    width: 100%;
     height: auto;
-    filter: brightness(50%);
-    background-size: cover;
 }
 
 #fbelementsconatiner{
