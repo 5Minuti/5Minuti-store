@@ -146,6 +146,8 @@ function showProductMenu(product) {
     imagePlaceHolder.className = "imgPlaceHolder";
     newProduct.appendChild(imagePlaceHolder);
     
+
+    
     var detailsPanel = document.createElement("details");
     detailsPanel.className = "Details";
     newProduct.appendChild(detailsPanel);
@@ -154,14 +156,13 @@ function showProductMenu(product) {
     productSummary.className = "productSummary";
     productSummary.innerText = "Info";
     detailsPanel.appendChild(productSummary);
-  
     
     var productDescription = document.createElement("p");
     productDescription.className = "productInfo";
     productDescription.innerText = product.description;
     detailsPanel.appendChild(productDescription);
     
-     var priceList = document.createElement("ul");
+    var priceList = document.createElement("ul");
     priceList.className = "priceList";
     detailsPanel.appendChild(priceList);
     
@@ -169,35 +170,20 @@ function showProductMenu(product) {
     priceSmall.innerText = "Small: " + product.smallprice + " kr";
     priceSmall.className = "smallPrice";
     priceList.appendChild(priceSmall);
-    
-    var smallPriceButton = document.createElement("button");
-    smallPriceButton.innerText = "Add to cart";
-    smallPriceButton.className = "priceButtons";
-    priceList.appendChild(smallPriceButton);
-           
+              
     var priceMedium = document.createElement("li");
     priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
     priceMedium.className = "mediumPrice";
     priceList.appendChild(priceMedium);
-    
-    var mediumPriceButton = document.createElement("button");
-    mediumPriceButton.innerText = "Add to Cart";
-    mediumPriceButton.className = "priceButtons";
-    priceList.appendChild(mediumPriceButton);
-        
+         
     var priceLarge = document.createElement("li");
     priceLarge.innerText = "Large: " + product.largeprice + " kr";
     priceLarge.className = "largePrice";
-    priceList.appendChild(priceLarge);
-    
-    var largePriceButton = document.createElement("button");
-    largePriceButton.innerText = "Add to Cart";
-    largePriceButton.className = "priceButtons";
-    priceList.appendChild(largePriceButton);      
+    priceList.appendChild(priceLarge);     
     
     var table = document.getElementById("grid-container");
     table.appendChild(newProduct);
-    
+    showAddToCartButton(newProduct,productName,priceSmall,priceMedium,priceLarge);
     
 
 }
@@ -219,6 +205,8 @@ function showProductEditMenu(product) {
     imagePlaceHolder.className = "imgPlaceHolder";
     newProduct.appendChild(imagePlaceHolder);
     
+   
+    
     var detailsPanel = document.createElement("details");
     detailsPanel.className = "Details";
     newProduct.appendChild(detailsPanel);
@@ -227,73 +215,226 @@ function showProductEditMenu(product) {
     productSummary.className = "productSummary";
     productSummary.innerText = "Info";
     detailsPanel.appendChild(productSummary);
-  
     
     var productDescription = document.createElement("p");
     productDescription.className = "productInfo";
     productDescription.innerText = product.description;
-    detailsPanel.appendChild(productDescription);
+    detailsPanel.appendChild(productDescription);   
     
-     var priceList = document.createElement("ul");
+    var priceList = document.createElement("ul");
     priceList.className = "priceList";
     detailsPanel.appendChild(priceList);
     
     var priceSmall = document.createElement("li");
     priceSmall.innerText = "Small: " + product.smallprice + " kr";
     priceSmall.className = "smallPrice";
-    priceList.appendChild(priceSmall);
-    
-    var smallPriceButton = document.createElement("button");
-    smallPriceButton.innerText = "Add to cart";
-    smallPriceButton.className = "priceButtons";
-    priceList.appendChild(smallPriceButton);
+    priceList.appendChild(priceSmall);  
            
     var priceMedium = document.createElement("li");
     priceMedium.innerText = "Medium: " + product.mediumprice + " kr";
     priceMedium.className = "mediumPrice";
     priceList.appendChild(priceMedium);
     
-    var mediumPriceButton = document.createElement("button");
-    mediumPriceButton.innerText = "Add to Cart";
-    mediumPriceButton.className = "priceButtons";
-    priceList.appendChild(mediumPriceButton);
-        
     var priceLarge = document.createElement("li");
     priceLarge.innerText = "Large: " + product.largeprice + " kr";
     priceLarge.className = "largePrice";
     priceList.appendChild(priceLarge);
     
-    var largePriceButton = document.createElement("button");
-    largePriceButton.innerText = "Add to Cart";
-    largePriceButton.className = "priceButtons";
-    priceList.appendChild(largePriceButton);      
-    
     var table = document.getElementById("grid-container");
     table.appendChild(newProduct);
     
+   
+    
+    showDeleteProductButton(newProduct);
+    showAddToCartButton(newProduct,productName,priceSmall,priceMedium,priceLarge);
+}
+function showSharedMenuItems(product){
+    
+}
+function showAddToCartButton(newProduct,productName,priceSmall,priceMedium,priceLarge){
+    var addToCartButton = document.createElement("button");
+    addToCartButton.innerText = "Add to cart";
+    addToCartButton.className = "addToCartButton";
+    addToCartButton.onclick = function() {addProductToShoppingCart(productName,priceSmall,priceMedium,priceLarge)};
+    newProduct.appendChild(addToCartButton);
+}
+function showDeleteProductButton(newProduct){
     var deleteButton = document.createElement("button");
     deleteButton.className = "deleteButton";
     deleteButton.id = "deleteButton";
     deleteButton.innerText = "Delete";
-    newProduct.appendChild(deleteButton);  
-     
-     
-   console.log("product: " + product);
+    deleteButton.style.display = "block";
+    newProduct.appendChild(deleteButton); 
+}
+
+
+
+
+function addProductToShoppingCart(productName,priceSmall,priceMedium,priceLarge){
+   var title = productName.innerText;
+   var small = priceSmall.innerText;
+   var medium = priceMedium.innerText;
+   var large = priceLarge.innerText;
+    
+   var newCartItem = document.createElement("div");
+   newCartItem.className = "flex-container";
+   
+    
+  
+   
+   var ItemName = document.createElement("span");
+   ItemName.className = "flex-title";
+   ItemName.innerText = title;
+   newCartItem.appendChild(ItemName);
+   
+   var selectSize = document.createElement("select");
+   selectSize.className = "flex-size";
+   selectSize.id = "selectSize";
+   selectSize.onchange = function(){selectValue(price,small,medium,large)
+       
+   };
+   //selectSize.setAttribute("onchange", "selectValue(price)");
+   newCartItem.appendChild(selectSize);
+   
+   var smallOption = document.createElement("option");
+   smallOption.innerText = "Small";
+   smallOption.value = "Small";
+   selectSize.appendChild(smallOption);
+   
+   var mediumOption = document.createElement("option");
+   mediumOption.innerText = "Medium";
+   mediumOption.setAttribute("selected", "selected");
+   mediumOption.value = "Medium";
+   selectSize.appendChild(mediumOption);
+   
+   var largeOption = document.createElement("option");
+   largeOption.innerText = "Large";
+   largeOption.value = "Large";
+   selectSize.appendChild(largeOption);
+
+   var price = document.createElement("div");
+   price.id = "flex-price";
+   price.className = ("flex-price");
+   newCartItem.appendChild(price);
+   
+   //updateProductPrice(price,smallOption,mediumOption,largeOption, small,medium,large);
+   //console.log(large);
+   //findPrice();
+   
+    var removeFromShoppingCartButton = document.createElement("button");
+   removeFromShoppingCartButton.className = "flex-removeButton";
+   newCartItem.appendChild(removeFromShoppingCartButton);
+   
+   var trashButton = document.createElement("i");
+   trashButton.className = "fa fa-trash";
+   removeFromShoppingCartButton.appendChild(trashButton);
+   
+   var cartTable = document.getElementById("cart-items");
+   cartTable.appendChild(newCartItem);
+   
+}
+
+
+//selects value from shopping cart 
+function selectValue(price,small,medium,large) {
+  
+    
+   var selectedValue = document.getElementById("selectSize").value;
+   
+  
+    
+switch(selectedValue) {
+  case "Small":
+    price.innerText = small;
+    console.log("small value: " + selectedValue );
+    break;
+    
+  case "Medium":
+    price.innerText = medium;
+    console.log("medium value: " + selectedValue );
+    break;
+    
+    case "Large":
+    price.innerText = large;
+    console.log("large value: " + selectedValue );
+    break;
+    
+   
+}
+ 
+   
+    
+}
+
+
+function updateProductPrice(price,selectedSize,smallOption,mediumOption,largeOption,small,medium,large){
+    
+   /*
+  var options = document.getElementsByClassName('option')
+  console.log(options.length);
+         for (var i = 1; i < options.length; i++) {
+        
+       
+   
+    while(smallOption.selected === options[i].selected){
+        price.innerText = small;
+        console.log("small   :"+ small);
+        
+    }
+    while (mediumOption.selected === options[i].selected ){
+        price.innerText = medium;
+        
+    }
+    while (largeOption.selected === options[i].selected){
+        price.innerText = large;
+        
+    } 
+    
+    console.log(options[i].length);
+}
+    
+ 
+ 
+ 
+
+
+ var size = document.getElementById("option");
+ var selectedValue = size.options[size.selectedIndex].value;
+    if (selectedValue == "smallOption")
+   {
+    console.log("displaying small: "+small);
+   }
+    
     
 
+ console.log("selected Size =  :" + selectedSize);
+ 
+          var sel = document.getElementsByClassName('flex-size');
+
+ 
+ var opt = sel.options[sel.selectedIndex];
+  console.log(opt);
+ 
+switch(opt) {
+  case "Small":
+    price.innerText = small;
+    break;
+    
+  case "Medium":
+    price.innerText = medium;
+    break;
+    
+    case "Large":
+    price.innerText = large;
+    break;
+    
+  default:
+    price.innerText = medium;
 }
 
+ */
 
-function deleteProduct(){
-    console.log("productId: " + productid);
 }
-
-
-
-
-
-
-
 
 
 

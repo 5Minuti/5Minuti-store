@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
          <link rel="stylesheet" href="../CSS/style.css">
-         
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
          
     <script type="text/javascript" src="../JS/javaScript.js"> </script>
     </head>
@@ -79,13 +79,18 @@ and open the template in the editor.
           
               <section id="shoppingCart" class="container shoppingCart" >
             <h2 class="section-header">CART</h2>
-            <div class="cartRow">
-                <span class="cart-item cart-header cart-column">Item</span>
-                <span class="cart-price cart-header cart-column">Price</span>
-                
+         
+            
+            <div class="cart-items" id="cart-items">
+                <div class="flex-container flex-header">
+                    
+                    <div class="flex-title">Item</div>
+                    <div class="flex-size">Size</div>
+                    <div class="flex-price">Price</div>
+                    <div class="flex-removeButton"><i class="fa fa-trash"></i></div>
+                </div>
             </div>
-            <div class="cart-items">
-            </div>
+  
             <div class="cart-total">
                 <strong class="cart-total-title">Total</strong>
                 <span class="cart-total-price">0 kr</span>
