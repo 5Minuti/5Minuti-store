@@ -84,7 +84,7 @@ function addProduct (){
             alert("You are Unauthorized to make this action ")
         
         } else if (xhr.status == 200){
-            alert("Product was sucessfully added")
+            alert("Product was sucessfully added with id: " + JSON.stringify(responseObject))
          } else if (xhr.status == 400) {
              alert(JSON.stringify(Object.values(responseObject)[0]))
          } else{
