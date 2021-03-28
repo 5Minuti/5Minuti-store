@@ -26,7 +26,7 @@ public class RESTRepository {
 
 
     private final JdbcTemplate jdbcTemplate;
-    private RowMapper<Product> rowMapper = new RESTRowMapper();
+    private RowMapper<Product> productRowMapper = new ProductRowMapper();
 
     @Autowired
     public RESTRepository(JdbcTemplate jdbcTemplate) {
@@ -34,7 +34,7 @@ public class RESTRepository {
     }
 
     public List<Product> findAll() {
-        return jdbcTemplate.query("SELECT * FROM product", rowMapper);
+        return jdbcTemplate.query("SELECT * FROM product", productRowMapper);
     }
 
 
@@ -65,4 +65,37 @@ public class RESTRepository {
             throw new Exception("Could not add new product: " + e.getMessage());
         }
     }
+
+    public Integer add(Order order) throws Exception {
+        String query = "INSERT INTO 5minuti.order (order_id, customer_id, order_datetime, pickup_datetime, status, comment) VALUES (?, ?, ?, ?, ?, ?)";
+        String detalQuery = "INSERT INTO order_detail (order_detail_id, product_id, order_id, size, price) VALUES (?, ?, ?, ?, ?)";
+        try {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            int numRows = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(query, new String[]{"id"});
+                ps.setInt(1, order.getOrderid());
+                ps.setInt(2, order.getCustomerid());
+                ps.setTimestamp(3, order.getOrderDateTime());
+                ps.setTimestamp(4, order.getPickupDateTime());
+                ps.setString(5, order.getStatus());
+                ps.setString(6, order.getComment());
+                
+                for (OrderDetail orderDetail : order.getOrderDetails()){
+                    orderDetail.setOrderid(order.getOrderid());
+                    jdbcTemplate.update(detalQuery, orderDetail.getOrderDetailid(), orderDetail.getProductid(), orderDetail.getOrderid(), orderDetail.getSize(), orderDetail.getPrice());
+                }
+                return ps;
+            }, keyHolder);
+            if (numRows == 1) {
+                Number key = keyHolder.getKey();
+                return key != null ? key.intValue() : null;
+            } else {
+                throw new Exception("Could not add new Order");
+            }
+        } catch (Exception e) {
+            throw new Exception("Could not add new Order: " + e.getMessage());
+        }
+
+    }
+
 }

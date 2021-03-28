@@ -5,6 +5,8 @@
  */
 package com.example;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,21 @@ public class RESTController {
         try {
             Integer productId = restRepository.add(product);
             return new ResponseEntity<>(productId.toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/order/add", method = RequestMethod.POST)
+    public ResponseEntity<String> addOrder(@Valid @RequestBody Order order) {
+        System.out.println("post request recived");
+        try{
+            order.setStatus("Prepearing");
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            order.setOrderDateTime(timestamp);
+            Integer orderId = restRepository.add(order);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
