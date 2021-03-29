@@ -6,6 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
+        <!-- COMMENT: remember to set all titles, etc. Btw, why not setting title at the start? :) -->
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,7 @@ and open the template in the editor.
     <script type="text/javascript" src="../JS/javaScript.js"> </script>
     </head>
     <body onload="loadProductsMenu()">
-        
+        <!-- COMMENT: The Navbar is a copy-paste code in all the HTML files. That is not a good practice, in general -->
           <nav class="NavBar">
           <ul>
             <li><a href="aboutUs.html" onclick="">About Us</a></li> 
@@ -33,7 +34,9 @@ and open the template in the editor.
         
         
                <section id="menu" class="container menu">
-               
+
+                   <!-- COMMENT: width values should have a unit. Did you mean 50px? -->
+                   <!-- img element also requires alt="..." attribute -->
                    <a href=" #shoppingCart"> <button class="shoppingCartButton" type="button"><img src="../Images/cart.jpg" width="50" ></button></a>
              
                  <h1>Menu</h1>
@@ -48,6 +51,7 @@ and open the template in the editor.
                                     
                                     
                                     <details class="Details">
+                                        <!-- COMMENT: the "Info" text on the page is way too small -->
                                         <summary class="productSummary">Info</summary>
                                         <p class="productInfo">Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlova. It has a crisp crust and soft, light inside, usually topped with fruit and whipped cream.</p>
                                         <ul class="priceList">

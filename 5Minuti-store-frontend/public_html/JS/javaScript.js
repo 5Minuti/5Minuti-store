@@ -3,8 +3,14 @@
 
 
 
-
+// COMMENT: add comments to functions - what do they do?
+// COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.
 function getToken() {
+    // COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
+    // one .js file as a config, and don't add it to git. something like config.js, and there you set
+    // var API_URL = "http://localhost:8080";
+    // Then here you can use:
+    // var loginUrl = API_URL + "/authenticate";
     var loginurl = "http://localhost:8080/authenticate"
     var xhr = new XMLHttpRequest();
     var userElement = document.getElementById("username").value;
@@ -32,7 +38,7 @@ function getToken() {
 //            console.log("token recived");
             localStorage.setItem('token', token);
             window.location.href = "LoggedIn.html";
-        
+            // COMMENT: here you have a logic bug - you try to ASSIGN a value to .status (instead of comparing it)!
         } else if(XMLHttpRequest.status = 401) {
             alert("wrong username or password")
         } else {
@@ -42,11 +48,14 @@ function getToken() {
     
 }
 
+// COMMENT: this is not used
 function XHRErrorHandler(event) {
     alert(event)
 }
 
 
+// COMMENT: maybe think about moving all API call functions to a separate file, to have a bit of structure in the Javascript?
+// Otherwise there will be many functions
 function addProduct (){
 
     
@@ -161,10 +170,11 @@ function showProductMenu(product) {
     
     var table = document.getElementById("grid-container");
     table.appendChild(newProduct);
-    
+
+    // COMMENT: It is not good to make IFs based on the URL. What if you will change the URL later?
+    // You should somehow pass the edit/delete flag in another way.
     if( document.URL.includes("editMenu.html") ) {
     showDeleteProductButton(newProduct);
-
     } else if ( document.URL.includes("menu.html")){
         showAddToCartButton(newProduct,productName,priceSmall,priceMedium,priceLarge);
     }
@@ -207,11 +217,12 @@ function addProductToShoppingCart(productName,priceSmall,priceMedium,priceLarge)
      
    var selectSize = document.createElement("select");
    selectSize.className = "flex-size";
+   // COMMENT: you can't add several HTML elements with the same ID!
    selectSize.id = "selectSize" ;
    selectSize.onchange = function(){selectValue(price,small,medium,large)    
    };
    newCartItem.appendChild(selectSize);
-   
+   // COMMENT: This could be refactored to a function, f.ex,  addSizeOptions(selectbox, ["Small", "Medium", "Large"]])
    var smallOption = document.createElement("option");
    smallOption.innerText = "Small";
    smallOption.value = "Small";
