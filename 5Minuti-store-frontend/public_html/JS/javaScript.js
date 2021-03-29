@@ -489,6 +489,8 @@ function ready() {
         button.addEventListener('click', addToCartClicked)
     }
 
+    // COMMENT: This fails on all pages where btn-purchase element is not present
+    // COMMENT: In general - you should check all the errors in the Javascript console
     document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
 }
 
