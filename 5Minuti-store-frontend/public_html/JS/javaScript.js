@@ -4,8 +4,11 @@ var DEFAULT_SIZE = "Medium";
 
 
 
-// COMMENT: add comments to functions - what do they do?
 // COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.
+
+// sends login request to backend with a post request if the info is correct
+// a jwt will be returned and saved into local storage
+// if the info is not correct or something went wrong alerts will inform the user
 function getToken() {
     // COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
     // one .js file as a config, and don't add it to git. something like config.js, and there you set
@@ -39,8 +42,7 @@ function getToken() {
 //            console.log("token recived");
             localStorage.setItem('token', token);
             window.location.href = "LoggedIn.html";
-            // COMMENT: here you have a logic bug - you try to ASSIGN a value to .status (instead of comparing it)!
-        } else if(XMLHttpRequest.status = 401) {
+        } else if(xhr.status == 401) {
             alert("wrong username or password")
         } else {
             alert("Could not login");
@@ -49,14 +51,13 @@ function getToken() {
     
 }
 
-// COMMENT: this is not used
-function XHRErrorHandler(event) {
-    alert(event)
-}
-
 
 // COMMENT: maybe think about moving all API call functions to a separate file, to have a bit of structure in the Javascript?
 // Otherwise there will be many functions
+//takes data from the addProductsForm and makes a json from it
+// when the button is pressed the data will be sent to the backend with
+// the dat that has been input and finally it shows the frontend a alert 
+// based on the response from the server
 function addProduct (){
 
     
@@ -70,9 +71,15 @@ function addProduct (){
       data[key] = prop;
     }
 
-    console.log(data);
+ //   console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/product/add");
+    xhr.onerror = () => {
+        alert("A network error occured")
+    };
+    xhr.ontimeout = () => {
+        alert("Connection timed out")
+    };
     xhr.setRequestHeader('Content-Type', 'application/json',);
 //    jwtoken = localStorage.getItem('token');
 //    console.log(localStorage.getItem('token'));
@@ -80,16 +87,18 @@ function addProduct (){
      
    xhr.send(JSON.stringify(data)); 
        xhr.addEventListener('load', function () {
-        var responseObject = this.response;
-        console.log(responseObject);
-        if (XMLHttpRequest.status = 401) {
-            // COMMENT: Alerts are OK for testing, but should not be used in the production. They are annoying
-            alert("You are Unauthorized to make this action " + XMLHttpRequest.status)
-        
-        } else if (XMLHttpRequest.status = 200){
-            alert("Product was sucessfully added")
-         } else  {
-            alert("something wrong happened" + XMLHttpRequest.status);
+        var response = this.response
+        var responseObject = JSON.parse(response);
+        console.log(response);
+        if (xhr.status == 401) {
+            alert("You are Unauthorized to make this action ")
+
+        } else if (xhr.status == 200){
+            alert("Product was sucessfully added with id: " + JSON.stringify(responseObject))
+         } else if (xhr.status == 400) {
+             alert(JSON.stringify(Object.values(responseObject)[0]))
+         } else{
+            alert("something wrong happened");
         }
     })
 }

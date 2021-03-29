@@ -5,18 +5,20 @@
  */
 package com.example;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 /**
- * COMMENT: I suggest to not use @author tag is any files, as that does not do much good:
- * 1) This is a group project
- * 2) Over time perhaps other people will modify the files
- * 3) We can get the author of the file from GIT history
  * @author Stigus
  */
 @Repository
@@ -24,30 +26,76 @@ public class RESTRepository {
 
 
     private final JdbcTemplate jdbcTemplate;
-    private RowMapper<Product> rowMapper = new RESTRowMapper();
-    
+    private RowMapper<Product> productRowMapper = new ProductRowMapper();
+
     @Autowired
     public RESTRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    
-    public List<Product> findAll(){
-        return jdbcTemplate.query("SELECT * FROM product", rowMapper);
+
+    public List<Product> findAll() {
+        return jdbcTemplate.query("SELECT * FROM product", productRowMapper);
     }
-    
-    
-      public String add(Product product) {
+
+
+    public Integer add(Product product) throws Exception {
+        // Using approach proposed in
+        // https://docs.spring.io/spring-framework/docs/3.1.x/spring-framework-reference/html/jdbc.html#jdbc-auto-genereted-keys
         String query = "INSERT INTO product (productid, productname, description, smallprice, mediumprice, largeprice, deleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            // COMMENT: the lines should not be longer than 100 characters, preferably no longer than 80 chars
-            int numRows = jdbcTemplate.update(query, product.getProductid(), product.getProductname(), product.getDescription(), product.getSmallprice(), product.getMediumprice(), product.getLargeprice(), product.isDeleted());
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            int numRows = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(query, new String[]{"id"});
+                ps.setInt(1, product.getProductid());
+                ps.setString(2, product.getProductname());
+                ps.setString(3, product.getDescription());
+                ps.setBigDecimal(4, product.getSmallprice());
+                ps.setBigDecimal(5, product.getMediumprice());
+                ps.setBigDecimal(6, product.getLargeprice());
+                ps.setBoolean(7, product.isDeleted());
+                return ps;
+            }, keyHolder);
             if (numRows == 1) {
-                return null;
+                Number key = keyHolder.getKey();
+                return key != null ? key.intValue() : null;
             } else {
-                return "Could not add new product";
+                throw new Exception("Could not add new product");
             }
         } catch (Exception e) {
-            return "Could not add new product: " + e.getMessage();
+            throw new Exception("Could not add new product: " + e.getMessage());
         }
-    }  
+    }
+
+    public Integer add(Order order) throws Exception {
+        String query = "INSERT INTO 5minuti.order (order_id, customer_id, order_datetime, pickup_datetime, status, comment) VALUES (?, ?, ?, ?, ?, ?)";
+        String detalQuery = "INSERT INTO order_detail (order_detail_id, product_id, order_id, size, price) VALUES (?, ?, ?, ?, ?)";
+        try {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            int numRows = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(query, new String[]{"id"});
+                ps.setInt(1, order.getOrderid());
+                ps.setInt(2, order.getCustomerid());
+                ps.setTimestamp(3, order.getOrderDateTime());
+                ps.setTimestamp(4, order.getPickupDateTime());
+                ps.setString(5, order.getStatus());
+                ps.setString(6, order.getComment());
+                
+                for (OrderDetail orderDetail : order.getOrderDetails()){
+                    orderDetail.setOrderid(order.getOrderid());
+                    jdbcTemplate.update(detalQuery, orderDetail.getOrderDetailid(), orderDetail.getProductid(), orderDetail.getOrderid(), orderDetail.getSize(), orderDetail.getPrice());
+                }
+                return ps;
+            }, keyHolder);
+            if (numRows == 1) {
+                Number key = keyHolder.getKey();
+                return key != null ? key.intValue() : null;
+            } else {
+                throw new Exception("Could not add new Order");
+            }
+        } catch (Exception e) {
+            throw new Exception("Could not add new Order: " + e.getMessage());
+        }
+
+    }
+
 }

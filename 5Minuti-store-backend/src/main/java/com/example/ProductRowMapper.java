@@ -13,9 +13,9 @@ import org.springframework.jdbc.core.RowMapper;
  *
  * @author Stigus
  */
-public class RESTRowMapper implements RowMapper<Product> {
+public class ProductRowMapper implements RowMapper<Product> {
 
-    public RESTRowMapper() {
+    public ProductRowMapper() {
     }
 
     @Override

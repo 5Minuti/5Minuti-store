@@ -5,7 +5,10 @@
  */
 package com.example;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +39,28 @@ public class RESTController {
     
     @CrossOrigin
     @RequestMapping(value = "/product/add", method = RequestMethod.POST)
-    public ResponseEntity<String> addProduct(@RequestBody Product product) {
-        String error = restRepository.add(product);
+    public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
         System.out.println("post request recived");
-        if (error == null) {
+        try {
+            Integer productId = restRepository.add(product);
+            return new ResponseEntity<>(productId.toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/order/add", method = RequestMethod.POST)
+    public ResponseEntity<String> addOrder(@Valid @RequestBody Order order) {
+        System.out.println("post request recived");
+        try{
+            order.setStatus("Prepearing");
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            order.setOrderDateTime(timestamp);
+            Integer orderId = restRepository.add(order);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
     

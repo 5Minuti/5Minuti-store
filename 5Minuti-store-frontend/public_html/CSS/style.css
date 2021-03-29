@@ -379,8 +379,11 @@ button:hover {
 /* COMMENT: The big gap is probably a sign that you should split the styles into several files? */
 /* front page styling starts here */
 #imgsection{
-  position: relative;
-  width: 100%;
+    background-image: url('../IMG/front_page.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 .imgtext{
     background-color: transparent;
@@ -395,10 +398,8 @@ button:hover {
 }
 
 #fpimg{
-    position: absolute;
+    width: 100%;
     height: auto;
-    filter: brightness(50%);
-    background-size: cover;
 }
 
 #fbelementsconatiner{
