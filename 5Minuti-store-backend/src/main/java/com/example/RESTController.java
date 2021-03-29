@@ -34,6 +34,7 @@ public class RESTController {
     
     @RequestMapping(value = "/product/list")
     public List<Product> listProducts() {
+        // COMMENT: probably you want to filter those with deleted == 0?
         return restRepository.findAll();
     }
     
@@ -54,6 +55,8 @@ public class RESTController {
     public ResponseEntity<String> addOrder(@Valid @RequestBody Order order) {
         System.out.println("post request recived");
         try{
+            // COMMENT: spellchecker could be nice :) No problem for debug messages, but it should right for the customer
+            // COMMENT: Perhaps the status should be "received", not "preparing"?
             order.setStatus("Prepearing");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             order.setOrderDateTime(timestamp);

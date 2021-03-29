@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+// COMMENT: com.example is not an appropriate package
 package com.example;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
