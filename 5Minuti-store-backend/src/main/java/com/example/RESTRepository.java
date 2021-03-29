@@ -21,6 +21,9 @@ import org.springframework.stereotype.Repository;
 /**
  * @author Stigus
  */
+// COMMENT: The convention is to create one Repository class per entity (table), it could work fine with one as well
+// But you see already now that you get longer variable names, methods with the same name etc. For example,
+// can one intuitively guess, what method RESTRepository::findAll() will return? All of what?
 @Repository
 public class RESTRepository {
 
@@ -34,6 +37,9 @@ public class RESTRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // COMMENT: I suggest to split the repository in OrderRepository, ProductRepository etc. If you do so, perhaps
+    // a good idea to create a separate folder, such as `repositories`
+    // If you don't split the class, then method names should be changed. addProduct(), addOrder() etc
     public List<Product> findAll() {
         // COMMENT: probably you want to filter those with deleted == 0?
         return jdbcTemplate.query("SELECT * FROM product", productRowMapper);
@@ -69,6 +75,8 @@ public class RESTRepository {
     }
 
     public Integer add(Order order) throws Exception {
+        // COMMENT: I would suggest to not include DB name in the query. It is more flexible then - one can have any
+        // name for the database
         String query = "INSERT INTO 5minuti.order (order_id, customer_id, order_datetime, pickup_datetime, status, comment) VALUES (?, ?, ?, ?, ?, ?)";
         String detalQuery = "INSERT INTO order_detail (order_detail_id, product_id, order_id, size, price) VALUES (?, ?, ?, ?, ?)";
         try {
