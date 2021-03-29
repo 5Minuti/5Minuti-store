@@ -5,14 +5,11 @@
  */
 package com.example;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -74,11 +71,19 @@ public class RESTRepository {
         }
     }
 
+    /**
+     * Inserts order and consequential order_details in the database
+     * @param order
+     * @return ID of the newly created order on success. Throws exception on error
+     * @throws Exception
+     */
     public Integer add(Order order) throws Exception {
         // COMMENT: I would suggest to not include DB name in the query. It is more flexible then - one can have any
         // name for the database
-        String query = "INSERT INTO 5minuti.order (order_id, customer_id, order_datetime, pickup_datetime, status, comment) VALUES (?, ?, ?, ?, ?, ?)";
-        String detalQuery = "INSERT INTO order_detail (order_detail_id, product_id, order_id, size, price) VALUES (?, ?, ?, ?, ?)";
+        // COMMENT: names which collide with reserved keywords (order collides with SQLs ORDER BY) should be
+        // enclosed in `tick quotes`
+        // COMMENT: we could split the order and order_detail insertion into two, see the implementation of this method
+        String query = "INSERT INTO `order` (order_id, customer_id, order_datetime, pickup_datetime, status, comment) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             int numRows = jdbcTemplate.update(connection -> {
@@ -90,15 +95,24 @@ public class RESTRepository {
                 ps.setString(5, order.getStatus());
                 ps.setString(6, order.getComment());
                 
-                for (OrderDetail orderDetail : order.getOrderDetails()){
-                    orderDetail.setOrderid(order.getOrderid());
-                    jdbcTemplate.update(detalQuery, orderDetail.getOrderDetailid(), orderDetail.getProductid(), orderDetail.getOrderid(), orderDetail.getSize(), orderDetail.getPrice());
-                }
                 return ps;
             }, keyHolder);
             if (numRows == 1) {
                 Number key = keyHolder.getKey();
-                return key != null ? key.intValue() : null;
+                if (key == null) {
+                    // This should never happen, but just to be sure...
+                    throw new Exception("Could not created order, ID error, contact administrator");
+                }
+                int orderId = key.intValue();
+                for (OrderDetail orderDetail : order.getDetails()){
+                    if (!this.addOrderDetails(orderId, orderDetail)) {
+                        // COMMENT: you should handle SQL transactions correctly here: if one of order detail inserts
+                        // fails, the whole transaction should be rolled back. I.e., in one order_detail insert fails,
+                        // all previous order detail objects and the order object should not be inserted either
+                        throw new Exception("Could not add order details for product " + orderDetail.getProductId());
+                    }
+                }
+                return orderId;
             } else {
                 throw new Exception("Could not add new Order");
             }
@@ -106,6 +120,19 @@ public class RESTRepository {
             throw new Exception("Could not add new Order: " + e.getMessage());
         }
 
+    }
+
+    /**
+     * Add OrderDetails to Database
+     * @param orderId ID of the parent order
+     * @param orderDetail OrderDetails object
+     * @return true when order_details correctly inserted, false otherwise
+     */
+    private boolean addOrderDetails(int orderId, OrderDetail orderDetail) {
+        String query = "INSERT INTO `order_detail` (order_id, product_id, size, price) VALUES (?, ?, ?, ?)";
+        int insertedRowCount = jdbcTemplate.update(query, orderId, orderDetail.getProductId(),
+                orderDetail.getSize(), orderDetail.getPrice());
+        return insertedRowCount == 1;
     }
 
 }

@@ -1,54 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example;
 
 import java.math.BigDecimal;
 
 /**
- *
  * @author Stigus
  */
 public class OrderDetail {
-    
-    private int orderDetailid;
-    private int productid;
-    private int orderid;
+    // COMMENT: orderDetailId and orderId are not necessary
+    private int productId;
     private String size;
-    private  BigDecimal price;
+    private BigDecimal price;
 
-    public OrderDetail(int orderDetailid, int productid, int orderid, String size, BigDecimal price) {
-        this.orderDetailid = orderDetailid;
-        this.productid = productid;
-        this.orderid = orderid;
+    public OrderDetail(int productid, String size, BigDecimal price) {
+        this.productId = productid;
         this.size = size;
         this.price = price;
     }
 
-    public int getOrderDetailid() {
-        return orderDetailid;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setOrderDetailid(int orderDetailid) {
-        this.orderDetailid = orderDetailid;
-    }
-
-    public int getProductid() {
-        return productid;
-    }
-
-    public void setProductid(int productid) {
-        this.productid = productid;
-    }
-
-    public int getOrderid() {
-        return orderid;
-    }
-
-    public void setOrderid(int orderid) {
-        this.orderid = orderid;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getSize() {
@@ -66,7 +40,4 @@ public class OrderDetail {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-    
-    
-    
 }

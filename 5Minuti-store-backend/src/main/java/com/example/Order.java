@@ -8,8 +8,10 @@ package com.example;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -22,15 +24,16 @@ public class Order {
     private int orderid;
     @NotNull
     private int customerid;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Timestamp orderDateTime;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Timestamp pickupDateTime;
     private String status;
     private String comment;
-    private List<OrderDetail> orderDetails;
+    // COMMENT: the orderDetails list should never be null, it will create further handling harder
+    private List<OrderDetail> details = new LinkedList<>();
 
     public Order(int orderid, int customerid, Timestamp orderDateTime, Timestamp pickupDateTime, String status, String comment, List<OrderDetail> orderDetails) {
         this.orderid = orderid;
@@ -39,7 +42,7 @@ public class Order {
         this.pickupDateTime = pickupDateTime;
         this.status = status;
         this.comment = comment;
-        this.orderDetails = orderDetails;
+        this.details = orderDetails;
     }
 
     public int getOrderid() {
@@ -90,12 +93,12 @@ public class Order {
         this.comment = comment;
     }
 
-    public List<OrderDetail> getOrderDetails() {
-        return orderDetails;
+    public List<OrderDetail> getDetails() {
+        return details;
     }
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
+    public void setDetails(List<OrderDetail> details) {
+        this.details = details;
     }
     
     
