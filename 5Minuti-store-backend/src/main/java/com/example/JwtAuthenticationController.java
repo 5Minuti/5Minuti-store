@@ -5,6 +5,7 @@
  */
 package com.example;
 
+// COMMENT: Clean all unused imports
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ import com.example.JwtTokenUtil;
 import com.example.JwtRequest;
 import com.example.JwtResponse;
 
+// COMMENT: There are many classes which are related only to authentication and authorization. Perhaps move all of
+// them to a separate folder?
+
+// COMMENT: You could add a comment to each class (and each non-trivial method) explaining - what is the goal/task for it
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
