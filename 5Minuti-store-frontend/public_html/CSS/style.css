@@ -56,6 +56,7 @@
     height: 25px;
    
 }
+/* COMMENT: Clean up the CSS as well - the same layout for all styles, no empty lines inside the blocks etc */
 .priceList{
    
     background-color: #f5e7bf;
@@ -375,7 +376,7 @@ button:hover {
 
 
 
-
+/* COMMENT: The big gap is probably a sign that you should split the styles into several files? */
 /* front page styling starts here */
 #imgsection{
   position: relative;
@@ -413,6 +414,7 @@ button:hover {
     left: 50%;
     transform: translate(-50%, 0%);
     -ms-transform: translate(-50%, 0%);
+    /* COMMENT: color attribute is mentioned twice */
     color: white;
     padding: 15px 32px;
     text-align: center;

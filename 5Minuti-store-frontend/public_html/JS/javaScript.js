@@ -83,6 +83,7 @@ function addProduct (){
         var responseObject = this.response;
         console.log(responseObject);
         if (XMLHttpRequest.status = 401) {
+            // COMMENT: Alerts are OK for testing, but should not be used in the production. They are annoying
             alert("You are Unauthorized to make this action " + XMLHttpRequest.status)
         
         } else if (XMLHttpRequest.status = 200){
@@ -96,7 +97,7 @@ function addProduct (){
 
 
 function loadProductsMenu(editMode = false) {
-   
+    // COMMENT: You use two different ways to communicate with API. Do you know why you use each approach?
     fetch("http://localhost:8080/product/list").then(function (response) {
         
         return response.json();
@@ -197,9 +198,11 @@ function showAddToCartButton(product){
 function showDeleteProductButton(){
     var deleteButton = document.createElement("button");
     deleteButton.className = "deleteButton";
-    deleteButton.id = "deleteButton";
+    // COMMENT: again: multiple elements with same ID, not good
+    // deleteButton.id = "deleteButton";
     deleteButton.innerText = "Delete";
-    deleteButton.style.display = "block";
+    // COMMENT: This is probably not necessary?
+    // deleteButton.style.display = "block";
     return deleteButton;
 }
 
