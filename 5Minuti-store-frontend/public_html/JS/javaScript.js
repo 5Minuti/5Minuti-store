@@ -1,5 +1,6 @@
 
-
+// Default size of products when they get added to cart
+var DEFAULT_SIZE = "Medium";
 
 
 
@@ -94,7 +95,7 @@ function addProduct (){
 
 
 
-function loadProductsMenu() {
+function loadProductsMenu(editMode = false) {
    
     fetch("http://localhost:8080/product/list").then(function (response) {
         
@@ -108,7 +109,7 @@ function loadProductsMenu() {
                     for (var i = 0; i < product.length; i++) {
                         var newProduct = product[i];
                         
-                        showProductMenu(newProduct);
+                        showProductMenu(newProduct, editMode);
                         
                     }
                 }
@@ -118,10 +119,11 @@ function loadProductsMenu() {
 
 
 
-function showProductMenu(product) {
+function showProductMenu(product, editMode) {
 
    
-    
+    // COMMENT: is `newProduct` a good name for the variable? It is not a product, it is an HTML element, containing
+    // the different texts and controls
     var newProduct = document.createElement("div");
     newProduct.className = "grid-item";
         
@@ -172,85 +174,86 @@ function showProductMenu(product) {
     table.appendChild(newProduct);
 
     // COMMENT: It is not good to make IFs based on the URL. What if you will change the URL later?
-    // You should somehow pass the edit/delete flag in another way.
-    if( document.URL.includes("editMenu.html") ) {
-    showDeleteProductButton(newProduct);
-    } else if ( document.URL.includes("menu.html")){
-        showAddToCartButton(newProduct,productName,priceSmall,priceMedium,priceLarge);
+    // Here is an example how we can fix that - by introducing a parameter `editMode`
+    var button;
+    if (editMode) {
+        button = showDeleteProductButton(newProduct);
+    } else {
+        button = showAddToCartButton(product);
     }
-    
+    newProduct.appendChild(button);
+
 }
 
-function showAddToCartButton(newProduct,productName,priceSmall,priceMedium,priceLarge){
+function showAddToCartButton(product){
     var addToCartButton = document.createElement("button");
     addToCartButton.innerText = "Add to cart";
     addToCartButton.className = "addToCartButton";
-    addToCartButton.onclick = function() {addProductToShoppingCart(productName,priceSmall,priceMedium,priceLarge)};
-    newProduct.appendChild(addToCartButton);
+    addToCartButton.onclick = function() {addProductToShoppingCart(product)};
+    return addToCartButton;
 }
 
 
-function showDeleteProductButton(newProduct){
+function showDeleteProductButton(){
     var deleteButton = document.createElement("button");
     deleteButton.className = "deleteButton";
     deleteButton.id = "deleteButton";
     deleteButton.innerText = "Delete";
     deleteButton.style.display = "block";
-    newProduct.appendChild(deleteButton); 
+    return deleteButton;
 }
 
+var itemsInCart = []; // Here we will store all the products in the shopping cart
 
-function addProductToShoppingCart(productName,priceSmall,priceMedium,priceLarge){
-   var title = productName.innerText;
-   var small = priceSmall.innerText;
-   var medium = priceMedium.innerText;
-   var large = priceLarge.innerText;
-    
+function addProductToShoppingCart(product){
+   // COMMENT: you should decide whether to use 3 or 4 spaces for indentation, and then use the same across all files
    var newCartItem = document.createElement("div");
    newCartItem.className = "flex-container";
-   newCartItem.id = "flex-container" ;
-   
+   // COMMENT: Here the same error - you can't assign the same ID to multiple elements
+   // COMMENT: an ID `flex-container` is anyway not a good ID, because it does not tell anything about the content of that element
+   //newCartItem.id = "flex-container" ;
+
+   // COMMENT: ItemName is not a good name. Variables should either be camelCaseNames or names_with_underscores
+   // CapitalCamelCase is used for classes, components etc, not variables
    var ItemName = document.createElement("span");
    ItemName.className = "flex-title";
-   ItemName.innerText = title;
+   ItemName.innerText = product.productname;
    newCartItem.appendChild(ItemName);
      
    var selectSize = document.createElement("select");
    selectSize.className = "flex-size";
    // COMMENT: you can't add several HTML elements with the same ID!
-   selectSize.id = "selectSize" ;
-   selectSize.onchange = function(){selectValue(price,small,medium,large)    
-   };
+   // selectSize.id = "selectSize" ;
    newCartItem.appendChild(selectSize);
    // COMMENT: This could be refactored to a function, f.ex,  addSizeOptions(selectbox, ["Small", "Medium", "Large"]])
-   var smallOption = document.createElement("option");
-   smallOption.innerText = "Small";
-   smallOption.value = "Small";
-   selectSize.appendChild(smallOption);
-   
-   var mediumOption = document.createElement("option");
-   mediumOption.innerText = "Medium";
-   mediumOption.value = "Medium";
-   selectSize.appendChild(mediumOption);
-   
-   var largeOption = document.createElement("option");
-   largeOption.innerText = "Large";
-   largeOption.value = "Large";
-   selectSize.appendChild(largeOption);
+   // Here is how we do it:
+   addSizeOptions(selectSize, ["Small", "Medium", "Large"], DEFAULT_SIZE);
 
    var price = document.createElement("div");
    price.id = "flex-price";
-   price.innerText = "select size";
+   price.innerText = product.mediumprice + " Kr";
    price.className = ("flex-price");
    newCartItem.appendChild(price);
-   
+
+   // Add one item to the cart (array)
+   var cartItem = {
+      product: product,
+      size: DEFAULT_SIZE
+   };
+   itemsInCart.push(cartItem);
+
+   selectSize.onchange = function () {
+      selectValue(this.value, cartItem, price);
+   };
+
    //updateProductPrice(price,smallOption,mediumOption,largeOption, small,medium,large);
    //console.log(large);
    //findPrice();
    
    var removeFromShoppingCartButton = document.createElement("button");
    removeFromShoppingCartButton.className = "flex-removeButton";
-   removeFromShoppingCartButton.onclick = function(){removeShoppingCartItem() 
+   removeFromShoppingCartButton.onclick = function(){
+       removeShoppingCartItem(newCartItem);
    };
    newCartItem.appendChild(removeFromShoppingCartButton);
    
@@ -262,53 +265,71 @@ function addProductToShoppingCart(productName,priceSmall,priceMedium,priceLarge)
    cartTable.appendChild(newCartItem);
    console.log(newCartItem);
 
+   updateCartTotals();
+
 }
 
+
+/**
+ * Add an <option> element inside a size selector
+ * @param {HTMLSelectElement} selectBox The select box where the options will be appended
+ * @param {Array} sizeOptions Array with available size options
+ * @param {string} selectedOption The option which is selected by default
+ */
+function addSizeOptions(selectBox, sizeOptions, selectedOption) {
+    for (var i = 0; i < sizeOptions.length; ++i) {
+        var size = sizeOptions[i];
+        var option = document.createElement("option");
+        option.innerText = size;
+        if (size === selectedOption) {
+            option.selected = true;
+        }
+        selectBox.appendChild(option);
+    }
+}
 
 //selects value from shopping cart 
-function selectValue(price,small,medium,large) {
-    
- 
-    var selectedValue = document.getElementById("selectSize").value;
-    console.log(selectedValue);
+function selectValue(selectedSize, cartItem, priceNode) {
+    // COMMENT: her you could have a better way of finding the right price from the object. For example, by
+    // changing the structure of the product object:
+    // product = {
+    //   name: "Cake",
+    //   prices: {
+    //     small: 10,
+    //     medium: 11,
+    //     large: 12
+    //   }
+    // }
 
-   
-    if (selectedValue === "Small"){
-        price.innerText = small;
-    }
-    else if (selectedValue === "Medium"){
-        price.innerText = medium;
-    }
-    else if (selectedValue === "Large"){
-        price.innerText = large;
-    }
+    console.log(selectedSize);
+    var pricePropertyName = selectedSize.toLowerCase() + "price"; // This will be `smallPrice`, etc
+    var selectedPrice = cartItem.product[pricePropertyName];
+    priceNode.innerText = selectedPrice + " Kr";
+    cartItem.size = selectedSize;
 
- 
-CalculateItemsValue();
-    
+    updateCartTotals();
 }
 
-function CalculateItemsValue() {
+// COMMENT: there is another function with almost the same name. Is that one needed?
+function updateCartTotals() {
     var total = 0;
-    var total_items = 1;
-    for (i=1; i<=total_items; i++) {
-         
-        var itemID = document.getElementById("flex-price");
-        if (typeof itemID === 'undefined' || itemID === null) {
-            //alert("No such item - " + "flex-price"+i);
-        } else {
-            total = total + parseInt(itemID.value) * parseInt(itemID.getAttribute("data-price"));
-        }
-         
+    // COMMENT: It is not a good idea to calculate totals based on some HTML elements. You should hold an array
+    // of the items in the cart globally. Then modify that array where necessary, and calculate the totals from there
+    // Her is how we could do it:
+
+    for (var i = 0; i < itemsInCart.length; ++i) {
+        var product = itemsInCart[i].product;
+        var selectedSize = itemsInCart[i].size;
+        var pricePropertyName = selectedSize.toLowerCase() + "price"; // This will be `smallPrice`, etc
+        var selectedPrice = product[pricePropertyName];
+        total = total + selectedPrice;
     }
-    document.getElementById("totalPrice").innerHTML = total ;
-    console.log(itemID);
-     
+    document.getElementById("totalPrice").innerHTML = total + " Kr";
 }
-function removeShoppingCartItem(){
-    var selectedItem = document.getElementById("flex-container");
-    selectedItem.parentNode.removeChild(selectedItem);
+function removeShoppingCartItem(productNode) {
+    productNode.remove();
     console.log("item removed");
+    // COMMENT: you probably want to do something more here? Update total prices etc.
 }
 
 function updateProductPrice(price,selectedSize,smallOption,mediumOption,largeOption,small,medium,large){
@@ -465,13 +486,13 @@ function purchaseClicked() {
     while (cartItems.hasChildNodes()) {
         cartItems.removeChild(cartItems.firstChild)
     }
-    updateCartTotal()
+    updateCartTotals()
 }
 
 function removeCartItem(event) {
     var buttonClicked = event.target
     buttonClicked.parentElement.parentElement.remove()
-    updateCartTotal()
+    updateCartTotals()
 }
 
 function quantityChanged(event) {
@@ -479,7 +500,7 @@ function quantityChanged(event) {
     if (isNaN(input.value) || input.value <= 0) {
         input.value = 1
     }
-    updateCartTotal()
+    updateCartTotals()
 }
 
 function addToCartClicked(event) {
@@ -489,7 +510,7 @@ function addToCartClicked(event) {
     var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText
     var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src
     addItemToCart(title, price, imageSrc)
-    updateCartTotal()
+    updateCartTotals()
 }
 
 function addItemToCart(title, price, imageSrc) {
@@ -519,18 +540,19 @@ function addItemToCart(title, price, imageSrc) {
     cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)
 }
 
-function updateCartTotal() {
-    var cartItemContainer = document.getElementsByClassName('cart-items')[0]
-    var cartRows = cartItemContainer.getElementsByClassName('cart-row')
-    var total = 0
-    for (var i = 0; i < cartRows.length; i++) {
-        var cartRow = cartRows[i]
-        var priceElement = cartRow.getElementsByClassName('cart-price')[0]
-        var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
-        var price = parseFloat(priceElement.innerText.replace('$', ''))
-        var quantity = quantityElement.value
-        total = total + (price * quantity)
-    }
-    total = Math.round(total * 100) / 100
-    document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
-}
+// COMMENT: is this needed
+// function updateCartTotal() {
+//     var cartItemContainer = document.getElementsByClassName('cart-items')[0]
+//     var cartRows = cartItemContainer.getElementsByClassName('cart-row')
+//     var total = 0
+//     for (var i = 0; i < cartRows.length; i++) {
+//         var cartRow = cartRows[i]
+//         var priceElement = cartRow.getElementsByClassName('cart-price')[0]
+//         var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
+//         var price = parseFloat(priceElement.innerText.replace('$', ''))
+//         var quantity = quantityElement.value
+//         total = total + (price * quantity)
+//     }
+//     total = Math.round(total * 100) / 100
+//     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
+// }
