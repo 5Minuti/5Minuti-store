@@ -58,6 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.cors().and().csrf().disable()
 				// dont authenticate this particular request
+				// COMMENT: This is actually a security bug - what if someone starts to spam /order/add requests
+				// Not that easy to solve either. You should at least reflect on that in the report (ideally also
+				// implement some security mechanisms). For example, only one order per email during 1 minute?
+				// That would not solve much though - hackers can generate different emails. Filtering by IP?
+				// A captcha? Basically we talk about DDoS attack here.
 				.authorizeRequests().antMatchers("/authenticate", "/product/list", "/order/add").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().

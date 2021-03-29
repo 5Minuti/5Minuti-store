@@ -26,6 +26,7 @@ public class RESTRepository {
 
 
     private final JdbcTemplate jdbcTemplate;
+    // COMMENT: IDE suggests that productRowMapper could be final.
     private RowMapper<Product> productRowMapper = new ProductRowMapper();
 
     @Autowired
@@ -34,6 +35,7 @@ public class RESTRepository {
     }
 
     public List<Product> findAll() {
+        // COMMENT: probably you want to filter those with deleted == 0?
         return jdbcTemplate.query("SELECT * FROM product", productRowMapper);
     }
 

@@ -34,7 +34,6 @@ public class RESTController {
     
     @RequestMapping(value = "/product/list")
     public List<Product> listProducts() {
-        // COMMENT: probably you want to filter those with deleted == 0?
         return restRepository.findAll();
     }
     
