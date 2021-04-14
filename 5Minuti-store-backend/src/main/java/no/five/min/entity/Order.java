@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 // COMMENT: com.example is not an appropriate package
-package com.example;
+package no.five.min.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Timestamp;

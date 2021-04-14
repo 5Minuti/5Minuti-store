@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.example;
+package no.five.min.entity;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,14 +9,15 @@ import javax.validation.constraints.NotNull;
  * @author Stigus
  */
 public class Customer {
-    
+
     @NotNull
     private int customerid;
     @NotBlank
     private String name;
-    
+
     private String number;
-    @Email @NotNull
+    @Email
+    @NotNull
     private String email;
 
     public Customer(int customerid, String name, String number, String email) {
@@ -62,7 +58,5 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
-    
+
 }

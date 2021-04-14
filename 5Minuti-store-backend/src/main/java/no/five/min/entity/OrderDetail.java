@@ -1,4 +1,4 @@
-package com.example;
+package no.five.min.entity;
 
 import java.math.BigDecimal;
 
