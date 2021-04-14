@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package no.five.min;
 
+import no.five.min.repository.OrderRepository;
+import no.five.min.repository.ProductRepository;
+import no.five.min.entity.Order;
+import no.five.min.entity.Product;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class RESTController {
-    private final RESTRepository restRepository;
+    private final ProductRepository restRepository;
+    private final OrderRepository orderRepository;
     
     @Autowired
-    public RESTController(RESTRepository restRepository){
+    public RESTController(ProductRepository restRepository, OrderRepository orderRepository){
         this.restRepository = restRepository;
+        this.orderRepository = orderRepository;
     }
     
     @RequestMapping(value = "/product/list")
@@ -63,7 +68,7 @@ public class RESTController {
             order.setStatus("Prepearing");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             order.setOrderDateTime(timestamp);
-            Integer orderId = restRepository.add(order);
+            Integer orderId = orderRepository.add(order);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

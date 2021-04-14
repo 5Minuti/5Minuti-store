@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package no.five.min.rowmapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import no.five.min.entity.Product;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
