@@ -7,6 +7,8 @@ package com.example;
 
 import java.io.Serializable;
 
+// COMMENT: The name could be more accurate. It does not describe a JWT request. Rather it describes data structure used
+// to send username and password to the server in the /authenticate request. Can you think of a better name?
 public class JwtRequest implements Serializable {
 
 	private static final long serialVersionUID = 5926468583005150707L;

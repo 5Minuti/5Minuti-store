@@ -24,6 +24,9 @@ import com.example.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
+// COMMENT: it seems that some of the code (if not all) is copied from some online sources
+// (for example, this one: https://stackoverflow.com/questions/64636466/spring-security-authorization-error-401-unauthorized )
+// In all the cases where you reuse code found online, provide a reference! Otherwise that is considered plagiarism!
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

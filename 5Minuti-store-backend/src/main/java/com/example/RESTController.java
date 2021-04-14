@@ -5,6 +5,8 @@
  */
 package com.example;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,27 @@ public class RESTController {
         try {
             Integer productId = restRepository.add(product);
             return new ResponseEntity<>(productId.toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = "/order/add", method = RequestMethod.POST)
+    // COMMENT: when one submits and empty request (without object in the body, you get back an ugly message which
+    // exposes class names: not good from security perspective (and not professional):
+    // "message": "Required request body is missing: public org.springframework.http.ResponseEntity<java.lang.String>
+    // com.example.RESTController.addOrder(com.example.Order)"
+    public ResponseEntity<String> addOrder(@Valid @RequestBody Order order) {
+        System.out.println("post request recived");
+        try{
+            // COMMENT: spellchecker could be nice :) No problem for debug messages, but it should right for the customer
+            // COMMENT: Perhaps the status should be "received", not "preparing"?
+            order.setStatus("Prepearing");
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            order.setOrderDateTime(timestamp);
+            Integer orderId = restRepository.add(order);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

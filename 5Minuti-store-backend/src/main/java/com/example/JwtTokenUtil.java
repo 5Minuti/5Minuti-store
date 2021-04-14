@@ -60,6 +60,9 @@ public class JwtTokenUtil implements Serializable {
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 
+	// COMMENT: and this class is probably from https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world ?
+	// Reference needed, for this and all other files from the net
+
 	//while creating the token -
 	//1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
 	//2. Sign the JWT using the HS512 algorithm and secret key.
