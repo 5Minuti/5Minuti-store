@@ -265,66 +265,27 @@
   flex: 3em;
 }
 
-/* Purchase Confirmation starts here */
-* {
-  box-sizing: border-box;
-}
-.purchaseConfirmationColumn{
-  float: left;
-  width: 40%;
+
+
+
+/* Order page starts here*/
+
+.flex-date{
   padding: 10px;
-  
-}
-.confirmationOrder{
-
-    
-}
-.nameForm{
-
+  flex: 3em;
 }
 
-.backToMenuButton {
-  width: 4em;
-  text-align: center;
-  
+.flex-name{
+  padding: 10px;
+  flex: 3em;
+}
+
+.flex-number{
+  padding: 10px;
+  flex: 3em;
 }
 
 
-/*
-.cart-items{
-    margin-top: 1em;
-    font-size: 1.2em;
-    margin-bottom: 1em;
-    
-    
-}
-
-.cart-items2{
-    display: flex;
-}
-.cart-remove-button{
-    margin-left: -1em;
-    align-items: center;
-    margin-right: 1.5em;
-    height: 1.5em;
-    width: 3em;
-   
-  
-    
-}
-
-
-
-.cart-product-size{
-    margin-left: 19.5em;
-    
-}
-
-.cart-product-price{
-    margin-left: 2em;
-}
-
-*/
 
 /* about us starts here */
 
@@ -336,9 +297,7 @@
 }
 
 /* index starts here */
-.NavBar {
-    margin-bottom: 50px;
-}
+
 
 ul {
   list-style-type: none;
@@ -364,14 +323,7 @@ li a:hover:not(.active) {
  background-color: #a57a35;
 }
 
-.logIn1 {
-  float: left;  
-  background-color: #FFDEAD;
-  border-right: solid;
-  border-width: 1px;
-  border-color: black;
 
-}
 
 h1 {
     text-align: center;
@@ -383,20 +335,19 @@ button:hover {
 }
 
 
-
-
-/* Purchase Confirmation form starts here*/
-
-
-.purchaseConfirmationFormd{
-    border: solid black;
+/* admin navBar starts here */
+.navBar {
+    margin-bottom: 50px;
 }
 
+.adminNavBar {
+  float: left;  
+  background-color: #FFDEAD;
+  border-right: solid;
+  border-width: 1px;
+  border-color: black;
 
-
-
-
-
+}
 
 
 
