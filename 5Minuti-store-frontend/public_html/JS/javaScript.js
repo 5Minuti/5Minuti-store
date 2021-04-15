@@ -41,7 +41,7 @@ function getToken() {
             token = responseObject.token;
 //            console.log("token recived");
             localStorage.setItem('token', token);
-            window.location.href = "LoggedIn.html";
+            window.location.href = "orders.html";
         } else if(xhr.status === 401) {
             alert("wrong username or password");
         } else {
@@ -266,6 +266,7 @@ function addProductToShoppingCart(product){
    removeFromShoppingCartButton.className = "flex-removeButton";
    removeFromShoppingCartButton.onclick = function(){
        removeShoppingCartItem(newCartItem);
+       updateCartTotals();
    };
    newCartItem.appendChild(removeFromShoppingCartButton);
    
@@ -339,14 +340,23 @@ function updateCartTotals() {
     document.getElementById("totalPrice").innerHTML = "Total: " + total +" Kr";
 }
 
-function removeShoppingCartItem(productNode) {
+function removeShoppingCartItem(productNode, product) {
     productNode.remove();
+   
+   
+   //TODO: FIGURE OUT THE SPLICE 
     
-    console.log("item removed");
+    itemsInCart.splice(index,1);
+    var index = itemsInCart.indexOf(product);
+    if (index > 0){
+        console.log("item removed" + index);
+    
+    }
+   
     // COMMENT: you probably want to do something more here? Update total prices etc.
     
     updateCartTotals();
-    console.log("total changed: ");
+    console.log(itemsInCart);
 }
 
 

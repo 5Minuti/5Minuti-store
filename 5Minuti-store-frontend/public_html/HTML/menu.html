@@ -42,39 +42,9 @@ and open the template in the editor.
                  <h1>Menu</h1>
                  <div id="newProduct" class="newProduct">
              
-                        <div id="grid-container" class="grid-container">
-                            <div class="grid-item">
-                                <p class="productName">Pavlova<p>
-                                
-                                <p class="imgPlaceHolder"><img class="module" src="../Images/cakeExample1.jpg" width="200" ></p>
-                                
-                                    
-                                    
-                                    <details class="Details">
-                                        <!-- COMMENT: the "Info" text on the page is way too small -->
-                                        <summary class="productSummary">Info</summary>
-                                        <p class="productInfo">Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlova. It has a crisp crust and soft, light inside, usually topped with fruit and whipped cream.</p>
-                                        <ul class="priceList">
-                                            <li class="smallPrice productPrice"><button class="priceButtons">Add to cart</button>   Small: 50kr</li>
-                                            <li class="mediumPrice productPrice"><button class="priceButtons">Add to cart</button>   Medium: 100kr</li>
-                                            <li class="largePrice productPrice"><button class="priceButtons">Add to cart</button>   Large: 150kr</li>
-                                        </ul>
-                                            
-                                        <p class="allergens">Allergens: </p>
-                                        
-                                        
-                                     </details>
-                                   
-                               
-                            </div>
-                           
-                      
-                       
-                          
-                            
-                       
-                            
-                          </div> 
+                     <div id="grid-container" class="grid-container">
+                         
+                     </div> 
                  </div>
                  
                
@@ -99,6 +69,21 @@ and open the template in the editor.
                 <strong class="cart-total-title" id="totalPrice">Total</strong>
                 <span class="cart-total-price"></span>
             </div>
+            
+                        <div class="purchaseConfirmationColumn nameForm ">
+            <form action="">
+                <label for="fname">First name:</label><br>
+                <input type="text" id="fname" name="fname"><br>
+                <label for="lname">Last name:</label><br>
+                <input type="text" id="lname" name="lname"><br><br>
+                <label for="phoneNumber">Phone Number:</label><br>
+                <input type="text" id="phoneNumber" name="phoneNumber"><br><br>
+                <label>Choose preferred pickup date: <br>
+                <input type="date" id="start" name="pickUpDate">
+                </label>
+              </form>
+                </div>
+            
             <button class="btn btn-primary btn-purchase" type="button" onclick="location.href='purchaseConfirmation.html'">PURCHASE</button>
         </section>
     </body>
