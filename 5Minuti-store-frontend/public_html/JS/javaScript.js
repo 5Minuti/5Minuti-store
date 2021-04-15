@@ -1,7 +1,16 @@
 
 // Default size of products when they get added to cart
 var DEFAULT_SIZE = "Medium";
-
+    // COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
+    // one .js file as a config, and don't add it to git. something like config.js, and there you set
+    // var API_URL = "http://localhost:8080";
+    // Then here you can use:
+    // var loginUrl = API_URL + "/authenticate";
+    var API_URL = "http://localhost:8080";
+    var loginUrl = API_URL + "/authenticate";
+    var addProductUrl = API_URL + "/product/add";
+    var listProductsUrl = API_URL + "/product/list";
+    var addOrderUrl = API_URL + "/order/add";
 
 
 // COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.
@@ -20,7 +29,7 @@ function getToken() {
     var userElement = document.getElementById("username").value;
     var passwordElement = document.getElementById("password").value;
 
-    xhr.open("POST", loginurl, true);
+    xhr.open("POST", loginUrl, true);
     xhr.onerror = () => {
         alert("A network error occured");
     };
@@ -73,7 +82,7 @@ function addProduct (){
 
  //   console.log(data);
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/product/add");
+    xhr.open("POST", addProductUrl);
     xhr.onerror = () => {
         alert("A network error occured")
     };
@@ -107,7 +116,7 @@ function addProduct (){
 
 function loadProductsMenu(editMode = false) {
     // COMMENT: You use two different ways to communicate with API. Do you know why you use each approach?
-    fetch("http://localhost:8080/product/list").then(function (response) {
+    fetch(listProductsUrl).then(function (response) {
         
         return response.json();
 
