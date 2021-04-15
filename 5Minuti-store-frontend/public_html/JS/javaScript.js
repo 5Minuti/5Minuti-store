@@ -15,24 +15,24 @@ function getToken() {
     // var API_URL = "http://localhost:8080";
     // Then here you can use:
     // var loginUrl = API_URL + "/authenticate";
-    var loginurl = "http://localhost:8080/authenticate"
+    var loginurl = "http://localhost:8080/authenticate";
     var xhr = new XMLHttpRequest();
     var userElement = document.getElementById("username").value;
     var passwordElement = document.getElementById("password").value;
 
     xhr.open("POST", loginurl, true);
     xhr.onerror = () => {
-        alert("A network error occured")
+        alert("A network error occured");
     };
     xhr.ontimeout = () => {
-        alert("Connection timed out")
+        alert("Connection timed out");
     };
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     
     var jsonstring = JSON.stringify({ username: userElement, password: passwordElement });
 //    console.log(jsonstring);
     
-    xhr.send(jsonstring)
+    xhr.send(jsonstring);
     
     xhr.addEventListener('load', function () {
         var responseObject = JSON.parse(this.response);
@@ -41,13 +41,13 @@ function getToken() {
             token = responseObject.token;
 //            console.log("token recived");
             localStorage.setItem('token', token);
-            window.location.href = "LoggedIn.html";
-        } else if(xhr.status == 401) {
-            alert("wrong username or password")
+            window.location.href = "orders.html";
+        } else if(xhr.status === 401) {
+            alert("wrong username or password");
         } else {
             alert("Could not login");
         }
-    })
+    });
     
 }
 
@@ -117,9 +117,9 @@ function loadProductsMenu(editMode = false) {
                 
                 if (Array.isArray(product)) {
                     for (var i = 0; i < product.length; i++) {
-                        var newProduct = product[i];
+                        var newGridItem = product[i];
                         
-                        showProductMenu(newProduct, editMode);
+                        showProductMenu(newGridItem, editMode);
                         
                     }
                 }
@@ -134,22 +134,22 @@ function showProductMenu(product, editMode) {
    
     // COMMENT: is `newProduct` a good name for the variable? It is not a product, it is an HTML element, containing
     // the different texts and controls
-    var newProduct = document.createElement("div");
-    newProduct.className = "grid-item";
+    var newGridItem = document.createElement("div");
+    newGridItem.className = "grid-item";
         
     var productName = document.createElement("p");
     productName.innerText = product.productname;
     productName.className = "productName";
-    newProduct.appendChild(productName);
+    newGridItem.appendChild(productName);
     
     var imagePlaceHolder = document.createElement("p");
     imagePlaceHolder.innerText = "image goes here";
     imagePlaceHolder.className = "imgPlaceHolder";
-    newProduct.appendChild(imagePlaceHolder);
+    newGridItem.appendChild(imagePlaceHolder);
     
     var detailsPanel = document.createElement("details");
     detailsPanel.className = "Details";
-    newProduct.appendChild(detailsPanel);
+    newGridItem.appendChild(detailsPanel);
    
     var productSummary = document.createElement("summary");
     productSummary.className = "productSummary";
@@ -181,17 +181,17 @@ function showProductMenu(product, editMode) {
     priceList.appendChild(priceLarge);
     
     var table = document.getElementById("grid-container");
-    table.appendChild(newProduct);
+    table.appendChild(newGridItem);
 
     // COMMENT: It is not good to make IFs based on the URL. What if you will change the URL later?
     // Here is an example how we can fix that - by introducing a parameter `editMode`
     var button;
     if (editMode) {
-        button = showDeleteProductButton(newProduct);
+        button = showDeleteProductButton(newGridItem);
     } else {
         button = showAddToCartButton(product);
     }
-    newProduct.appendChild(button);
+    newGridItem.appendChild(button);
 
 }
 
@@ -225,12 +225,12 @@ function addProductToShoppingCart(product){
    // COMMENT: an ID `flex-container` is anyway not a good ID, because it does not tell anything about the content of that element
    //newCartItem.id = "flex-container" ;
 
-   // COMMENT: ItemName is not a good name. Variables should either be camelCaseNames or names_with_underscores
+   // COMMENT: itemName is not a good name. Variables should either be camelCaseNames or names_with_underscores
    // CapitalCamelCase is used for classes, components etc, not variables
-   var ItemName = document.createElement("span");
-   ItemName.className = "flex-title";
-   ItemName.innerText = product.productname;
-   newCartItem.appendChild(ItemName);
+   var itemName = document.createElement("span");
+   itemName.className = "flex-title";
+   itemName.innerText = product.productname;
+   newCartItem.appendChild(itemName);
      
    var selectSize = document.createElement("select");
    selectSize.className = "flex-size";
@@ -266,6 +266,7 @@ function addProductToShoppingCart(product){
    removeFromShoppingCartButton.className = "flex-removeButton";
    removeFromShoppingCartButton.onclick = function(){
        removeShoppingCartItem(newCartItem);
+       updateCartTotals();
    };
    newCartItem.appendChild(removeFromShoppingCartButton);
    
@@ -336,17 +337,36 @@ function updateCartTotals() {
         var selectedPrice = product[pricePropertyName];
         total = total + selectedPrice;
     }
-    document.getElementById("totalPrice").innerHTML = total + " Kr";
-}
-function removeShoppingCartItem(productNode) {
-    productNode.remove();
-    console.log("item removed");
-    // COMMENT: you probably want to do something more here? Update total prices etc.
+    document.getElementById("totalPrice").innerHTML = "Total: " + total +" Kr";
 }
 
+function removeShoppingCartItem(productNode, product) {
+    productNode.remove();
+   
+   
+   //TODO: FIGURE OUT THE SPLICE 
+    
+    itemsInCart.splice(index,1);
+    var index = itemsInCart.indexOf(product);
+    if (index > 0){
+        console.log("item removed" + index);
+    
+    }
+   
+    // COMMENT: you probably want to do something more here? Update total prices etc.
+    
+    updateCartTotals();
+    console.log(itemsInCart);
+}
+
+
+
+
+
+ /*
 function updateProductPrice(price,selectedSize,smallOption,mediumOption,largeOption,small,medium,large){
     
-   /*
+  
   var options = document.getElementsByClassName('option')
   console.log(options.length);
          for (var i = 1; i < options.length; i++) {
@@ -426,10 +446,11 @@ switch(opt) {
     price.innerText = large;
     console.log("large value: " + selectedValue );
     break;
- */
+ 
 
 }
 
+*/
 
 
 
@@ -461,8 +482,7 @@ switch(opt) {
 
 
 
-
-
+/*
 
 if (document.readyState == 'loading') {
     document.addEventListener('DOMContentLoaded', ready)
@@ -570,3 +590,6 @@ function addItemToCart(title, price, imageSrc) {
 //     total = Math.round(total * 100) / 100
 //     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
 // }
+
+
+*/

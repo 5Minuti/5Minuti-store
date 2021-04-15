@@ -245,7 +245,6 @@
     border-bottom: solid black 2px;
 }
 .flex-removeButton {
-
   border: none;
   width: 10px;
   flex: 0.1em;
@@ -258,15 +257,38 @@
   flex: 4em;
 }
 .flex-size {
-
   padding: 10px;
   flex: 3em;
 }
 .flex-price {
- 
   padding: 10px;
   flex: 3em;
 }
+
+/* Purchase Confirmation starts here */
+* {
+  box-sizing: border-box;
+}
+.purchaseConfirmationColumn{
+  float: left;
+  width: 40%;
+  padding: 10px;
+  
+}
+.confirmationOrder{
+
+    
+}
+.nameForm{
+
+}
+
+.backToMenuButton {
+  width: 4em;
+  text-align: center;
+  
+}
+
 
 /*
 .cart-items{
@@ -363,10 +385,12 @@ button:hover {
 
 
 
+/* Purchase Confirmation form starts here*/
 
 
-
-
+.purchaseConfirmationFormd{
+    border: solid black;
+}
 
 
 
