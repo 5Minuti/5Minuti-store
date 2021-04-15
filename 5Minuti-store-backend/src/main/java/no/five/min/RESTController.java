@@ -28,18 +28,18 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class RESTController {
-    private final ProductRepository restRepository;
+    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     
     @Autowired
     public RESTController(ProductRepository restRepository, OrderRepository orderRepository){
-        this.restRepository = restRepository;
+        this.productRepository = restRepository;
         this.orderRepository = orderRepository;
     }
     
     @RequestMapping(value = "/product/list")
     public List<Product> listProducts() {
-        return restRepository.findAll();
+        return productRepository.findAll();
     }
     
     @CrossOrigin
@@ -47,7 +47,7 @@ public class RESTController {
     public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
         System.out.println("post request recived");
         try {
-            Integer productId = restRepository.add(product);
+            Integer productId = productRepository.add(product);
             return new ResponseEntity<>(productId.toString(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
