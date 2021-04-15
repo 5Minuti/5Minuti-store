@@ -3,3 +3,7 @@
 spring.datasource.url=jdbc:mysql://localhost:3306/5minuti
 spring.datasource.username=your_db_user
 spring.datasource.password=your_password
+jwt.header=your_header
+jwt.secret=your_secret_key
+jwt.name=your_user_name
+jwt.passwordhash=your_password_hash
