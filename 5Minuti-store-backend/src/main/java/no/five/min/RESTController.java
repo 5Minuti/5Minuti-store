@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.five.min;
 
+import no.five.min.entity.OrderDetail;
+import no.five.min.repository.OrderDetailRepository;
 import no.five.min.repository.OrderRepository;
 import no.five.min.repository.ProductRepository;
 import no.five.min.entity.Order;
@@ -30,11 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class RESTController {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
-    
+    private final OrderDetailRepository orderDetailRepository;
+
     @Autowired
-    public RESTController(ProductRepository restRepository, OrderRepository orderRepository){
+    public RESTController(ProductRepository restRepository, OrderRepository orderRepository,
+                          OrderDetailRepository orderDetailRepository){
         this.productRepository = restRepository;
         this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
     }
     
     @RequestMapping(value = "/product/list")
@@ -42,20 +42,20 @@ public class RESTController {
         return productRepository.findAll();
     }
     
-//    @CrossOrigin
-//    @RequestMapping(value = "/product/add", method = RequestMethod.POST)
-//    public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
-//        System.out.println("post request recived");
-//        try {
-//            Integer productId = productRepository.add(product);
-//            return new ResponseEntity<>(productId.toString(), HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @CrossOrigin
+    @RequestMapping(value = "/product/add", method = RequestMethod.POST)
+    public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
+        System.out.println("post request recived");
+        try {
+            productRepository.save(product);
+            return new ResponseEntity<String>(String.valueOf(product.getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
     
     @RequestMapping(value = "/order/list")
-    public List<Order> listOrderss() {
+    public List<Order> listOrders() {
         return orderRepository.findAll();
     }
     
@@ -66,14 +66,21 @@ public class RESTController {
     // "message": "Required request body is missing: public org.springframework.http.ResponseEntity<java.lang.String>
     // com.example.RESTController.addOrder(com.example.Order)"
     public ResponseEntity<String> addOrder(@Valid @RequestBody Order order) {
-        System.out.println("post request recived");
+        // TODO - need to receive customer info also somehow!
+        // TODO - need to find out how products will be passed. Currently they are not set
+        System.out.println("post request received");
         try{
             // COMMENT: spellchecker could be nice :) No problem for debug messages, but it should right for the customer
             // COMMENT: Perhaps the status should be "received", not "preparing"?
-            order.setStatus("Prepearing");
+            order.setStatus("Preparing");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             order.setOrderDateTime(timestamp);
-            Integer orderId = orderRepository.add(order);
+            orderRepository.save(order);
+            for (OrderDetail d : order.getDetails()) {
+                // The order was not set because it was not persisted in the DB when the details object was created
+                d.setOrder(order);
+                orderDetailRepository.save(d);
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
