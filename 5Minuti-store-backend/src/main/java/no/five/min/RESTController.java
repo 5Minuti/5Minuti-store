@@ -42,17 +42,17 @@ public class RESTController {
         return productRepository.findAll();
     }
     
-    @CrossOrigin
-    @RequestMapping(value = "/product/add", method = RequestMethod.POST)
-    public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
-        System.out.println("post request recived");
-        try {
-            Integer productId = productRepository.add(product);
-            return new ResponseEntity<>(productId.toString(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @CrossOrigin
+//    @RequestMapping(value = "/product/add", method = RequestMethod.POST)
+//    public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
+//        System.out.println("post request recived");
+//        try {
+//            Integer productId = productRepository.add(product);
+//            return new ResponseEntity<>(productId.toString(), HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
     
     @RequestMapping(value = "/order/list")
     public List<Order> listOrderss() {

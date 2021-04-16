@@ -6,17 +6,26 @@
 package no.five.min.entity;
 
 import java.math.BigDecimal;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import static no.five.min.entity.Product.FIND_ALL_PRODUCTS;
 
 /**
  *
  * @author Stigus
  */
+@Entity @Table(name = "product")
+@NamedQuery(name = FIND_ALL_PRODUCTS, query = "SELECT p FROM product p")
 public class Product {
+    public static final String FIND_ALL_PRODUCTS = "Poduct.findAllProducts";
     
     @NotNull
+    @Id
     private int productid;
     @NotBlank(message = "Product name cannot be blank")
     private String productname;
