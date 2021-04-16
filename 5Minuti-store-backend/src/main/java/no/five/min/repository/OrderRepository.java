@@ -6,10 +6,14 @@
 package no.five.min.repository;
 
 import java.sql.PreparedStatement;
+import java.util.List;
+
 import no.five.min.entity.Order;
 import no.five.min.entity.OrderDetail;
+import no.five.min.rowmapper.OrderRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -98,4 +102,7 @@ public class OrderRepository {
         return insertedRowCount == 1;
     }
 
+    public List<Order> findAll() {
+        return null; // TODO - run a SELECT query with join
+    }
 }

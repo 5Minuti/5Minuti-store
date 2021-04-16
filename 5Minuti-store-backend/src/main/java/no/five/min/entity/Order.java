@@ -35,14 +35,13 @@ public class Order {
     // COMMENT: the orderDetails list should never be null, it will create further handling harder
     private List<OrderDetail> details = new LinkedList<>();
 
-    public Order(int orderid, int customerid, Timestamp orderDateTime, Timestamp pickupDateTime, String status, String comment, List<OrderDetail> orderDetails) {
+    public Order(int orderid, int customerid, Timestamp orderDateTime, Timestamp pickupDateTime, String status, String comment) {
         this.orderid = orderid;
         this.customerid = customerid;
         this.orderDateTime = orderDateTime;
         this.pickupDateTime = pickupDateTime;
         this.status = status;
         this.comment = comment;
-        this.details = orderDetails;
     }
 
     public int getOrderid() {

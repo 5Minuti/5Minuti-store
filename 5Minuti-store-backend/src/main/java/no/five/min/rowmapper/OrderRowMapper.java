@@ -8,14 +8,13 @@ package no.five.min.rowmapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import no.five.min.entity.Order;
-import no.five.min.entity.OrderDetail;
 
 import org.springframework.jdbc.core.RowMapper;
 
 /**
  * @author Stigus
  */
-public class OrderRowMapper implements RowMapper<OrderDetail> {
+public class OrderRowMapper implements RowMapper<Order> {
 
     // COMMENT: Default constructor is probably not necessary, it will be created anyway by Java
     public OrderRowMapper() {
@@ -29,9 +28,7 @@ public class OrderRowMapper implements RowMapper<OrderDetail> {
                 rs.getTimestamp("orderDateTime"),
                 rs.getTimestamp("pickupDateTime"),
                 rs.getString("status"),
-                rs.getString("comment"),
- 
-                
+                rs.getString("comment")
         );
     }
 }
