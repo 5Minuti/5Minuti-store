@@ -20,7 +20,7 @@ import static no.five.min.entity.Product.FIND_ALL_PRODUCTS;
  * @author Stigus
  */
 @Entity @Table(name = "product")
-@NamedQuery(name = FIND_ALL_PRODUCTS, query = "SELECT p FROM product p")
+@NamedQuery(name = FIND_ALL_PRODUCTS, query = "SELECT * FROM product")
 public class Product {
     public static final String FIND_ALL_PRODUCTS = "Poduct.findAllProducts";
     
