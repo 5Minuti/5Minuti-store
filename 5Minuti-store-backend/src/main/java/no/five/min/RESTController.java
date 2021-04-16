@@ -54,6 +54,11 @@ public class RESTController {
         }
     }
     
+    @RequestMapping(value = "/order/list")
+    public List<Order> listOrderss() {
+        return orderRepository.findAll();
+    }
+    
     @CrossOrigin
     @RequestMapping(value = "/order/add", method = RequestMethod.POST)
     // COMMENT: when one submits and empty request (without object in the body, you get back an ugly message which

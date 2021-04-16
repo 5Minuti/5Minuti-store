@@ -22,11 +22,14 @@ import org.springframework.stereotype.Repository;
 public class OrderRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
+    
+    private final RowMapper<Order> orderRowMapper = new OrderRowMapper();
+    
     @Autowired
     public OrderRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+    
 
     /**
      * Inserts order and consequential order_details in the database
