@@ -110,13 +110,12 @@ public class RESTController {
                 // The order was not set because it was not persisted in the DB when the details object was created
               Optional<Product> optionalProduct = productRepository.findById(d.getProduct().getId());
               if (optionalProduct.isPresent()) {
+                  // If the product Id would be wrong, the order saving would crash and we would not get this far
+                  // Therefore there is no need for an "else" branch
                   Product product = optionalProduct.get();
                   d.setOrder(order);
                   d.setProduct(product);
                   orderDetailRepository.save(d);
-              } else {
-                  orderRepository.delete(order); // Remove the order, it can't be finished
-                  return new ResponseEntity<>("Incorrect product ID", HttpStatus.BAD_REQUEST);
               }
             }
             return new ResponseEntity<>(HttpStatus.OK);
