@@ -15,7 +15,7 @@ public class Order {
     @GeneratedValue
     @NotNull
     private Integer id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date orderDateTime;
@@ -23,6 +23,6 @@ public class Order {
     private Date pickupDateTime;
     private String status;
     private String comment;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> details;
 }

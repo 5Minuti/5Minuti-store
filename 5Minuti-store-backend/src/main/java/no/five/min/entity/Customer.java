@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 public class Customer {
     @Id
     @NotNull
+    @GeneratedValue
     private Integer id;
     @NotBlank
     private String name;

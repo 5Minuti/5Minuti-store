@@ -8,7 +8,9 @@ import no.five.min.entity.Order;
 import no.five.min.entity.Product;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
+import no.five.min.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,23 +27,35 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class RESTController {
+
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public RESTController(ProductRepository restRepository, OrderRepository orderRepository,
-                          OrderDetailRepository orderDetailRepository){
+    public RESTController(ProductRepository restRepository,
+            OrderRepository orderRepository,
+            OrderDetailRepository orderDetailRepository,
+            CustomerRepository customerRepository) {
         this.productRepository = restRepository;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
+        this.customerRepository = customerRepository;
     }
     
+    //Lists all the products that aren't set as deleted
     @RequestMapping(value = "/product/list")
     public List<Product> listProducts() {
-        return productRepository.findAll();
+        return productRepository.findByDeletedFalse();
     }
     
+    //Lists all products including deleted ones
+    @RequestMapping(value = "/product/listall")
+    public List<Product> listAllProducts() {
+        return productRepository.findAll();
+    }
+
     @CrossOrigin
     @RequestMapping(value = "/product/add", method = RequestMethod.POST)
     public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
@@ -53,11 +67,26 @@ public class RESTController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-    
+
+    @RequestMapping(value = "/product/delete")
+    public ResponseEntity<String> deleteProduct(@Valid @RequestBody int id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        Product product = optionalProduct.get();
+        product.setDeleted(true);
+        try {
+            productRepository.save(product);
+            return new ResponseEntity<String>(String.valueOf(product.getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @RequestMapping(value = "/order/list")
     public List<Order> listOrders() {
         return orderRepository.findAll();
     }
+
+
     
     @CrossOrigin
     @RequestMapping(value = "/order/add", method = RequestMethod.POST)
@@ -76,6 +105,7 @@ public class RESTController {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             order.setOrderDateTime(timestamp);
             orderRepository.save(order);
+            customerRepository.save(order.getCustomer());
             for (OrderDetail d : order.getDetails()) {
                 // The order was not set because it was not persisted in the DB when the details object was created
                 d.setOrder(order);
@@ -86,5 +116,7 @@ public class RESTController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    
+
     
 }
