@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package no.five.min.authentication;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.JwtUserDetailsService;
+import no.five.min.authentication.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
