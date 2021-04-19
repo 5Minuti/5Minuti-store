@@ -108,11 +108,15 @@ public class RESTController {
             customerRepository.save(order.getCustomer());
             for (OrderDetail d : order.getDetails()) {
                 // The order was not set because it was not persisted in the DB when the details object was created
+              Optional<Product> optionalProduct = productRepository.findById(d.getProduct().getId());
+              Product product = optionalProduct.get();
                 d.setOrder(order);
+                d.setProduct(product);
                 orderDetailRepository.save(d);
             }
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
