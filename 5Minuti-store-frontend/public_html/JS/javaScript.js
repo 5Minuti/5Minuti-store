@@ -149,7 +149,7 @@ function addProduct (){
 //    console.log(localStorage.getItem('token'));
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
      
-   xhr.send(JSON.stringify(data)); 
+    xhr.send(JSON.stringify(data)); 
        xhr.addEventListener('load', function () {
         var response = this.response
         var responseObject = JSON.parse(response);
@@ -184,20 +184,19 @@ function loadProductsMenu(editMode = false) {
                         var newGridItem = product[i];
                         
                         showProductMenu(newGridItem, editMode);
+                        console.log(product)
                         
                     }
                 }
-
+                 
             });
+            
 }
 
 
 
 function showProductMenu(product, editMode) {
 
-   
-    // COMMENT: is `newProduct` a good name for the variable? It is not a product, it is an HTML element, containing
-    // the different texts and controls
     var newGridItem = document.createElement("div");
     newGridItem.className = "grid-item";
         
@@ -205,7 +204,7 @@ function showProductMenu(product, editMode) {
     productName.innerText = product.productname;
     productName.className = "productName";
     newGridItem.appendChild(productName);
-    
+   
     var imagePlaceHolder = document.createElement("p");
     imagePlaceHolder.innerText = "image goes here";
     imagePlaceHolder.className = "imgPlaceHolder";
@@ -246,9 +245,8 @@ function showProductMenu(product, editMode) {
     
     var table = document.getElementById("grid-container");
     table.appendChild(newGridItem);
-
-    // COMMENT: It is not good to make IFs based on the URL. What if you will change the URL later?
-    // Here is an example how we can fix that - by introducing a parameter `editMode`
+    
+    
     var button;
     if (editMode) {
         button = showDeleteProductButton(newGridItem);
@@ -271,26 +269,34 @@ function showAddToCartButton(product){
 function showDeleteProductButton(){
     var deleteButton = document.createElement("button");
     deleteButton.className = "deleteButton";
-    // COMMENT: again: multiple elements with same ID, not good
-    // deleteButton.id = "deleteButton";
     deleteButton.innerText = "Delete";
-    // COMMENT: This is probably not necessary?
-    // deleteButton.style.display = "block";
+    deleteButton.onclick = function(){deleteMenuProduct()};
     return deleteButton;
+}
+
+function deleteMenuProduct(productid){
+    console.log(productid);
+    
+    fetch("http://localhost:8080/product/delete" + productid, {
+        method: "DELETE"
+    }).then (function(response){
+        console.log("response: ", response);
+        if(response.status === 200){
+            window.location.reload();
+        } else {
+            return response.text();
+        }
+    })
+    
+    
 }
 
 var itemsInCart = []; // Here we will store all the products in the shopping cart
 
 function addProductToShoppingCart(product){
-   // COMMENT: you should decide whether to use 3 or 4 spaces for indentation, and then use the same across all files
    var newCartItem = document.createElement("div");
    newCartItem.className = "flex-container";
-   // COMMENT: Here the same error - you can't assign the same ID to multiple elements
-   // COMMENT: an ID `flex-container` is anyway not a good ID, because it does not tell anything about the content of that element
-   //newCartItem.id = "flex-container" ;
 
-   // COMMENT: itemName is not a good name. Variables should either be camelCaseNames or names_with_underscores
-   // CapitalCamelCase is used for classes, components etc, not variables
    var itemName = document.createElement("span");
    itemName.className = "flex-title";
    itemName.innerText = product.productname;
@@ -298,11 +304,7 @@ function addProductToShoppingCart(product){
      
    var selectSize = document.createElement("select");
    selectSize.className = "flex-size";
-   // COMMENT: you can't add several HTML elements with the same ID!
-   // selectSize.id = "selectSize" ;
    newCartItem.appendChild(selectSize);
-   // COMMENT: This could be refactored to a function, f.ex,  addSizeOptions(selectbox, ["Small", "Medium", "Large"]])
-   // Here is how we do it:
    addSizeOptions(selectSize, ["Small", "Medium", "Large"], DEFAULT_SIZE);
 
    var price = document.createElement("div");
@@ -321,9 +323,6 @@ function addProductToShoppingCart(product){
       selectValue(this.value, cartItem, price);
    };
 
-   //updateProductPrice(price,smallOption,mediumOption,largeOption, small,medium,large);
-   //console.log(large);
-   //findPrice();
    
    var removeFromShoppingCartButton = document.createElement("button");
    removeFromShoppingCartButton.className = "flex-removeButton";
@@ -366,16 +365,6 @@ function addSizeOptions(selectBox, sizeOptions, selectedOption) {
 
 //selects value from shopping cart 
 function selectValue(selectedSize, cartItem, priceNode) {
-    // COMMENT: her you could have a better way of finding the right price from the object. For example, by
-    // changing the structure of the product object:
-    // product = {
-    //   name: "Cake",
-    //   prices: {
-    //     small: 10,
-    //     medium: 11,
-    //     large: 12
-    //   }
-    // }
 
     console.log(selectedSize);
     var pricePropertyName = selectedSize.toLowerCase() + "price"; // This will be `smallPrice`, etc
@@ -386,13 +375,9 @@ function selectValue(selectedSize, cartItem, priceNode) {
     updateCartTotals();
 }
 
-// COMMENT: there is another function with almost the same name. Is that one needed?
+
 function updateCartTotals() {
     var total = 0;
-    // COMMENT: It is not a good idea to calculate totals based on some HTML elements. You should hold an array
-    // of the items in the cart globally. Then modify that array where necessary, and calculate the totals from there
-    // Her is how we could do it:
-
     for (var i = 0; i < itemsInCart.length; ++i) {
         var product = itemsInCart[i].product;
         var selectedSize = itemsInCart[i].size;
@@ -416,8 +401,6 @@ function removeShoppingCartItem(productNode, product) {
     
     }
    
-    // COMMENT: you probably want to do something more here? Update total prices etc.
-    
     updateCartTotals();
     console.log(itemsInCart);
 }

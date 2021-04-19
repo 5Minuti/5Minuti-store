@@ -254,7 +254,7 @@
 .flex-title {
  text-align: left;
   padding: 10px;
-  flex: 4em;
+  flex: 3em;
 }
 .flex-size {
   padding: 10px;
@@ -284,6 +284,38 @@
   padding: 10px;
   flex: 3em;
 }
+
+
+.dropdown {
+  float: left;
+ 
+  
+}
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 100%;
+  left: 0;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
 
 
 
