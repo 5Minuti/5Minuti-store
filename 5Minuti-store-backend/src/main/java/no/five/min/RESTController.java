@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -45,13 +46,13 @@ public class RESTController {
     }
     
     //Lists all the products that aren't set as deleted
-    @RequestMapping(value = "/product/list")
+    @RequestMapping(value = "/product/list", method = RequestMethod.GET)
     public List<Product> listProducts() {
         return productRepository.findByDeletedFalse();
     }
     
     //Lists all products including deleted ones
-    @RequestMapping(value = "/product/listall")
+    @RequestMapping(value = "/product/listall", method = RequestMethod.GET)
     public List<Product> listAllProducts() {
         return productRepository.findAll();
     }
@@ -68,7 +69,7 @@ public class RESTController {
         }
     }
 
-    @RequestMapping(value = "/product/delete")
+    @RequestMapping(value = "/product/delete", method = RequestMethod.PUT)
     public ResponseEntity<String> deleteProduct(@Valid @RequestBody int id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         Product product = optionalProduct.get();
@@ -81,9 +82,25 @@ public class RESTController {
         }
     }
 
-    @RequestMapping(value = "/order/list")
+    @RequestMapping(value = "/order/list", method = RequestMethod.GET)
     public List<Order> listOrders() {
         return orderRepository.findAll();
+    }
+    
+    @RequestMapping(value = "/order/changestatus", method = RequestMethod.PUT)
+    public ResponseEntity<String> changeOrderStatus(@Valid @RequestParam int id, String status) {
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+        Order order = optionalOrder.get();
+       // if (status == "Recived" || status == "Prepearing" || status == "Ready"
+       //         || status == "Completed" || status == "Canceled"){
+        order.setStatus(status);
+       // }else{}
+        try {
+            orderRepository.save(order);
+            return new ResponseEntity<String>(String.valueOf(order.getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 
@@ -101,7 +118,7 @@ public class RESTController {
         try{
             // COMMENT: spellchecker could be nice :) No problem for debug messages, but it should right for the customer
             // COMMENT: Perhaps the status should be "received", not "preparing"?
-            order.setStatus("Preparing");
+            order.setStatus("Recived");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             order.setOrderDateTime(timestamp);
             orderRepository.save(order);
