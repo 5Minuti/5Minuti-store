@@ -176,6 +176,30 @@ function addProduct (){
     })
 }
 
+function loadOrderList() {
+    // COMMENT: You use two different ways to communicate with API. Do you know why you use each approach?
+    fetch(listProductsUrl).then(function (response) {
+        
+        return response.json();
+
+    })
+            .then(function (order) {
+               
+                
+                if (Array.isArray(order)) {
+                    for (var i = 0; i < order.length; i++) {
+                        var newGridItemOrders = order[i];
+                        
+                        
+                        showOrderList(newGridItemOrders);
+                        
+                    }
+                }
+                 
+            });
+            
+}
+
 
 
 function loadProductsMenu(editMode = false) {
@@ -193,7 +217,7 @@ function loadProductsMenu(editMode = false) {
                         var newGridItem = product[i];
                         
                         showProductMenu(newGridItem, editMode);
-                        console.log(product)
+                        
                         
                     }
                 }
@@ -208,12 +232,17 @@ function showProductMenu(product, editMode) {
 
     var newGridItem = document.createElement("div");
     newGridItem.className = "grid-item";
+    
+    var productId = product.productid;
+    console.log(productId);
         
     var productName = document.createElement("p");
     productName.innerText = product.productname;
     productName.className = "productName";
     newGridItem.appendChild(productName);
    
+    
+    
     var imagePlaceHolder = document.createElement("p");
     imagePlaceHolder.innerText = "image goes here";
     imagePlaceHolder.className = "imgPlaceHolder";
@@ -263,6 +292,7 @@ function showProductMenu(product, editMode) {
         button = showAddToCartButton(product);
     }
     newGridItem.appendChild(button);
+    
 
 }
 
@@ -275,19 +305,24 @@ function showAddToCartButton(product){
 }
 
 
-function showDeleteProductButton(){
+function showDeleteProductButton(product){
     var deleteButton = document.createElement("button");
     deleteButton.className = "deleteButton";
     deleteButton.innerText = "Delete";
-    deleteButton.onclick = function(){deleteMenuProduct()};
+    
+  
+    deleteButton.onclick = function(){deleteMenuProduct(product)};
+    
     return deleteButton;
 }
 
-function deleteMenuProduct(productid){
-    console.log(productid);
+function deleteMenuProduct(productId){
+   
+    console.log(productId);
     
-    fetch("http://localhost:8080/product/delete" + productid, {
-        method: "DELETE"
+    
+    fetch("http://localhost:8080/product/delete" + productId ,{
+        method: "PUT"
     }).then (function(response){
         console.log("response: ", response);
         if(response.status === 200){
@@ -295,7 +330,9 @@ function deleteMenuProduct(productid){
         } else {
             return response.text();
         }
-    })
+    });
+    
+    
     
     
 }
@@ -347,7 +384,7 @@ function addProductToShoppingCart(product){
    
    var cartTable = document.getElementById("cart-items");
    cartTable.appendChild(newCartItem);
-   console.log(newCartItem);
+   
 
    updateCartTotals();
 
