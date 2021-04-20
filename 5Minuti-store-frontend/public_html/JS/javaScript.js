@@ -9,8 +9,12 @@ var DEFAULT_SIZE = "Medium";
     var API_URL = "http://localhost:8080";
     var loginUrl = API_URL + "/authenticate";
     var addProductUrl = API_URL + "/product/add";
-    var listProductsUrl = API_URL + "/product/list";
+    var listProductsUrl = API_URL + "/product/list"; //Lists all the products that aren't set as deleted
     var addOrderUrl = API_URL + "/order/add";
+    var deleteProductUrl = API_URL + "/product/delete";
+    var listOrderUrl = API_URL + "/order/list";
+    var changeOrderStatusUrl = API_URL + "/order/changestatus";
+    var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
 
 
 // COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.

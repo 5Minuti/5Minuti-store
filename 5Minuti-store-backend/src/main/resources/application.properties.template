@@ -7,3 +7,6 @@ jwt.header=your_header
 jwt.secret=your_secret_key
 jwt.name=your_user_name
 jwt.passwordhash=your_password_hash
+
+# This tells JPA to automatically create and update necessary SQL tables
+spring.jpa.hibernate.ddl-auto=update
