@@ -18,6 +18,7 @@ public class Customer {
     private Integer id;
     @NotBlank
     private String name;
+    @NotBlank
     private String number;
     @Email
     @NotNull
