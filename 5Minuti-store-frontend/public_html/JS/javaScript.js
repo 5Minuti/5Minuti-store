@@ -115,10 +115,11 @@ function getToken() {
         var responseObject = JSON.parse(this.response);
 //        console.log(responseObject);
         if (responseObject.token) {
-            token = responseObject.token;
-//            console.log("token recived");
+            var token = responseObject.token;
+          console.log("token recived " + token);
             localStorage.setItem('token', token);
             window.location.href = "orders.html";
+           
         } else if(xhr.status === 401) {
             alert("wrong username or password");
         } else {
@@ -181,8 +182,15 @@ function addProduct (){
 }
 
 function loadOrderList() {
-    // COMMENT: You use two different ways to communicate with API. Do you know why you use each approach?
-    fetch(listProductsUrl).then(function (response) {
+    
+    
+    let h = new Headers();
+    h.append ('Authorization', 'Bearer' )
+    fetch(listOrderUrl, {
+        method: 'POST',
+        headers: h
+        
+    }).then(function (response) {
         
         return response.json();
 
@@ -201,9 +209,13 @@ function loadOrderList() {
                 }
                  
             });
+    
             
 }
 
+function showOrderList(order){
+    console.log("orders go here" + order);
+}
 
 
 function loadProductsMenu(editMode = false) {
@@ -325,7 +337,7 @@ function deleteMenuProduct(productId){
     console.log(productId);
     
     
-    fetch("http://localhost:8080/product/delete" + productId ,{
+    fetch("deleteProductUrl" + productId ,{
         method: "PUT"
     }).then (function(response){
         console.log("response: ", response);
