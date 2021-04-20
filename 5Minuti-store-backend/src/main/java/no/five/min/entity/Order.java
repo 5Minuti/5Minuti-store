@@ -1,6 +1,7 @@
 package no.five.min.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import java.util.Date;
@@ -24,5 +25,6 @@ public class Order {
     private String status;
     private String comment;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<OrderDetail> details;
 }

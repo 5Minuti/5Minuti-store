@@ -1,5 +1,6 @@
 package no.five.min.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,5 +18,6 @@ public class OrderDetail {
     private BigDecimal price;
 
     @ManyToOne
+    @JsonBackReference
     private Order order;
 }
