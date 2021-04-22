@@ -81,7 +81,7 @@ public class RESTController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
+    @CrossOrigin
     @RequestMapping(value = "/order/list", method = RequestMethod.GET)
     public List<Order> listOrders() {
         return orderRepository.findAll();

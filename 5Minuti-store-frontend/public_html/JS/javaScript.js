@@ -116,7 +116,7 @@ function getToken() {
 //        console.log(responseObject);
         if (responseObject.token) {
             var token = responseObject.token;
-          console.log("token recived " + token);
+//            console.log("token recived");
             localStorage.setItem('token', token);
             window.location.href = "orders.html";
            
@@ -182,14 +182,15 @@ function addProduct (){
 }
 
 function loadOrderList() {
-    
-    
+    var token = localStorage.getItem('token');
     let h = new Headers();
-    h.append ('Authorization', 'Bearer' )
+    
+    console.log(token);
+    h.append('Authorization', 'Bearer' + token)
+
     fetch(listOrderUrl, {
-        method: 'POST',
+        method: 'GET',
         headers: h
-        
     }).then(function (response) {
         
         return response.json();
@@ -337,7 +338,7 @@ function deleteMenuProduct(productId){
     console.log(productId);
     
     
-    fetch("deleteProductUrl" + productId ,{
+    fetch(deleteProductUrl + productId ,{
         method: "PUT"
     }).then (function(response){
         console.log("response: ", response);
