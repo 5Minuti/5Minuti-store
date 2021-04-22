@@ -1,4 +1,68 @@
 
+function loadNavBar(adminMode = false){
+    var ul = document.createElement('ul');
+    
+    var li = document.createElement('li');
+    ul.appendChild(li);
+    
+    var aboutUs = document.createElement('a');
+    aboutUs.innerText = "About Us";
+    aboutUs.href =  "aboutUs.html";
+    li.appendChild(aboutUs);
+    
+    var contact = document.createElement('a');
+    contact.innerText = "Contact";
+    contact.href = "contact.html";
+    li.appendChild(contact);
+   
+    var menu = document.createElement('a');
+    menu.innerText = "Menu";
+    menu.href = "menu.html";
+    li.appendChild(menu);
+    
+    var home = document.createElement('a');
+    home.innerText = "Home";
+    home.href = "../index.html";
+    li.appendChild(home);
+    
+
+    var admin;
+    if (adminMode) {
+        admin = loadNavBarAdmin();
+        li.appendChild(admin);
+    }
+    
+    var navBar = document.getElementById('navBar');
+    navBar.appendChild(ul);
+    
+}
+
+function loadNavBarAdmin(){
+    var li = document.createElement('li');
+    li.className = "adminNavBar"; 
+     
+    var addProduct = document.createElement('a');
+    addProduct.style.borderRight = "1px solid black";
+    addProduct.innerText = "Add Product";
+    addProduct.href = "addProduct.html";
+    li.appendChild(addProduct);
+       
+    var editMenu = document.createElement('a');
+    editMenu.innerText = "Edit Menu";
+    editMenu.href = "editMenu.html";
+    li.appendChild(editMenu);
+    
+    var orders = document.createElement('a');
+    orders.innerText = "Orders";
+    orders.href = "orders.html";
+    li.appendChild(orders)
+    
+    return li;
+
+}
+
+
+
 // Default size of products when they get added to cart
 var DEFAULT_SIZE = "Medium";
     // COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
@@ -51,10 +115,11 @@ function getToken() {
         var responseObject = JSON.parse(this.response);
 //        console.log(responseObject);
         if (responseObject.token) {
-            token = responseObject.token;
+            var token = responseObject.token;
 //            console.log("token recived");
             localStorage.setItem('token', token);
             window.location.href = "orders.html";
+           
         } else if(xhr.status === 401) {
             alert("wrong username or password");
         } else {
@@ -98,7 +163,7 @@ function addProduct (){
 //    console.log(localStorage.getItem('token'));
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
      
-   xhr.send(JSON.stringify(data)); 
+    xhr.send(JSON.stringify(data)); 
        xhr.addEventListener('load', function () {
         var response = this.response
         var responseObject = JSON.parse(response);
@@ -116,6 +181,42 @@ function addProduct (){
     })
 }
 
+function loadOrderList() {
+    var token = localStorage.getItem('token');
+    let h = new Headers();
+    
+    console.log(token);
+    h.append('Authorization', 'Bearer' + token)
+
+    fetch(listOrderUrl, {
+        method: 'GET',
+        headers: h
+    }).then(function (response) {
+        
+        return response.json();
+
+    })
+            .then(function (order) {
+               
+                
+                if (Array.isArray(order)) {
+                    for (var i = 0; i < order.length; i++) {
+                        var newGridItemOrders = order[i];
+                        
+                        
+                        showOrderList(newGridItemOrders);
+                        
+                    }
+                }
+                 
+            });
+    
+            
+}
+
+function showOrderList(order){
+    console.log("orders go here" + order);
+}
 
 
 function loadProductsMenu(editMode = false) {
@@ -134,26 +235,30 @@ function loadProductsMenu(editMode = false) {
                         
                         showProductMenu(newGridItem, editMode);
                         
+                        
                     }
                 }
-
+                 
             });
+            
 }
 
 
 
 function showProductMenu(product, editMode) {
 
-   
-    // COMMENT: is `newProduct` a good name for the variable? It is not a product, it is an HTML element, containing
-    // the different texts and controls
     var newGridItem = document.createElement("div");
     newGridItem.className = "grid-item";
+    
+    var productId = product.productid;
+    console.log(productId);
         
     var productName = document.createElement("p");
     productName.innerText = product.productname;
     productName.className = "productName";
     newGridItem.appendChild(productName);
+   
+    
     
     var imagePlaceHolder = document.createElement("p");
     imagePlaceHolder.innerText = "image goes here";
@@ -195,9 +300,8 @@ function showProductMenu(product, editMode) {
     
     var table = document.getElementById("grid-container");
     table.appendChild(newGridItem);
-
-    // COMMENT: It is not good to make IFs based on the URL. What if you will change the URL later?
-    // Here is an example how we can fix that - by introducing a parameter `editMode`
+    
+    
     var button;
     if (editMode) {
         button = showDeleteProductButton(newGridItem);
@@ -205,6 +309,7 @@ function showProductMenu(product, editMode) {
         button = showAddToCartButton(product);
     }
     newGridItem.appendChild(button);
+    
 
 }
 
@@ -217,29 +322,44 @@ function showAddToCartButton(product){
 }
 
 
-function showDeleteProductButton(){
+function showDeleteProductButton(product){
     var deleteButton = document.createElement("button");
     deleteButton.className = "deleteButton";
-    // COMMENT: again: multiple elements with same ID, not good
-    // deleteButton.id = "deleteButton";
     deleteButton.innerText = "Delete";
-    // COMMENT: This is probably not necessary?
-    // deleteButton.style.display = "block";
+    
+  
+    deleteButton.onclick = function(){deleteMenuProduct(product)};
+    
     return deleteButton;
+}
+
+function deleteMenuProduct(productId){
+   
+    console.log(productId);
+    
+    
+    fetch(deleteProductUrl + productId ,{
+        method: "PUT"
+    }).then (function(response){
+        console.log("response: ", response);
+        if(response.status === 200){
+            window.location.reload();
+        } else {
+            return response.text();
+        }
+    });
+    
+    
+    
+    
 }
 
 var itemsInCart = []; // Here we will store all the products in the shopping cart
 
 function addProductToShoppingCart(product){
-   // COMMENT: you should decide whether to use 3 or 4 spaces for indentation, and then use the same across all files
    var newCartItem = document.createElement("div");
    newCartItem.className = "flex-container";
-   // COMMENT: Here the same error - you can't assign the same ID to multiple elements
-   // COMMENT: an ID `flex-container` is anyway not a good ID, because it does not tell anything about the content of that element
-   //newCartItem.id = "flex-container" ;
 
-   // COMMENT: itemName is not a good name. Variables should either be camelCaseNames or names_with_underscores
-   // CapitalCamelCase is used for classes, components etc, not variables
    var itemName = document.createElement("span");
    itemName.className = "flex-title";
    itemName.innerText = product.productname;
@@ -247,15 +367,10 @@ function addProductToShoppingCart(product){
      
    var selectSize = document.createElement("select");
    selectSize.className = "flex-size";
-   // COMMENT: you can't add several HTML elements with the same ID!
-   // selectSize.id = "selectSize" ;
    newCartItem.appendChild(selectSize);
-   // COMMENT: This could be refactored to a function, f.ex,  addSizeOptions(selectbox, ["Small", "Medium", "Large"]])
-   // Here is how we do it:
    addSizeOptions(selectSize, ["Small", "Medium", "Large"], DEFAULT_SIZE);
 
    var price = document.createElement("div");
-   price.id = "flex-price";
    price.innerText = product.mediumprice + " Kr";
    price.className = ("flex-price");
    newCartItem.appendChild(price);
@@ -271,9 +386,6 @@ function addProductToShoppingCart(product){
       selectValue(this.value, cartItem, price);
    };
 
-   //updateProductPrice(price,smallOption,mediumOption,largeOption, small,medium,large);
-   //console.log(large);
-   //findPrice();
    
    var removeFromShoppingCartButton = document.createElement("button");
    removeFromShoppingCartButton.className = "flex-removeButton";
@@ -289,7 +401,7 @@ function addProductToShoppingCart(product){
    
    var cartTable = document.getElementById("cart-items");
    cartTable.appendChild(newCartItem);
-   console.log(newCartItem);
+   
 
    updateCartTotals();
 
@@ -316,16 +428,6 @@ function addSizeOptions(selectBox, sizeOptions, selectedOption) {
 
 //selects value from shopping cart 
 function selectValue(selectedSize, cartItem, priceNode) {
-    // COMMENT: her you could have a better way of finding the right price from the object. For example, by
-    // changing the structure of the product object:
-    // product = {
-    //   name: "Cake",
-    //   prices: {
-    //     small: 10,
-    //     medium: 11,
-    //     large: 12
-    //   }
-    // }
 
     console.log(selectedSize);
     var pricePropertyName = selectedSize.toLowerCase() + "price"; // This will be `smallPrice`, etc
@@ -336,13 +438,9 @@ function selectValue(selectedSize, cartItem, priceNode) {
     updateCartTotals();
 }
 
-// COMMENT: there is another function with almost the same name. Is that one needed?
+
 function updateCartTotals() {
     var total = 0;
-    // COMMENT: It is not a good idea to calculate totals based on some HTML elements. You should hold an array
-    // of the items in the cart globally. Then modify that array where necessary, and calculate the totals from there
-    // Her is how we could do it:
-
     for (var i = 0; i < itemsInCart.length; ++i) {
         var product = itemsInCart[i].product;
         var selectedSize = itemsInCart[i].size;
@@ -366,243 +464,7 @@ function removeShoppingCartItem(productNode, product) {
     
     }
    
-    // COMMENT: you probably want to do something more here? Update total prices etc.
-    
     updateCartTotals();
     console.log(itemsInCart);
 }
 
-
-
-
-
- /*
-function updateProductPrice(price,selectedSize,smallOption,mediumOption,largeOption,small,medium,large){
-    
-  
-  var options = document.getElementsByClassName('option')
-  console.log(options.length);
-         for (var i = 1; i < options.length; i++) {
-        
-       
-   
-    while(smallOption.selected === options[i].selected){
-        price.innerText = small;
-        console.log("small   :"+ small);
-        
-    }
-    while (mediumOption.selected === options[i].selected ){
-        price.innerText = medium;
-        
-    }
-    while (largeOption.selected === options[i].selected){
-        price.innerText = large;
-        
-    } 
-    
-    console.log(options[i].length);
-}
-    
- 
- 
- 
-
-
- var size = document.getElementById("option");
- var selectedValue = size.options[size.selectedIndex].value;
-    if (selectedValue == "smallOption")
-   {
-    console.log("displaying small: "+small);
-   }
-    
-    
-
- console.log("selected Size =  :" + selectedSize);
- 
-          var sel = document.getElementsByClassName('flex-size');
-
- 
- var opt = sel.options[sel.selectedIndex];
-  console.log(opt);
- 
-switch(opt) {
-  case "Small":
-    price.innerText = small;
-    break;
-    
-  case "Medium":
-    price.innerText = medium;
-    break;
-    
-    case "Large":
-    price.innerText = large;
-    break;
-    
-  default:
-    price.innerText = medium;
-}
-
-
-
-
-  case "Small":
-    price.innerText = small;
-    console.log("small value: " + selectedValue );
-    break;
-    
-  case "Medium":
-    price.innerText = medium;
-    console.log("medium value: " + selectedValue );
-    break;
-    
-    case "Large":
-    price.innerText = large;
-    console.log("large value: " + selectedValue );
-    break;
- 
-
-}
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-if (document.readyState == 'loading') {
-    document.addEventListener('DOMContentLoaded', ready)
-} else {
-    ready()
-}
-
-function ready() {
-    var removeCartItemButtons = document.getElementsByClassName('btn-danger')
-    for (var i = 0; i < removeCartItemButtons.length; i++) {
-        var button = removeCartItemButtons[i]
-        button.addEventListener('click', removeCartItem)
-    }
-
-    var quantityInputs = document.getElementsByClassName('cart-quantity-input')
-    for (var i = 0; i < quantityInputs.length; i++) {
-        var input = quantityInputs[i]
-        input.addEventListener('change', quantityChanged)
-    }
-
-    var addToCartButtons = document.getElementsByClassName('shop-item-button')
-    for (var i = 0; i < addToCartButtons.length; i++) {
-        var button = addToCartButtons[i]
-        button.addEventListener('click', addToCartClicked)
-    }
-
-    // COMMENT: This fails on all pages where btn-purchase element is not present
-    // COMMENT: In general - you should check all the errors in the Javascript console
-    document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
-}
-
-function purchaseClicked() {
-    alert('Thank you for your purchase')
-    var cartItems = document.getElementsByClassName('cart-items')[0]
-    while (cartItems.hasChildNodes()) {
-        cartItems.removeChild(cartItems.firstChild)
-    }
-    updateCartTotals()
-}
-
-function removeCartItem(event) {
-    var buttonClicked = event.target
-    buttonClicked.parentElement.parentElement.remove()
-    updateCartTotals()
-}
-
-function quantityChanged(event) {
-    var input = event.target
-    if (isNaN(input.value) || input.value <= 0) {
-        input.value = 1
-    }
-    updateCartTotals()
-}
-
-function addToCartClicked(event) {
-    var button = event.target
-    var shopItem = button.parentElement.parentElement
-    var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText
-    var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText
-    var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src
-    addItemToCart(title, price, imageSrc)
-    updateCartTotals()
-}
-
-function addItemToCart(title, price, imageSrc) {
-    var cartRow = document.createElement('div')
-    cartRow.classList.add('cart-row')
-    var cartItems = document.getElementsByClassName('cart-items')[0]
-    var cartItemNames = cartItems.getElementsByClassName('cart-item-title')
-    for (var i = 0; i < cartItemNames.length; i++) {
-        if (cartItemNames[i].innerText == title) {
-            alert('This item is already added to the cart')
-            return
-        }
-    }
-    var cartRowContents = `
-        <div class="cart-item cart-column">
-            <img class="cart-item-image" src="${imageSrc}" width="100" height="100">
-            <span class="cart-item-title">${title}</span>
-        </div>
-        <span class="cart-price cart-column">${price}</span>
-        <div class="cart-quantity cart-column">
-            <input class="cart-quantity-input" type="number" value="1">
-            <button class="btn btn-danger" type="button">REMOVE</button>
-        </div>`
-    cartRow.innerHTML = cartRowContents
-    cartItems.append(cartRow)
-    cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem)
-    cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)
-}
-
-// COMMENT: is this needed
-// function updateCartTotal() {
-//     var cartItemContainer = document.getElementsByClassName('cart-items')[0]
-//     var cartRows = cartItemContainer.getElementsByClassName('cart-row')
-//     var total = 0
-//     for (var i = 0; i < cartRows.length; i++) {
-//         var cartRow = cartRows[i]
-//         var priceElement = cartRow.getElementsByClassName('cart-price')[0]
-//         var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
-//         var price = parseFloat(priceElement.innerText.replace('$', ''))
-//         var quantity = quantityElement.value
-//         total = total + (price * quantity)
-//     }
-//     total = Math.round(total * 100) / 100
-//     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
-// }
-
-
-*/

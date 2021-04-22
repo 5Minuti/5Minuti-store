@@ -15,22 +15,9 @@ and open the template in the editor.
          
     <script type="text/javascript" src="../JS/javaScript.js"> </script>
     </head>
-    <body onload="loadProductsMenu(true)">
+    <body onload="loadProductsMenu(true); loadNavBar(true);">
         
-        <nav class="NavBar">
-         <ul>
-            <li><a href="aboutUs.html" onclick="">About Us</a></li> 
-            <li><a href="contact.html" onclick="">Contact</a></li>
-            <li><a href="menu.html" onclick="">Menu</a></li>
-            <li><a href="../index.html" onclick="">Home</a></li>
-            <li class="logIn1">
-                <a  href="addProduct.html" onclick="">Add Product</a>
-                <a  href="editMenu.html" onclick="">Edit Menu</a>
-                <a  href="orders.html" onclick="">Orders</a>
-            </li>
-          </ul>
-            
-        </nav>
+        <nav class="navBar" id="navBar"></nav>
         
                        <section id="menu" class="container menu">
                
