@@ -468,3 +468,78 @@ function removeShoppingCartItem(productNode, product) {
     console.log(itemsInCart);
 }
 
+function sendOrder(){
+    
+    var orderString = getOrder();
+    
+    var order = JSON.parse(orderString);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", addOrderUrl);
+    xhr.onerror = () => {
+        alert("A network error occured")
+    };
+    xhr.ontimeout = () => {
+        alert("Connection timed out")
+    };
+    xhr.setRequestHeader('Content-Type', 'application/json',);
+    
+    xhr.send(JSON.stringify(order));
+    xhr.addEventListener('load', function () {
+
+        if (xhr.status == 200){
+            alert("Order was sent sucessfully")
+         } else if (xhr.status == 400) {
+             alert(JSON.stringify(Object.values(responseObject)[0]))
+         } else{
+            alert("something wrong happened");
+        }
+    })
+    
+}
+
+
+function getOrder(){
+
+    let form = document.forms["contactInfoForm"];
+    let fd = new FormData(form)
+    let data = {};
+    
+    for (let [key, prop] of fd){
+        data[key] = prop;
+    }
+    
+    var order = new Object();
+    var customer = new Object();
+    var details = new Array();
+    customer.name = data.fname + " " + data.lname;
+    customer.number = data.phoneNumber;
+    customer.email = data.eMail;
+    order.customer = customer;
+    order.pickupDateTime = "2021-04-26T10:00:00Z";
+    order.comment = data.comments;
+    
+    //using code from https://stackoverflow.com/questions/18238173/javascript-loop-through-json-array as refrence
+    for(var i = 0; i < itemsInCart.length; i++) {
+    var obj = itemsInCart[i];
+    var prod = new Object();
+    var d = new Object();
+    prod.id = obj.product.id;
+    d.product = prod;
+    d.size = obj.size;
+    if (obj.size == "Small") {
+        d.price = obj.product.smallprice;
+    } else if (obj.size == "Medium"){
+        d.price = obj.product.mediumprice;
+    } else if (obj.size == "Large"){
+        d.price = obj.product.mediumprice;
+    }
+    details.push(d);
+    }
+    
+    order.details = details;
+    console.log(order);
+    
+    return JSON.stringify(order);
+    }
+

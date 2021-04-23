@@ -62,7 +62,7 @@ and open the template in the editor.
             </div>
             
                         <div class="purchaseConfirmationColumn nameForm ">
-            <form action="">
+            <form id="contactInfoForm" action="">
                 <label for="fname">First name:</label><br>
                 <input type="text" id="fname" name="fname"><br>
                 
@@ -70,10 +70,10 @@ and open the template in the editor.
                 <input type="text" id="lname" name="lname"><br>
                 
                 <label for="phoneNumber">Phone Number:</label><br>
-                <input type="text" id="eMail" name="eMail"><br>
+                <input type="tel" id="phoneNumber" name="phoneNumber"><br>
                 
                 <label for="eMail">E-Mail Address:</label><br>
-                <input type="text" id="phoneNumber" name="phoneNumber"><br><br>
+                <input type="email" id="eMail" name="eMail"><br><br>
                 
                 <label>Choose preferred pickup date: <br>
                 <input type="date" id="start" name="pickUpDate"></label><br>
@@ -84,7 +84,7 @@ and open the template in the editor.
               </form>
                 </div>
             
-            <button class="btn btn-primary btn-purchase" type="button" onclick="location.href='purchaseConfirmation.html'">PURCHASE</button>
+            <button class="btn btn-primary btn-purchase" type="button" onclick=sendOrder()>PURCHASE</button>
         </section>
     </body>
 </html>
