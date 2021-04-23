@@ -469,27 +469,38 @@ function removeShoppingCartItem(productNode, product) {
 }
 
 function sendOrder(){
-    var order = new Object();
-    order = getOrder;
     
-    console.log(order)
+    var orderString = getOrder();
     
-//    var xhr = new XMLHttpRequest();
-//    xhr.open("POST", addOrderUrl);
-//    xhr.onerror = () => {
-//        alert("A network error occured")
-//    };
-//    xhr.ontimeout = () => {
-//        alert("Connection timed out")
-//    };
-//    xhr.setRequestHeader('Content-Type', 'application/json',);
-//    
-//    xhr.send(JSON.stringify(order))
+    var order = JSON.parse(orderString);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", addOrderUrl);
+    xhr.onerror = () => {
+        alert("A network error occured")
+    };
+    xhr.ontimeout = () => {
+        alert("Connection timed out")
+    };
+    xhr.setRequestHeader('Content-Type', 'application/json',);
+    
+    xhr.send(JSON.stringify(order));
+    xhr.addEventListener('load', function () {
+
+        if (xhr.status == 200){
+            alert("Order was sent sucessfully")
+         } else if (xhr.status == 400) {
+             alert(JSON.stringify(Object.values(responseObject)[0]))
+         } else{
+            alert("something wrong happened");
+        }
+    })
     
 }
 
 
 function getOrder(){
+
     let form = document.forms["contactInfoForm"];
     let fd = new FormData(form)
     let data = {};
@@ -497,8 +508,6 @@ function getOrder(){
     for (let [key, prop] of fd){
         data[key] = prop;
     }
-    //console.log(data);
-    //console.log(itemsInCart);
     
     var order = new Object();
     var customer = new Object();
@@ -507,7 +516,7 @@ function getOrder(){
     customer.number = data.phoneNumber;
     customer.email = data.eMail;
     order.customer = customer;
-    order.pickupDateTime = data.pickUpDate;
+    order.pickupDateTime = "2021-04-26T10:00:00Z";
     order.comment = data.comments;
     
     //using code from https://stackoverflow.com/questions/18238173/javascript-loop-through-json-array as refrence
@@ -529,8 +538,8 @@ function getOrder(){
     }
     
     order.details = details;
-    //console.log(order);
+    console.log(order);
     
-    return order
-}
+    return JSON.stringify(order);
+    }
 
