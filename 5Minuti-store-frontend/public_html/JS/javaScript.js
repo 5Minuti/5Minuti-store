@@ -186,7 +186,7 @@ function loadOrderList() {
     let h = new Headers();
     
     console.log(token);
-    h.append('Authorization', 'Bearer' + token)
+    h.append('Authorization', 'Bearer ' + token)
 
     fetch(listOrderUrl, {
         method: 'GET',
