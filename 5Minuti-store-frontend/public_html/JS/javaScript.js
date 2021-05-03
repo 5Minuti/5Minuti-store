@@ -79,6 +79,7 @@ var DEFAULT_SIZE = "Medium";
     var listOrderUrl = API_URL + "/order/list";
     var changeOrderStatusUrl = API_URL + "/order/changestatus";
     var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
+    var addImageUrl = API_URL + "/image/add";
 
 
 // COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.
@@ -136,9 +137,9 @@ function getToken() {
 // when the button is pressed the data will be sent to the backend with
 // the dat that has been input and finally it shows the frontend a alert 
 // based on the response from the server
-function addProduct (){
+function addProduct() {
 
-    
+
     let form = document.forms["addProductForm"];
 
     let fd = new FormData(form);
@@ -146,10 +147,10 @@ function addProduct (){
     let data = {};
 
     for (let [key, prop] of fd) {
-      data[key] = prop;
+        data[key] = prop;
     }
 
- //   console.log(data);
+    //   console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", addProductUrl);
     xhr.onerror = () => {
@@ -158,24 +159,52 @@ function addProduct (){
     xhr.ontimeout = () => {
         alert("Connection timed out")
     };
-    xhr.setRequestHeader('Content-Type', 'application/json',);
+    xhr.setRequestHeader('Content-Type', 'application/json', );
 //    jwtoken = localStorage.getItem('token');
 //    console.log(localStorage.getItem('token'));
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-     
-    xhr.send(JSON.stringify(data)); 
-       xhr.addEventListener('load', function () {
+
+    xhr.send(JSON.stringify(data));
+    xhr.addEventListener('load', function () {
         var response = this.response
         var responseObject = JSON.parse(response);
         console.log(response);
         if (xhr.status == 401) {
             alert("You are Unauthorized to make this action ")
 
-        } else if (xhr.status == 200){
-            alert("Product was sucessfully added with id: " + JSON.stringify(responseObject))
-         } else if (xhr.status == 400) {
-             alert(JSON.stringify(Object.values(responseObject)[0]))
-         } else{
+        } else if (xhr.status == 200) {
+            addImage(response);
+        } else if (xhr.status == 400) {
+            alert(JSON.stringify(Object.values(responseObject)[0]))
+        } else {
+            alert("something wrong happened");
+        }
+    })
+}
+
+//using code from https://stackoverflow.com/questions/38561578/xmlhttprequest-sending-image-file
+function addImage(name){
+    var formdata = new FormData();
+    var image = document.getElementById("img").value;
+    formdata.append('img', Blob, name);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', addImageUrl);
+    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    xhr.send(formdata);
+    xhr.addEventListener('load', function () {
+        var response = this.response
+        var responseObject = JSON.parse(response);
+        console.log(response);
+        if (xhr.status == 401) {
+            alert("You are Unauthorized to make this action ")
+
+        } else if (xhr.status == 200) {
+            alert("Product was sucessfully added")
+        } else if (xhr.status == 400) {
+            alert(JSON.stringify(Object.values(responseObject)[0]))
+        } else {
             alert("something wrong happened");
         }
     })

@@ -1,5 +1,6 @@
 package no.five.min;
 
+import java.io.IOException;
 import no.five.min.entity.OrderDetail;
 import no.five.min.repository.OrderDetailRepository;
 import no.five.min.repository.OrderRepository;
@@ -14,12 +15,14 @@ import no.five.min.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -64,6 +67,19 @@ public class RESTController {
         try {
             productRepository.save(product);
             return new ResponseEntity<String>(String.valueOf(product.getId()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @RequestMapping(value = "/image/add", method = RequestMethod.POST)
+    public ResponseEntity<String> addImage(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+
+        try {
+            String uploadDir = "product-photos/";
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
