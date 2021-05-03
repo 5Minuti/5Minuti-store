@@ -183,20 +183,19 @@ function addProduct() {
 }
 
 //using code from https://stackoverflow.com/questions/38561578/xmlhttprequest-sending-image-file
-function addImage(name){
+function addImage(id){
     var formdata = new FormData();
-    var image = document.getElementById("img").value;
-    formdata.append('img', Blob, name);
+    var imageFiles = document.getElementById("img").files;
+    var image = imageFiles[0];
+    formdata.append('id', id)
+    formdata.append('image', image);
     
     var xhr = new XMLHttpRequest();
     xhr.open('POST', addImageUrl);
-    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+    //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
     xhr.send(formdata);
     xhr.addEventListener('load', function () {
-        var response = this.response
-        var responseObject = JSON.parse(response);
-        console.log(response);
         if (xhr.status == 401) {
             alert("You are Unauthorized to make this action ")
 
