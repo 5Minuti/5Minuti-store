@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package no.five.min.configuration;
 
+import no.five.min.authentication.JwtRequestFilter;
+import no.five.min.authentication.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,7 +60,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.cors().and().csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/authenticate", "/product/list").permitAll().
+				// COMMENT: This is actually a security bug - what if someone starts to spam /order/add requests
+				// Not that easy to solve either. You should at least reflect on that in the report (ideally also
+				// implement some security mechanisms). For example, only one order per email during 1 minute?
+				// That would not solve much though - hackers can generate different emails. Filtering by IP?
+				// A captcha? Basically we talk about DDoS attack here.
+				.authorizeRequests().antMatchers("/authenticate", "/product/list", "/order/add").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example;
+package no.five.min.authentication;
 
 import java.io.IOException;
 
@@ -20,10 +20,13 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.JwtUserDetailsService;
+import no.five.min.authentication.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
+// COMMENT: it seems that some of the code (if not all) is copied from some online sources
+// (for example, this one: https://stackoverflow.com/questions/64636466/spring-security-authorization-error-401-unauthorized )
+// In all the cases where you reuse code found online, provide a reference! Otherwise that is considered plagiarism!
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

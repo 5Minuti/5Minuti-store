@@ -29,9 +29,26 @@
     text-align: center;
 }
 
-
-
 /* Edit menu / menu starts here */
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-column-gap: 50px;
+  grid-row-gap: 40px;
+  padding: 10px;
+  margin-top: 50px;
+}
+.grid-item {
+  border-radius: 10px;
+  background-color: #f5e7bf;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  padding-bottom: 10px;
+ 
+  text-align: center;
+  width: 250px;
+}
+
 .deleteButton{
     margin-top: -90px;
     margin-right: 10px;
@@ -39,33 +56,46 @@
     height: 25px;
    
 }
+/* COMMENT: Clean up the CSS as well - the same layout for all styles, no empty lines inside the blocks etc */
 .priceList{
    
     background-color: #f5e7bf;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    
-    
+    padding-bottom: 40px;
+    padding-top: 40px;    
     
 }
 
+.productSummary{
+    font-size: 0.6em;
+    float: left;
+    margin-bottom: 10px;
+   
+}
+
+.productInfo{
+    margin-top: 10px;
+}
+
+.addToCartButton{
+    margin-top: 10px;
+}
 
 .smallPrice{
-    margin-left: 100px;
+    margin-left: 10px;
     margin-bottom: -33px;
-    font-size: 22px;
+    font-size: 15px;
     text-align: left;
 }
 .mediumPrice{
-    margin-left: 100px;
+    margin-left: 10px;
     margin-bottom: -33px;
-    font-size: 22px;
+    font-size: 15px;
     text-align: left;
 }
 .largePrice{
-    margin-left: 100px;
+    margin-left: 10px;
     margin-bottom: -33px;
-    font-size: 22px;
+    font-size: 15px;
     text-align: left;
 }
 
@@ -78,15 +108,6 @@
     
    
 }
-.priceButtons{
-    width: 90px;
-    margin-left: -150px;
-    margin-right: 10px;
-    margin-bottom: 5px;
-    margin-top: 10px;
-   
-    
-}
 
 .allergens{
     font-size: 1em;
@@ -94,75 +115,18 @@
 
 }
 
-
-
-.videoSection{
-    margin-left: auto;
-    margin-right: auto;
-    display: block
-        
-}
-
-.NavBar {
-    margin-bottom: 50px;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+.shoppingCartButton{
+    float: right;
   
-  background-color: #FFDEAD;
 }
 
-
-
-li a {
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  float: right;
+.productButtons{
+   position: relative;
+   padding-top: 5px;
+    
 }
 
-li a:hover:not(.active) {
- background-color: #a57a35;
-}
-
-.logIn1 {
-  float: left;  
-  background-color: #FFDEAD;
-  border-right: solid;
-  border-width: 1px;
-  border-color: black;
-
-}
-
-h1 {
-    text-align: center;
-}
-
-
-button:hover {
-  background: #a57a35;
-}
-
-
-
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 1.5em;
-}
-.section-header {
-   
-    font-weight: normal;
-    color: #333;
-    text-align: center;
-    font-size: 2.5em;
-}
+/* shopping cart starts here */
 .cartRow {
     display: none;
     display: flex;
@@ -182,7 +146,12 @@ button:hover {
     margin-top: 10px;
 }
 
-
+.shoppingCart{
+    margin-top: 30px;
+    
+    border-top: solid;
+    
+}
 
 .cart-item {
     width: 45%;
@@ -198,11 +167,7 @@ button:hover {
     width: 35%;
 }
 
-.cart-item-title {
-    color: #333;
-    margin-left: .5em;
-    font-size: 1.2em;
-}
+
 .cart-total {
     text-align: end;
     margin-top: 10px;
@@ -219,6 +184,22 @@ button:hover {
     color: #333;
     font-size: 1.1em;
 }
+
+.container {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.5em;
+}
+
+.section-header {
+   
+    font-weight: normal;
+    color: #333;
+    text-align: center;
+    font-size: 2.5em;
+}
+
 
 
 .btn-purchase {
@@ -245,62 +226,192 @@ button:hover {
     cursor: pointer;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  grid-column-gap: 50px;
-  grid-row-gap: 40px;
-  padding: 10px;
-  margin-top: 50px;
+* {
+  box-sizing: border-box;
 }
-.grid-item {
-  border-radius: 10px;
-  background-color: #f5e7bf;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  padding-bottom: 10px;
- 
+
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 20px;
   text-align: center;
-  width: 250px;
+  box-sizing: border-box;
+  border-bottom: 0.5px solid black;
+  padding: 0.2em;
+  margin: 0.5em;
+}
+.flex-header{
+    border-bottom: solid black 2px;
+}
+.flex-removeButton {
+  border: none;
+  width: 10px;
+  flex: 0.1em;
+ 
+}
+
+.flex-title {
+ text-align: left;
+  padding: 10px;
+  flex: 3em;
+}
+.flex-size {
+  padding: 10px;
+  flex: 3em;
+}
+.flex-price {
+  padding: 10px;
+  flex: 3em;
 }
 
 
 
 
-.shoppingCart{
-    border-top: solid;
-    margin-top: 30px;
+/* Order page starts here*/
+
+.flex-date{
+  padding: 10px;
+  flex: 3em;
 }
 
-.productSummary{
-    font-size: 0.6em;
-    float: left;
+.flex-name{
+  padding: 10px;
+  flex: 3em;
 }
 
-.productButtons{
-   position: relative;
-   padding-top: 5px;
-    
-}
-.addToShoppingCartButton{
-    float: right;
-    
+.flex-number{
+  padding: 10px;
+  flex: 3em;
 }
 
-.shoppingCartButton{
-    float: right;
+
+.dropdown {
+  float: left;
+ 
   
 }
-.productInfo{
-    font-size: 1em;
-    padding-top: 25px;
-    
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
 }
 
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 100%;
+  left: 0;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+  background-color: #ccc;
+  height: 250px;
+}
+
+.column a {
+  float: none;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.column a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+
+
+
+
+/* about us starts here */
+
+.videoSection{
+    margin-left: auto;
+    margin-right: auto;
+    display: block
+        
+}
+
+/* index starts here */
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  
+  background-color: #FFDEAD;
+}
+
+
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  float: right;
+}
+
+li a:hover:not(.active) {
+ background-color: #a57a35;
+}
+
+
+
+h1 {
+    text-align: center;
+}
+
+
+button:hover {
+  background: #f5e7bf;
+}
+
+
+/* admin navBar starts here */
+.navBar {
+    margin-bottom: 50px;
+}
+
+.adminNavBar {
+  float: left;  
+  background-color: #FFDEAD;
+  border-right: solid;
+  border-width: 1px;
+  border-color: black;
+
+}
+
+
+
+/* COMMENT: The big gap is probably a sign that you should split the styles into several files? */
 /* front page styling starts here */
 #imgsection{
-  position: relative;
-  width: 100%;
+    background-image: url('../IMG/front_page.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 .imgtext{
     background-color: transparent;
@@ -315,10 +426,8 @@ button:hover {
 }
 
 #fpimg{
-    position: absolute;
+    width: 100%;
     height: auto;
-    filter: brightness(50%);
-    background-size: cover;
 }
 
 #fbelementsconatiner{
@@ -334,6 +443,7 @@ button:hover {
     left: 50%;
     transform: translate(-50%, 0%);
     -ms-transform: translate(-50%, 0%);
+    /* COMMENT: color attribute is mentioned twice */
     color: white;
     padding: 15px 32px;
     text-align: center;

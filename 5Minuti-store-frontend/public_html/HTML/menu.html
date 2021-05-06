@@ -6,71 +6,36 @@ and open the template in the editor.
 -->
 <html>
     <head>
+        <!-- COMMENT: remember to set all titles, etc. Btw, why not setting title at the start? :) -->
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
          <link rel="stylesheet" href="../CSS/style.css">
-         
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
          
     <script type="text/javascript" src="../JS/javaScript.js"> </script>
     </head>
-    <body onload="loadProductsMenu()">
-        
-          <nav class="NavBar">
-          <ul>
-            <li><a href="aboutUs.html" onclick="">About Us</a></li> 
-            <li><a href="contact.html" onclick="">Contact</a></li>
-            <li><a href="menu.html" onclick="">Menu</a></li>
-            <li><a href="../index.html" onclick="">Home</a></li>
-            <li class="logIn1"><a  href="logIn.html" onclick="">Administrator</a></li>
-          </ul>
-            
-        </nav>
+    <body onload="loadProductsMenu(); loadNavBar(); ">
+        <!-- COMMENT: The Navbar is a copy-paste code in all the HTML files. That is not a good practice, in general -->
+           <nav class="navBar" id="navBar"></nav>
         
       
         
         
         
                <section id="menu" class="container menu">
-               
+
+                   <!-- COMMENT: width values should have a unit. Did you mean 50px? -->
+                   <!-- img element also requires alt="..." attribute -->
                    <a href=" #shoppingCart"> <button class="shoppingCartButton" type="button"><img src="../Images/cart.jpg" width="50" ></button></a>
              
                  <h1>Menu</h1>
                  <div id="newProduct" class="newProduct">
              
-                        <div id="grid-container" class="grid-container">
-                            <div class="grid-item">
-                                <p class="productName">Pavlova<p>
-                                
-                                <p class="imgPlaceHolder"><img class="module" src="../Images/cakeExample1.jpg" width="200" ></p>
-                                
-                                    
-                                    
-                                    <details class="Details">
-                                        <summary class="productSummary">Info</summary>
-                                        <p class="productInfo">Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlova. It has a crisp crust and soft, light inside, usually topped with fruit and whipped cream.</p>
-                                        <ul class="priceList">
-                                            <li class="smallPrice productPrice"><button class="priceButtons">Add to cart</button>   Small: 50kr</li>
-                                            <li class="mediumPrice productPrice"><button class="priceButtons">Add to cart</button>   Medium: 100kr</li>
-                                            <li class="largePrice productPrice"><button class="priceButtons">Add to cart</button>   Large: 150kr</li>
-                                        </ul>
-                                            
-                                        <p class="allergens">Allergens: </p>
-                                        
-                                        
-                                     </details>
-                                   
-                               
-                            </div>
-                           
-                      
-                       
-                          
-                            
-                       
-                            
-                          </div> 
+                     <div id="grid-container" class="grid-container">
+                         
+                     </div> 
                  </div>
                  
                
@@ -79,18 +44,47 @@ and open the template in the editor.
           
               <section id="shoppingCart" class="container shoppingCart" >
             <h2 class="section-header">CART</h2>
-            <div class="cartRow">
-                <span class="cart-item cart-header cart-column">Item</span>
-                <span class="cart-price cart-header cart-column">Price</span>
-                
+         
+            
+            <div class="cart-items" id="cart-items">
+                <div class="flex-container flex-header">
+                    
+                    <div class="flex-title">Item</div>
+                    <div class="flex-size">Size</div>
+                    <div class="flex-price">Price</div>
+                    <div class="flex-removeButton"></div>
+                </div>
             </div>
-            <div class="cart-items">
-            </div>
+  
             <div class="cart-total">
-                <strong class="cart-total-title">Total</strong>
-                <span class="cart-total-price">0 kr</span>
+                <strong class="cart-total-title" id="totalPrice">Total</strong>
+                <span class="cart-total-price"></span>
             </div>
-            <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+            
+                        <div class="purchaseConfirmationColumn nameForm ">
+            <form id="contactInfoForm" action="">
+                <label for="fname">First name:</label><br>
+                <input type="text" id="fname" name="fname"><br>
+                
+                <label for="lname">Last name:</label><br>
+                <input type="text" id="lname" name="lname"><br>
+                
+                <label for="phoneNumber">Phone Number:</label><br>
+                <input type="tel" id="phoneNumber" name="phoneNumber"><br>
+                
+                <label for="eMail">E-Mail Address:</label><br>
+                <input type="email" id="eMail" name="eMail"><br><br>
+                
+                <label>Choose preferred pickup date: <br>
+                <input type="date" id="start" name="pickUpDate"></label><br>
+                
+                <label for="comments">Additional Comments:</label><br>
+                <input type="text" id="comments" name="comments"><br>
+                
+              </form>
+                </div>
+            
+            <button class="btn btn-primary btn-purchase" type="button" onclick=sendOrder()>PURCHASE</button>
         </section>
     </body>
 </html>
