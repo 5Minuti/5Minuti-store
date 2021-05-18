@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.five.min.authentication;
+
+//code source from https://www.javainuse.com/spring/boot-jwt
 
 import java.io.IOException;
 
@@ -24,9 +21,6 @@ import no.five.min.authentication.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
-// COMMENT: it seems that some of the code (if not all) is copied from some online sources
-// (for example, this one: https://stackoverflow.com/questions/64636466/spring-security-authorization-error-401-unauthorized )
-// In all the cases where you reuse code found online, provide a reference! Otherwise that is considered plagiarism!
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

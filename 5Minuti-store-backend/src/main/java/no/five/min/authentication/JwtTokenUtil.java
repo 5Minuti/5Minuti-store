@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.five.min.authentication;
+
+//code source from https://www.javainuse.com/spring/boot-jwt
 
 import java.io.Serializable;
 import java.util.Date;
@@ -60,8 +57,6 @@ public class JwtTokenUtil implements Serializable {
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 
-	// COMMENT: and this class is probably from https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world ?
-	// Reference needed, for this and all other files from the net
 
 	//while creating the token -
 	//1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
