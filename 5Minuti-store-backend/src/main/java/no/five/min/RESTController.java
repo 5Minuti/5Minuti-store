@@ -21,10 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Stigus
- */
 @CrossOrigin
 @RestController
 public class RESTController {
@@ -112,12 +108,9 @@ public class RESTController {
     // "message": "Required request body is missing: public org.springframework.http.ResponseEntity<java.lang.String>
     // com.example.RESTController.addOrder(com.example.Order)"
     public ResponseEntity<String> addOrder(@Valid @RequestBody Order order) {
-        // TODO - need to receive customer info also somehow!
-        // TODO - need to find out how products will be passed. Currently they are not set
+
         System.out.println("post request received");
         try{
-            // COMMENT: spellchecker could be nice :) No problem for debug messages, but it should right for the customer
-            // COMMENT: Perhaps the status should be "received", not "preparing"?
             order.setStatus("Recived");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             order.setOrderDateTime(timestamp);

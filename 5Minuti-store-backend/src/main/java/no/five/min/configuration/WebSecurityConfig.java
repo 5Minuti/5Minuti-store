@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.five.min.configuration;
+
+//code source from https://www.javainuse.com/spring/boot-jwt
 
 import no.five.min.authentication.JwtRequestFilter;
 import no.five.min.authentication.JwtAuthenticationEntryPoint;

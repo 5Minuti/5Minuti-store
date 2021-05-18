@@ -5,10 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-/**
- *
- * @author Stigus
- */
+
 @Data
 @Entity(name="customers")
 public class Customer {

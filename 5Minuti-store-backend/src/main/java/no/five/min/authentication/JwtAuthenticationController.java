@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package no.five.min.authentication;
 
-// COMMENT: Clean all unused imports
+// code sourced from https://www.javainuse.com/spring/boot-jwt
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +19,7 @@ import no.five.min.authentication.JwtTokenUtil;
 import no.five.min.authentication.JwtRequest;
 import no.five.min.authentication.JwtResponse;
 
-// COMMENT: There are many classes which are related only to authentication and authorization. Perhaps move all of
-// them to a separate folder?
-// COMMENT: You could add a comment to each class (and each non-trivial method) explaining - what is the goal/task for it
+
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
