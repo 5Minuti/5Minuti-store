@@ -1,3 +1,16 @@
+// Default size of products when they get added to cart
+var DEFAULT_SIZE = "Medium";
+
+
+var API_URL = "http://localhost:8080";
+var loginUrl = API_URL + "/authenticate";
+var addProductUrl = API_URL + "/product/add";
+var listProductsUrl = API_URL + "/product/list"; //Lists all the products that aren't set as deleted
+var addOrderUrl = API_URL + "/order/add";
+var deleteProductUrl = API_URL + "/product/delete";
+var listOrderUrl = API_URL + "/order/list";
+var changeOrderStatusUrl = API_URL + "/order/changestatus";
+var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
 
 function loadNavBar(adminMode = false) {
     var ul = document.createElement('ul');
@@ -61,37 +74,10 @@ function loadNavBarAdmin() {
 }
 
 
-
-// Default size of products when they get added to cart
-var DEFAULT_SIZE = "Medium";
-// COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
-// one .js file as a config, and don't add it to git. something like config.js, and there you set
-// var API_URL = "http://localhost:8080";
-// Then here you can use:
-// var loginUrl = API_URL + "/authenticate";
-var API_URL = "http://localhost:8080";
-var loginUrl = API_URL + "/authenticate";
-var addProductUrl = API_URL + "/product/add";
-var listProductsUrl = API_URL + "/product/list"; //Lists all the products that aren't set as deleted
-var addOrderUrl = API_URL + "/order/add";
-var deleteProductUrl = API_URL + "/product/delete";
-var listOrderUrl = API_URL + "/order/list";
-var changeOrderStatusUrl = API_URL + "/order/changestatus";
-var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
-
-
-// COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.
-
 // sends login request to backend with a post request if the info is correct
 // a jwt will be returned and saved into local storage
 // if the info is not correct or something went wrong alerts will inform the user
-function getToken() {
-    // COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
-    // one .js file as a config, and don't add it to git. something like config.js, and there you set
-    // var API_URL = "http://localhost:8080";
-    // Then here you can use:
-    // var loginUrl = API_URL + "/authenticate";
-    var loginurl = "http://localhost:8080/authenticate";
+function tryLogin() {
     var xhr = new XMLHttpRequest();
     var userElement = document.getElementById("username").value;
     var passwordElement = document.getElementById("password").value;
@@ -129,11 +115,9 @@ function getToken() {
 }
 
 
-// COMMENT: maybe think about moving all API call functions to a separate file, to have a bit of structure in the Javascript?
-// Otherwise there will be many functions
 //takes data from the addProductsForm and makes a json from it
 // when the button is pressed the data will be sent to the backend with
-// the dat that has been input and finally it shows the frontend a alert 
+// the data that has been input and finally it shows the frontend a alert 
 // based on the response from the server
 function addProduct() {
 
@@ -219,7 +203,6 @@ function showOrderList(order) {
 
 
 function loadProductsMenu(editMode = false) {
-    // COMMENT: You use two different ways to communicate with API. Do you know why you use each approach?
     fetch(listProductsUrl).then(function (response) {
 
         return response.json();
@@ -467,6 +450,7 @@ function removeShoppingCartItem(productNode, product) {
     console.log(itemsInCart);
 }
 
+//uses the returned json from getOrder and sends it to the backend
 function sendOrder() {
 
     var orderString = getOrder();
@@ -497,7 +481,7 @@ function sendOrder() {
 
 }
 
-
+//gets order information from the shopping cart and customer info from the form and returns a usable json
 function getOrder() {
 
     let form = document.forms["contactInfoForm"];
