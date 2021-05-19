@@ -64,11 +64,6 @@ function loadNavBarAdmin() {
 
 // Default size of products when they get added to cart
 var DEFAULT_SIZE = "Medium";
-// COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
-// one .js file as a config, and don't add it to git. something like config.js, and there you set
-// var API_URL = "http://localhost:8080";
-// Then here you can use:
-// var loginUrl = API_URL + "/authenticate";
 var API_URL = "http://localhost:8080";
 var loginUrl = API_URL + "/authenticate";
 var addProductUrl = API_URL + "/product/add";
@@ -80,17 +75,7 @@ var changeOrderStatusUrl = API_URL + "/order/changestatus";
 var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
 
 
-// COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.
-
-// sends login request to backend with a post request if the info is correct
-// a jwt will be returned and saved into local storage
-// if the info is not correct or something went wrong alerts will inform the user
 function getToken() {
-    // COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
-    // one .js file as a config, and don't add it to git. something like config.js, and there you set
-    // var API_URL = "http://localhost:8080";
-    // Then here you can use:
-    // var loginUrl = API_URL + "/authenticate";
     var loginurl = "http://localhost:8080/authenticate";
     var xhr = new XMLHttpRequest();
     var userElement = document.getElementById("username").value;
@@ -106,16 +91,13 @@ function getToken() {
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
     var jsonstring = JSON.stringify({username: userElement, password: passwordElement});
-//    console.log(jsonstring);
 
     xhr.send(jsonstring);
 
     xhr.addEventListener('load', function () {
         var responseObject = JSON.parse(this.response);
-//        console.log(responseObject);
         if (responseObject.token) {
             var token = responseObject.token;
-//            console.log("token recived");
             localStorage.setItem('token', token);
             window.location.href = "orders.html";
 
@@ -129,12 +111,7 @@ function getToken() {
 }
 
 
-// COMMENT: maybe think about moving all API call functions to a separate file, to have a bit of structure in the Javascript?
-// Otherwise there will be many functions
-//takes data from the addProductsForm and makes a json from it
-// when the button is pressed the data will be sent to the backend with
-// the dat that has been input and finally it shows the frontend a alert 
-// based on the response from the server
+
 function addProduct() {
 
 
@@ -148,7 +125,6 @@ function addProduct() {
         data[key] = prop;
     }
 
-    //   console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", addProductUrl);
     xhr.onerror = () => {
@@ -158,8 +134,6 @@ function addProduct() {
         alert("Connection timed out")
     };
     xhr.setRequestHeader('Content-Type', 'application/json', );
-//    jwtoken = localStorage.getItem('token');
-//    console.log(localStorage.getItem('token'));
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
 
     xhr.send(JSON.stringify(data));
@@ -293,7 +267,6 @@ function showOrderList(order) {
 
 
 function loadProductsMenu(editMode = false) {
-    // COMMENT: You use two different ways to communicate with API. Do you know why you use each approach?
     fetch(listProductsUrl).then(function (response) {
 
         return response.json();
@@ -530,10 +503,6 @@ function updateCartTotals() {
 
 function removeShoppingCartItem(productNode, product) {
     productNode.remove();
-
-
-    //TODO: FIGURE OUT THE SPLICE 
-
     itemsInCart.splice(index, 1);
     var index = itemsInCart.indexOf(product);
     if (index > 0) {
