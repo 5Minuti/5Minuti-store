@@ -49,7 +49,6 @@
     margin-right: 10px;
     width: 50px;
     height: 25px;
-
 }
 
 .priceList{
@@ -78,12 +77,14 @@
     font-size: 15px;
     text-align: left;
 }
+
 .mediumPrice{
     margin-left: 10px;
     margin-bottom: -33px;
     font-size: 15px;
     text-align: left;
 }
+
 .largePrice{
     margin-left: 10px;
     margin-bottom: -33px;
@@ -201,6 +202,7 @@
 .btn-primary:hover {
     background-color: #a57a35;
 }
+
 .btn {
     text-align: center;
     vertical-align: middle;
@@ -212,24 +214,15 @@
     box-sizing: border-box;
 }
 
-
 .flex-container {
     display: flex;
     flex-wrap: wrap;
     font-size: 20px;
     text-align: center;
     box-sizing: border-box;
-    border-bottom: 0.5px solid black;
+    border-bottom: 0.5px dotted black;
     padding: 0.2em;
     margin: 0.5em;
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 20px;
-  text-align: center;
-  box-sizing: border-box;
-  border-bottom: 0.5px dotted black;
-  padding: 0.2em;
-  margin: 0.5em;
 }
 
 .flex-header{
@@ -237,26 +230,25 @@
 }
 
 .flex-removeButton {
-  border: none;
-  width: 10px;
-  flex: 0.1em;
- 
+    border: none;
+    width: 10px;
+    flex: 0.1em;
 }
 
 .flex-title {
- text-align: left;
-  padding: 10px;
-  flex: 3em;
+    text-align: left;
+    padding: 10px;
+    flex: 3em;
 }
 
 .flex-size {
-  padding: 10px;
-  flex: 3em;
+    padding: 10px;
+    flex: 3em;
 }
 
 .flex-price {
-  padding: 10px;
-  flex: 3em;
+    padding: 10px;
+    flex: 3em;
 }
 
 /* Order page starts here*/
@@ -279,26 +271,26 @@
 }
 
 .orderSummary {
-    
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 20px;
-  text-align: center;
-  box-sizing: border-box;
-  border-bottom: 0.5px solid black;
-  padding: 0.2em;
-  margin: 0.5em;   
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    border-bottom: 0.5px solid black;
+    padding: 0.2em;
+    margin: 0.5em;
+}
 
 .dropdown {
     float: left;
 }
+
 .dropdown .dropbtn {
     font-size: 16px;
     border: none;
     outline: none;
     padding: 14px 16px;
 }
-
 
 .dropdown-content {
     display: none;
@@ -309,6 +301,7 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
+
 .column {
     float: left;
     width: 33.33%;
@@ -335,12 +328,6 @@
     display: block;
 }
 
-
-
-
-
-
-
 /* about us starts here */
 
 .videoSection{
@@ -350,8 +337,6 @@
 }
 
 /* index starts here */
-
-
 ul {
     list-style-type: none;
     margin: 0;
@@ -392,8 +377,8 @@ button:hover {
     border-right: solid;
     border-width: 1px;
     border-color: black;
-
 }
+
 /* front page styling starts here */
 #imgsection{
     background-image: url('../IMG/front_page.jpg');

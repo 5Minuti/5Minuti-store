@@ -73,28 +73,6 @@ function loadNavBarAdmin() {
 
 }
 
-
-
-// Default size of products when they get added to cart
-var DEFAULT_SIZE = "Medium";
-    // COMMENT: the localhost:8080 should not be hard-coded in many places. Rather, set it to a constant, perhaps
-    // one .js file as a config, and don't add it to git. something like config.js, and there you set
-    // var API_URL = "http://localhost:8080";
-    // Then here you can use:
-    // var loginUrl = API_URL + "/authenticate";
-    var API_URL = "http://localhost:8080";
-    var loginUrl = API_URL + "/authenticate";
-    var addProductUrl = API_URL + "/product/add";
-    var listProductsUrl = API_URL + "/product/list"; //Lists all the products that aren't set as deleted
-    var addOrderUrl = API_URL + "/order/add";
-    var deleteProductUrl = API_URL + "/product/delete";
-    var listOrderUrl = API_URL + "/order/list";
-    var changeOrderStatusUrl = API_URL + "/order/changestatus";
-    var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
-
-
-// COMMENT: perhaps this should be called "tryLogin"? Because that's what it is.
-
 // sends login request to backend with a post request if the info is correct
 // a jwt will be returned and saved into local storage
 // if the info is not correct or something went wrong alerts will inform the user
@@ -113,16 +91,13 @@ function tryLogin() {
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
     var jsonstring = JSON.stringify({username: userElement, password: passwordElement});
-//    console.log(jsonstring);
 
     xhr.send(jsonstring);
 
     xhr.addEventListener('load', function () {
         var responseObject = JSON.parse(this.response);
-//        console.log(responseObject);
         if (responseObject.token) {
             var token = responseObject.token;
-//            console.log("token recived");
             localStorage.setItem('token', token);
             window.location.href = "orders.html";
 
@@ -153,7 +128,6 @@ function addProduct() {
         data[key] = prop;
     }
 
-    //   console.log(data);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", addProductUrl);
     xhr.onerror = () => {
@@ -163,8 +137,6 @@ function addProduct() {
         alert("Connection timed out")
     };
     xhr.setRequestHeader('Content-Type', 'application/json', );
-//    jwtoken = localStorage.getItem('token');
-//    console.log(localStorage.getItem('token'));
     xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
 
     xhr.send(JSON.stringify(data));
