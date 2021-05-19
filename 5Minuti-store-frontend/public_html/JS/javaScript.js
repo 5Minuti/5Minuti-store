@@ -191,10 +191,84 @@ function loadOrderList() {
 
 }
 
+
 function showOrderList(order) {
     console.log("orders go here" + order);
-}
+    var newGridItemOrders = document.createElement("div");
+    newGridItemOrders.className = "flex-container";
 
+    var orderName = document.createElement("span");
+    orderName.innerText = order.customer.name;
+    orderName.className = "flex-name";
+    newGridItemOrders.appendChild(orderName);
+
+    var phoneNumber = document.createElement("span");
+    phoneNumber.innerText = order.customer.number;
+    phoneNumber.className = "flex-number";
+    newGridItemOrders.appendChild(phoneNumber);
+
+    var date = document.createElement("span");
+    date.innerText = order.orderDateTime;
+    date.className = "flex-date";
+    newGridItemOrders.appendChild(date);
+
+    var detailsPanel = document.createElement("details");
+    detailsPanel.className = "Details";
+    newGridItemOrders.appendChild(detailsPanel);
+
+    var orderSummary = document.createElement("summary");
+    orderSummary.className = "orderSummary";
+    orderSummary.innerText = "Info";
+    detailsPanel.appendChild(orderSummary);
+
+    var cartFlexTitle = document.createElement("span");
+    cartFlexTitle.className = "flex-title";
+    cartFlexTitle.innerText = "Product";
+    detailsPanel.appendChild(cartFlexTitle);
+
+    var cartFlexSize = document.createElement("span");
+    cartFlexSize.className = "flex-size";
+    cartFlexSize.innerText = "Size";
+    detailsPanel.appendChild(cartFlexSize);
+
+    var cartFlexPrice = document.createElement("span");
+    cartFlexPrice.className = "flex-price";
+    cartFlexPrice.innerText = "Price";
+    detailsPanel.appendChild(cartFlexPrice);
+
+    if (Array.isArray(order.details)) {
+        for (var i = 0; i < order.details.length; i++) {
+            var itemContainer = document.createElement("div");
+            itemContainer.className = "flex-container";
+            detailsPanel.appendChild(itemContainer);
+
+            var orderItemName = document.createElement("span");
+            orderItemName.className = "flex-title";
+            orderItemName.innerText = order.details[i].product.productname;
+            itemContainer.appendChild(orderItemName);
+
+            var orderItemSize = document.createElement("span");
+            orderItemSize.className = "flex-size";
+            orderItemSize.innerText = order.details[i].size;
+            itemContainer.appendChild(orderItemSize);
+
+            var orderItemPrice = document.createElement("span");
+            orderItemPrice.className = "flex-price";
+            orderItemPrice.innerText = order.details[i].price;
+            itemContainer.appendChild(orderItemPrice);
+
+        }
+    }
+    var commentSection = document.createElement("span");
+    commentSection.className = "commentSection";
+    commentSection.innerText = order.comment;
+    detailsPanel.appendChild(commentSection);
+
+
+    var orderContainer = document.getElementById("orderContainer");
+    orderContainer.appendChild(newGridItemOrders);
+
+}
 
 function loadProductsMenu(editMode = false) {
     fetch(listProductsUrl).then(function (response) {

@@ -238,17 +238,17 @@
 .flex-title {
     text-align: left;
     padding: 10px;
-    flex: 3em;
+    flex: 1.5em;
 }
 
 .flex-size {
     padding: 10px;
-    flex: 3em;
+    flex: 1.5em;
 }
 
 .flex-price {
     padding: 10px;
-    flex: 3em;
+    flex: 1.5em;
 }
 
 /* Order page starts here*/
@@ -276,9 +276,10 @@
     font-size: 20px;
     text-align: center;
     box-sizing: border-box;
-    border-bottom: 0.5px solid black;
+    border: 0.5px solid black;
     padding: 0.2em;
     margin: 0.5em;
+    background-color: #f5e7bf;
 }
 
 .dropdown {
