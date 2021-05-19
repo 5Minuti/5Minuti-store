@@ -1,3 +1,16 @@
+// Default size of products when they get added to cart
+var DEFAULT_SIZE = "Medium";
+
+
+var API_URL = "http://localhost:8080";
+var loginUrl = API_URL + "/authenticate";
+var addProductUrl = API_URL + "/product/add";
+var listProductsUrl = API_URL + "/product/list"; //Lists all the products that aren't set as deleted
+var addOrderUrl = API_URL + "/order/add";
+var deleteProductUrl = API_URL + "/product/delete";
+var listOrderUrl = API_URL + "/order/list";
+var changeOrderStatusUrl = API_URL + "/order/changestatus";
+var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
 
 function loadNavBar(adminMode = false) {
     var ul = document.createElement('ul');
@@ -61,22 +74,10 @@ function loadNavBarAdmin() {
 }
 
 
-
-// Default size of products when they get added to cart
-var DEFAULT_SIZE = "Medium";
-var API_URL = "http://localhost:8080";
-var loginUrl = API_URL + "/authenticate";
-var addProductUrl = API_URL + "/product/add";
-var listProductsUrl = API_URL + "/product/list"; //Lists all the products that aren't set as deleted
-var addOrderUrl = API_URL + "/order/add";
-var deleteProductUrl = API_URL + "/product/delete";
-var listOrderUrl = API_URL + "/order/list";
-var changeOrderStatusUrl = API_URL + "/order/changestatus";
-var listAllOrdersUrl = API_URL + "/product/listall"; //Lists all products including deleted ones
-
-
-function getToken() {
-    var loginurl = "http://localhost:8080/authenticate";
+// sends login request to backend with a post request if the info is correct
+// a jwt will be returned and saved into local storage
+// if the info is not correct or something went wrong alerts will inform the user
+function tryLogin() {
     var xhr = new XMLHttpRequest();
     var userElement = document.getElementById("username").value;
     var passwordElement = document.getElementById("password").value;
@@ -111,7 +112,10 @@ function getToken() {
 }
 
 
-
+//takes data from the addProductsForm and makes a json from it
+// when the button is pressed the data will be sent to the backend with
+// the data that has been input and finally it shows the frontend a alert 
+// based on the response from the server
 function addProduct() {
 
 
@@ -189,80 +193,6 @@ function loadOrderList() {
 
 function showOrderList(order) {
     console.log("orders go here" + order);
-    var newGridItemOrders = document.createElement("div");
-    newGridItemOrders.className = "flex-container";
-
-    var orderName = document.createElement("span");
-    orderName.innerText = order.customer.name;
-    orderName.className = "flex-name";
-    newGridItemOrders.appendChild(orderName);
-
-    var phoneNumber = document.createElement("span");
-    phoneNumber.innerText = order.customer.number;
-    phoneNumber.className = "flex-number";
-    newGridItemOrders.appendChild(phoneNumber);
-
-    var date = document.createElement("span");
-    date.innerText = order.orderDateTime;
-    date.className = "flex-date";
-    newGridItemOrders.appendChild(date);
-
-    var detailsPanel = document.createElement("details");
-    detailsPanel.className = "Details";
-    newGridItemOrders.appendChild(detailsPanel);
-
-    var orderSummary = document.createElement("summary");
-    orderSummary.className = "orderSummary";
-    orderSummary.innerText = "Info";
-    detailsPanel.appendChild(orderSummary);
-
-    var cartFlexTitle = document.createElement("span");
-    cartFlexTitle.className = "flex-title";
-    cartFlexTitle.innerText = "Product";
-    detailsPanel.appendChild(cartFlexTitle);
-
-    var cartFlexSize = document.createElement("span");
-    cartFlexSize.className = "flex-size";
-    cartFlexSize.innerText = "Size";
-    detailsPanel.appendChild(cartFlexSize);
-
-    var cartFlexPrice = document.createElement("span");
-    cartFlexPrice.className = "flex-price";
-    cartFlexPrice.innerText = "Price";
-    detailsPanel.appendChild(cartFlexPrice);
-
-    if (Array.isArray(order.details)) {
-        for (var i = 0; i < order.details.length; i++) {
-            var itemContainer = document.createElement("div");
-            itemContainer.className = "flex-container";
-            detailsPanel.appendChild(itemContainer);
-
-            var orderItemName = document.createElement("span");
-            orderItemName.className = "flex-title";
-            orderItemName.innerText = order.details[i].product.productname;
-            itemContainer.appendChild(orderItemName);
-
-            var orderItemSize = document.createElement("span");
-            orderItemSize.className = "flex-size";
-            orderItemSize.innerText = order.details[i].size;
-            itemContainer.appendChild(orderItemSize);
-
-            var orderItemPrice = document.createElement("span");
-            orderItemPrice.className = "flex-price";
-            orderItemPrice.innerText = order.details[i].price;
-            itemContainer.appendChild(orderItemPrice);
-
-        }
-    }
-    var commentSection = document.createElement("span");
-    commentSection.className = "commentSection";
-    commentSection.innerText = order.comment;
-    detailsPanel.appendChild(commentSection);
-
-
-    var orderContainer = document.getElementById("orderContainer");
-    orderContainer.appendChild(newGridItemOrders);
-
 }
 
 
@@ -514,6 +444,7 @@ function removeShoppingCartItem(productNode, product) {
     console.log(itemsInCart);
 }
 
+//uses the returned json from getOrder and sends it to the backend
 function sendOrder() {
 
     var orderString = getOrder();
@@ -544,7 +475,7 @@ function sendOrder() {
 
 }
 
-
+//gets order information from the shopping cart and customer info from the form and returns a usable json
 function getOrder() {
 
     let form = document.forms["contactInfoForm"];
@@ -588,4 +519,3 @@ function getOrder() {
 
     return JSON.stringify(order);
 }
-
