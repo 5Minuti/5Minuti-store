@@ -252,6 +252,8 @@
 
 /* Order page starts here*/
 
+
+
 .flex-date{
     padding: 10px;
     flex: 3em;
@@ -267,6 +269,16 @@
     flex: 3em;
 }
 
+.orderSummary {
+    
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 20px;
+  text-align: center;
+  box-sizing: border-box;
+  border-bottom: 0.5px solid black;
+  padding: 0.2em;
+  margin: 0.5em;   
 
 .dropdown {
     float: left;
@@ -313,6 +325,12 @@
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+
+
+
+
+
 
 /* about us starts here */
 
